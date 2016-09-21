@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="d8810f19-7638-456d-96e1-9527f102586b" name="Domain" linkedPackageId="c8598176-643b-475f-b96b-9ff66c0409ee" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
+  <profileInstances>
+    <packageHasProfileInstances Id="1ec864d1-c237-4c71-b264-4d3987be33df">
+      <profileInstance Id="493e2b38-a2c2-4578-9089-b068967e2adc" name="StandardProfileL2">
+        <elementDefinition Id="e34d544e-0fea-4ed6-ac5e-1b74119ac791" />
+      </profileInstance>
+      <elementDefinition Id="0caec977-1f8c-4ba3-a7db-8cc9ad9cc73b" />
+    </packageHasProfileInstances>
+    <packageHasProfileInstances Id="e196baa4-736c-4c32-95fc-d5dc2800d894">
+      <profileInstance Id="ebeb114a-c6b4-4b5c-a4ce-9ee7bd2cb793" name="StandardProfileL3">
+        <elementDefinition Id="532ea607-fb19-44b8-8502-3351b05452be" />
+      </profileInstance>
+      <elementDefinition Id="29349502-908c-4fda-9054-c48619c59ed0" />
+    </packageHasProfileInstances>
+  </profileInstances>
+  <packagedElements>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="05e84f0c-0f5e-446a-978e-70dd48bb92d2" name="Note" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="d29ebf6d-cdc5-4c95-8e8a-b9a06302bc53" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="5bfe7e1b-6e45-4f5a-80a7-3f9e31c1b897" name="Rest" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="81792fbe-3d65-4f63-967f-8b49415c10de" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="936dbdb4-ee25-4159-a88d-07e5381ded91" name="NoteBase" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="86abaa39-e47e-4497-805c-400b9d1e7cf2" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="06874853-2094-4219-9184-d5c2e9d40775" name="Repeater" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="bf16030a-50c4-4ef5-8753-d5ad6e3ddf7a" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="7629e907-8805-4715-9bb2-ffd857900315" name="IMusicFragment" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="3bafa7c5-e4b0-45b2-a239-4d225c911502" />
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+  </packagedElements>
+  <package Id="c8598176-643b-475f-b96b-9ff66c0409ee" name="DPA_Musicsheets.Architecture">
+    <elementDefinition Id="bb105e16-afb1-4c9f-9870-41596f4dd9dc" />
+  </package>
+</logicalClassDesignerModel>

@@ -1,23 +1,13 @@
 ﻿using Microsoft.Win32;
 using PSAMControlLibrary;
 using Sanford.Multimedia.Midi;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DPA_Musicsheets.Core.Model;
+using DPA_Musicsheets.VisualNotesPlugin;
+using Note = PSAMControlLibrary.Note;
+using SheetModel = DPA_Musicsheets.Core.Model.Sheet;
 
 namespace DPA_Musicsheets
 {
@@ -43,6 +33,16 @@ namespace DPA_Musicsheets
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
         }
 
+        private void FillNoteBar(SheetModel sheet)
+        {
+            var printer = new VisualNotesPrinter();
+            staff.ClearMusicalIncipit();
+            foreach (var symbol in printer.PrintSheet(sheet))
+            {
+                staff.AddMusicalSymbol(symbol);
+            }
+        }
+
         private void FillPSAMViewer()
         {
             staff.ClearMusicalIncipit();
@@ -66,28 +66,39 @@ namespace DPA_Musicsheets
                         viewer.AddMusicalSymbol(e); 
             */
 
+            //staff.AddMusicalSymbol(new Note("A", -2, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
+            //staff.AddMusicalSymbol(new Barline());
+            //staff.AddMusicalSymbol(new Note("A", -1, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
+            //staff.AddMusicalSymbol(new Barline());
+            //staff.AddMusicalSymbol(new Note("A", 0, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
+            //staff.AddMusicalSymbol(new Barline());
+            //staff.AddMusicalSymbol(new Note("A", 1, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
+            //staff.AddMusicalSymbol(new Barline());
+            //staff.AddMusicalSymbol(new Note("A", 2, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
+            //staff.AddMusicalSymbol(new Barline());
+            //staff.AddMusicalSymbol(new Note("A", 3, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
+            //staff.AddMusicalSymbol(new Barline());
+
             staff.AddMusicalSymbol(new Note("A", 0, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
             staff.AddMusicalSymbol(new Note("C", 1, 5, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Continue, NoteBeamType.End }));
-            staff.AddMusicalSymbol(new Note("D", 0, 5, MusicalSymbolDuration.Eighth, NoteStemDirection.Down, NoteTieType.Start, new List<NoteBeamType>() { NoteBeamType.End }));
+            staff.AddMusicalSymbol(new Note("D", -1, 5, MusicalSymbolDuration.Eighth, NoteStemDirection.Down, NoteTieType.Start, new List<NoteBeamType>() { NoteBeamType.End }));
             staff.AddMusicalSymbol(new Barline());
 
-            staff.AddMusicalSymbol(new Note("D", 0, 5, MusicalSymbolDuration.Whole, NoteStemDirection.Down, NoteTieType.Stop, new List<NoteBeamType>() { NoteBeamType.Single }));
-            staff.AddMusicalSymbol(new Note("E", 0, 4, MusicalSymbolDuration.Quarter, NoteStemDirection.Up, NoteTieType.Start, new List<NoteBeamType>() { NoteBeamType.Single }) { NumberOfDots = 1 });
+            staff.AddMusicalSymbol(new Note("D", -1, 5, MusicalSymbolDuration.Whole, NoteStemDirection.Down, NoteTieType.Stop, new List<NoteBeamType>() { NoteBeamType.Single }));
+            staff.AddMusicalSymbol(new Note("E", -1, 4, MusicalSymbolDuration.Quarter, NoteStemDirection.Up, NoteTieType.Start, new List<NoteBeamType>() { NoteBeamType.Single }) { NumberOfDots = 1 });
             staff.AddMusicalSymbol(new Barline());
 
             staff.AddMusicalSymbol(new Note("C", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single }));
             staff.AddMusicalSymbol(
-                new Note("E", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single })
-                { IsChordElement = true });
+                new Note("E", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single }) { IsChordElement = true });
             staff.AddMusicalSymbol(
-                new Note("G", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single })
-                { IsChordElement = true });
+                new Note("G", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single }) { IsChordElement = true });
             staff.AddMusicalSymbol(new Barline());
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
-            if(_player != null)
+            if (_player != null)
             {
                 _player.Dispose();
             }
@@ -104,7 +115,7 @@ namespace DPA_Musicsheets
                 txt_MidiFilePath.Text = openFileDialog.FileName;
             }
         }
-        
+
         private void btn_Stop_Click(object sender, RoutedEventArgs e)
         {
             if (_player != null)
@@ -113,6 +124,8 @@ namespace DPA_Musicsheets
 
         private void btn_ShowContent_Click(object sender, RoutedEventArgs e)
         {
+            var testSheet = new MidiPlugin.Reader.MidiReader().ReadSheet(MidiReader.GetSequence(txt_MidiFilePath.Text));
+            FillNoteBar(testSheet);
             ShowMidiTracks(MidiReader.ReadMidi(txt_MidiFilePath.Text));
         }
 

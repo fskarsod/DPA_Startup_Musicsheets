@@ -1,0 +1,13 @@
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\DPA_MusicSheets.Terminal.exe.config
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\DPA_MusicSheets.Terminal.exe
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\DPA_MusicSheets.Terminal.pdb
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\DPA_Musicsheets.Core.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\DPA_Musicsheets.MidiPlugin.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\Sanford.Multimedia.Midi.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\DPA_Musicsheets.Core.pdb
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\DPA_Musicsheets.MidiPlugin.pdb
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\Sanford.Multimedia.Midi.pdb
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\bin\Debug\Sanford.Multimedia.Midi.xml
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\obj\Debug\DPA_MusicSheets.Terminal.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\obj\Debug\DPA_MusicSheets.Terminal.exe
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_MusicSheets.Terminal\obj\Debug\DPA_MusicSheets.Terminal.pdb

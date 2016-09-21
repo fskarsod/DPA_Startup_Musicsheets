@@ -1,0 +1,5 @@
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets.Core\bin\Debug\DPA_Musicsheets.Core.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets.Core\bin\Debug\DPA_Musicsheets.Core.pdb
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets.Core\obj\Debug\DPA_Musicsheets.Core.csprojResolveAssemblyReference.cache
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets.Core\obj\Debug\DPA_Musicsheets.Core.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets.Core\obj\Debug\DPA_Musicsheets.Core.pdb

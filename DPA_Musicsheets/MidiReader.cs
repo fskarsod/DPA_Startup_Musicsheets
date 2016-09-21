@@ -10,12 +10,16 @@ namespace DPA_Musicsheets
 {
     public static class MidiReader
     {
-        public static IEnumerable<MidiTrack> ReadMidi(string midiFileLocation)
+        public static Sequence GetSequence(string midiFileLocation)
         {
             var sequence = new Sequence();
             sequence.Load(midiFileLocation);
+            return sequence;
+        }
 
-            return ReadSequence(sequence);
+        public static IEnumerable<MidiTrack> ReadMidi(string midiFileLocation)
+        {
+            return ReadSequence(GetSequence(midiFileLocation));
         }
 
         public static IEnumerable<MidiTrack> ReadSequence(Sequence sequence)
@@ -36,8 +40,21 @@ namespace DPA_Musicsheets
                             var channelMessage = midiEvent.MidiMessage as ChannelMessage;
                             // Data1: De keycode. 0 = laagste C, 1 = laagste C#, 2 = laagste D etc.
                             // 160 is centrale C op piano.
-                            trackLog.Messages.Add(String.Format("Keycode: {0}, Command: {1}, absolute time: {2}, delta time: {3}"
-                                , channelMessage.Data1, channelMessage.Command, midiEvent.AbsoluteTicks, midiEvent.DeltaTicks));
+                            trackLog.Messages.Add(string.Format(
+                                    "Code: {0}, " +
+                                    "Intense: {4}, " +
+                                    "Com: {1}, " +
+                                    "absoluteT: {2}, " +
+                                    "deltaT: {3}, " +
+                                    "seqDivForm: {5}/{6}",
+                                    channelMessage.Data1,
+                                    channelMessage.Command,
+                                    midiEvent.AbsoluteTicks,
+                                    midiEvent.DeltaTicks,
+                                    channelMessage.Data2,
+                                    sequence.Division,
+                                    sequence.Format
+                                ));
                             break;
                         case MessageType.SystemExclusive:
                             break;
