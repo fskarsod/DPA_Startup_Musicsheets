@@ -39,11 +39,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\BarBuilder.cs" />
+    <Compile Include="Builder\Interface\IBarBuilder.cs" />
+    <Compile Include="Builder\Interface\IFluentBuilder.cs" />
+    <Compile Include="Builder\Interface\INoteBuilder.cs" />
+    <Compile Include="Builder\Interface\IRepetitionBuilder.cs" />
+    <Compile Include="Builder\Interface\IRestBuilder.cs" />
+    <Compile Include="Builder\Interface\ITrackBuilder.cs" />
+    <Compile Include="Builder\NoteBuilder.cs" />
+    <Compile Include="Builder\RepetitionBuilder.cs" />
+    <Compile Include="Builder\RestBuilder.cs" />
+    <Compile Include="Builder\Sample\BuilderSample.cs" />
+    <Compile Include="Builder\TrackBuilder.cs" />
+    <Compile Include="Interface\IPluginReader.cs" />
+    <Compile Include="Interface\IPluginWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Builder\" />
-    <Folder Include="Interface\" />
     <Folder Include="Model\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
