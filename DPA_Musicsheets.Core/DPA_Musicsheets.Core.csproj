@@ -41,14 +41,16 @@
   <ItemGroup>
     <Compile Include="Interface\IMusicComponent.cs" />
     <Compile Include="Interface\IMusicComponentProvider.cs" />
-    <Compile Include="Model\Accidental.cs" />
+    <Compile Include="Interface\IMusicComponentVisitor.cs" />
+    <Compile Include="Model\Enum\Accidental.cs" />
+    <Compile Include="Model\Alternative.cs" />
     <Compile Include="Model\Bar.cs" />
     <Compile Include="Model\BarBoundary.cs" />
     <Compile Include="Model\BaseNote.cs" />
     <Compile Include="Model\Chord.cs" />
     <Compile Include="Model\Note.cs" />
-    <Compile Include="Model\Pitch.cs" />
-    <Compile Include="Model\Repeater.cs" />
+    <Compile Include="Model\Enum\Pitch.cs" />
+    <Compile Include="Model\Repetition.cs" />
     <Compile Include="Model\Rest.cs" />
     <Compile Include="Model\Sheet.cs" />
     <Compile Include="Model\TimeSignature.cs" />

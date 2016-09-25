@@ -3,9 +3,15 @@ using DPA_Musicsheets.Core.Interface;
 
 namespace DPA_Musicsheets.Core.Model
 {
-	public class Bar : IMusicComponentProvider
-	{
-		public TimeSignature TimeSignature { get; set; }
-		public List<IMusicComponent> MusicComponents { get; set; }
-	}
+    public class Bar : IMusicComponentProvider
+    {
+        public TimeSignature TimeSignature { get; set; }
+
+        public IList<IMusicComponent> MusicComponents { get; set; }
+
+        public IEnumerable<IMusicComponent> GetMusicComponents()
+        {
+            return MusicComponents;
+        }
+    }
 }

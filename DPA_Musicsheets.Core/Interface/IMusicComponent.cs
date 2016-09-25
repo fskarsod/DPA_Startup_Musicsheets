@@ -1,7 +1,9 @@
-﻿namespace DPA_Musicsheets.Core.Interface
+﻿using System.Linq.Expressions;
+
+namespace DPA_Musicsheets.Core.Interface
 {
-	public interface IMusicComponent
-	{
-		
-	}
+    public interface IMusicComponent
+    {
+        void Accept(IMusicComponentVisitor visitor);
+    }
 }

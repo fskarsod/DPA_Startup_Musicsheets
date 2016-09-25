@@ -1,7 +1,9 @@
-﻿namespace DPA_Musicsheets.Core.Interface
+﻿using System.Collections.Generic;
+
+namespace DPA_Musicsheets.Core.Interface
 {
-	public interface IMusicComponentProvider
-	{
-		
-	}
+    public interface IMusicComponentProvider
+    {
+        IEnumerable<IMusicComponent> GetMusicComponents();
+    }
 }
