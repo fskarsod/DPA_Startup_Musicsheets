@@ -17,6 +17,6 @@ namespace DPA_Musicsheets.Core.Builder.Interface
 
         INoteBuilder SetAccidental(Accidental accidental);
 
-        // todo: SetOctave
+        INoteBuilder SetOctave(int octave);
     }
 }

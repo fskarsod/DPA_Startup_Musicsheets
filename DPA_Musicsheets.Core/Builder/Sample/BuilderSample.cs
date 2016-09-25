@@ -15,9 +15,9 @@ namespace DPA_Musicsheets.Core.Builder.Sample
                         .HasDot()
                         .SetAccidental(Accidental.Default)
                         .SetPitch(Pitch.B))
-                    .AddNote(note => note
-                        .SetDuration(2)
-                        .SetPitch(Pitch.A))
+                //.AddNote(note => note
+                //    .SetDuration(2)
+                //    .SetPitch(Pitch.A))
                 //.AddNote(note => note // todo: should throw error at run-time because a bar with time signature 4/4 cannot have a third note after two half notes.
                 //    .SetDuration(2)
                 //    .SetPitch(Pitch.A))

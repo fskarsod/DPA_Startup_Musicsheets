@@ -11,6 +11,7 @@ namespace DPA_Musicsheets.Core.Builder
         public EndingBuilder()
         {
             _ending = new Ending();
+            _ending.Repeats = 1;
         }
 
         public IEndingBuilder AddBar(Action<IBarBuilder> builderAction)

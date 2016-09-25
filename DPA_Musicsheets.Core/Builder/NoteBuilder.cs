@@ -13,14 +13,18 @@ namespace DPA_Musicsheets.Core.Builder
     {
         private readonly Note _note;
 
+        private short _required;
+
         public NoteBuilder()
         {
             _note = new Note();
+            _required = 0;
         }
 
         public INoteBuilder SetDuration(int duration)
         {
             _note.Duration = duration;
+            _required++;
             return this;
         }
 
@@ -39,6 +43,12 @@ namespace DPA_Musicsheets.Core.Builder
         public INoteBuilder SetAccidental(Accidental accidental)
         {
             _note.Accidental = accidental;
+            return this;
+        }
+
+        public INoteBuilder SetOctave(int octave)
+        {
+            _note.Octave = octave;
             return this;
         }
 

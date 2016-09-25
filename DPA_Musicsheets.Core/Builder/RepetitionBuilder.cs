@@ -25,7 +25,7 @@ namespace DPA_Musicsheets.Core.Builder
         {
             var builder = new EndingBuilder();
             builderAction(builder);
-            _repetition.Alternatives.Add(builder.Build());
+            _repetition.Endings.Add(builder.Build());
             return this;
         }
 

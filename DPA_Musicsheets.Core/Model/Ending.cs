@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using DPA_Musicsheets.Core.Interface;
 
 namespace DPA_Musicsheets.Core.Model
 {

@@ -8,6 +8,10 @@
         // number below the line (6/8 -> 8)
         public int Denominator { get; set; }
 
+        private double LengthValue { get { return 1D / Denominator; } }
+
+        public double TotalLengthValue { get { return Numerator * LengthValue; } }
+
         public TimeSignature(int numerator, int denominator)
         {
             Numerator = numerator;
