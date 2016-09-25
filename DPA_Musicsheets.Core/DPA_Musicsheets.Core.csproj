@@ -39,6 +39,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IMusicComponent.cs" />
+    <Compile Include="Interface\IMusicComponentProvider.cs" />
+    <Compile Include="Interface\IMusicComponentVisitor.cs" />
+    <Compile Include="Model\Enum\Accidental.cs" />
+    <Compile Include="Model\Alternative.cs" />
+    <Compile Include="Model\Bar.cs" />
+    <Compile Include="Model\BarBoundary.cs" />
+    <Compile Include="Model\BaseNote.cs" />
+    <Compile Include="Model\Chord.cs" />
+    <Compile Include="Model\Note.cs" />
+    <Compile Include="Model\Enum\Pitch.cs" />
+    <Compile Include="Model\Repetition.cs" />
+    <Compile Include="Model\Rest.cs" />
+    <Compile Include="Model\Sheet.cs" />
+    <Compile Include="Model\TimeSignature.cs" />
+    <Compile Include="Model\Track.cs" />
     <Compile Include="Builder\BarBuilder.cs" />
     <Compile Include="Builder\Interface\IBarBuilder.cs" />
     <Compile Include="Builder\Interface\IFluentBuilder.cs" />
@@ -53,10 +69,7 @@
     <Compile Include="Builder\TrackBuilder.cs" />
     <Compile Include="Interface\IPluginReader.cs" />
     <Compile Include="Interface\IPluginWriter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
+	<Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
