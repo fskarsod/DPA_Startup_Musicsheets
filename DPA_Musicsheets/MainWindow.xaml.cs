@@ -41,6 +41,7 @@ namespace DPA_Musicsheets
             DataContext = MidiTracks;
             FillPSAMViewer();
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
+            Core.Builder.Sample.BuilderSample.Main();
         }
 
         private void FillPSAMViewer()
@@ -77,17 +78,15 @@ namespace DPA_Musicsheets
 
             staff.AddMusicalSymbol(new Note("C", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single }));
             staff.AddMusicalSymbol(
-                new Note("E", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single })
-                { IsChordElement = true });
+                new Note("E", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single }) { IsChordElement = true });
             staff.AddMusicalSymbol(
-                new Note("G", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single })
-                { IsChordElement = true });
+                new Note("G", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single }) { IsChordElement = true });
             staff.AddMusicalSymbol(new Barline());
         }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
-            if(_player != null)
+            if (_player != null)
             {
                 _player.Dispose();
             }
@@ -104,7 +103,7 @@ namespace DPA_Musicsheets
                 txt_MidiFilePath.Text = openFileDialog.FileName;
             }
         }
-        
+
         private void btn_Stop_Click(object sender, RoutedEventArgs e)
         {
             if (_player != null)

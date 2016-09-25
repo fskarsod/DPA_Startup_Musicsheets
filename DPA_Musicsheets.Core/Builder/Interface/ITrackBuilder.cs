@@ -3,14 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DPA_Musicsheets.Core.Model;
 
 namespace DPA_Musicsheets.Core.Builder.Interface
 {
-    public interface ITrackBuilder<out TBuildable>
-        : IFluentBuilder<TBuildable>
+    public interface ITrackBuilder : IFluentBuilder<Track>
     {
-        ITrackBuilder<TBuildable> AddBar<TBar>(Action<IBarBuilder<TBar>> builderAction);
+        // todo: SetName(string name);
 
-        ITrackBuilder<TBuildable> AddRepetition<TRepetition>(Action<IRepetitionBuilder<TRepetition>> builderAction);
+        ITrackBuilder AddBar(Action<IBarBuilder> builderAction);
+
+        ITrackBuilder AddRepetition(Action<IRepetitionBuilder> builderAction);
     }
 }

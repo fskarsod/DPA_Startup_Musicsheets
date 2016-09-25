@@ -1,40 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DPA_Musicsheets.Core.Builder.Interface;
+using DPA_Musicsheets.Core.Model;
 
 namespace DPA_Musicsheets.Core.Builder
 {
-    public class RepetitionBuilder<TRepetition> : IRepetitionBuilder<TRepetition>
+    public class RepetitionBuilder : IRepetitionBuilder, IFluentBuilder<Repetition>
     {
-        private TRepetition _repetition;
+        private readonly Repetition _repetition;
 
         public RepetitionBuilder()
         {
-            // _repetition = new TRepetition();
+            _repetition = new Repetition();
         }
 
-        public IRepetitionBuilder<TRepetition> Repeat(int times)
+        public IRepetitionBuilder AddBar(Action<IBarBuilder> builderAction)
         {
-            // _repetition.Times = times;
-            // return this;
-            throw new NotImplementedException();
+            var builder = new BarBuilder();
+            builderAction(builder);
+            _repetition.Bars.Add(builder.Build());
+            return this;
         }
 
-        public IRepetitionBuilder<TRepetition> AddBar<TBar>(Action<IBarBuilder<TBar>> builderAction)
+        public IRepetitionBuilder AddEnding(Action<IEndingBuilder> builderAction)
         {
-            // var builder = new BarBuilder();
-            // builderAction(builder);
-            // _repetition.MusicComponents.Add(builder.Build());
-            // return this;
-            throw new NotImplementedException();
+            var builder = new EndingBuilder();
+            builderAction(builder);
+            _repetition.Alternatives.Add(builder.Build());
+            return this;
         }
 
-        // todo: stuff for alternative endings and stuff;
-
-        public TRepetition Build()
+        public Repetition Build()
         {
             return _repetition;
         }

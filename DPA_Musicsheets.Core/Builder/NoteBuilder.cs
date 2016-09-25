@@ -4,47 +4,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DPA_Musicsheets.Core.Builder.Interface;
+using DPA_Musicsheets.Core.Model;
+using DPA_Musicsheets.Core.Model.Enum;
 
 namespace DPA_Musicsheets.Core.Builder
 {
-    public class NoteBuilder<TNote> : INoteBuilder<TNote>
+    public class NoteBuilder : INoteBuilder, IFluentBuilder<Note>
     {
-        private TNote _note;
+        private readonly Note _note;
 
         public NoteBuilder()
         {
-            // _note = new TNote();
+            _note = new Note();
         }
 
-        public INoteBuilder<TNote> SetDuration(int duration)
+        public INoteBuilder SetDuration(int duration)
         {
-            // _note.Duration = duration;
-            // return this;
-            throw new NotImplementedException();
+            _note.Duration = duration;
+            return this;
         }
 
-        public INoteBuilder<TNote> HasDot(bool hasDot = true)
+        public INoteBuilder HasDot(bool hasDot = true)
         {
-            // _note.HasDot = hasDot;
-            // return this;
-            throw new NotImplementedException();
+            _note.HasDot = hasDot;
+            return this;
         }
 
-        public INoteBuilder<TNote> SetPitch(int pitch)
+        public INoteBuilder SetPitch(Pitch pitch)
         {
-            // _note.Pitch = pitch;
-            // return this;
-            throw new NotImplementedException();
+            _note.Pitch = pitch;
+            return this;
         }
 
-        public INoteBuilder<TNote> SetAccidental(int accidental)
+        public INoteBuilder SetAccidental(Accidental accidental)
         {
-            // _note.Accidental = accidental;
-            // return this;
-            throw new NotImplementedException();
+            _note.Accidental = accidental;
+            return this;
         }
 
-        public TNote Build()
+        public Note Build()
         {
             return _note;
         }

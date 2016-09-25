@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DPA_Musicsheets.Core.Model.Enum;
 
 namespace DPA_Musicsheets.Core.Builder.Interface
 {
-    public interface INoteBuilder<out TBuildable>
-        : IFluentBuilder<TBuildable>
+    public interface INoteBuilder
     {
-        INoteBuilder<TBuildable> SetDuration(int duration);
+        INoteBuilder SetDuration(int duration);
 
-        INoteBuilder<TBuildable> HasDot(bool hasDot = true);
+        INoteBuilder HasDot(bool hasDot = true);
 
-        INoteBuilder<TBuildable> SetPitch(int pitch); // todo: to enum
+        INoteBuilder SetPitch(Pitch pitch);
 
-        INoteBuilder<TBuildable> SetAccidental(int accidental); // todo: to enum
+        INoteBuilder SetAccidental(Accidental accidental);
+
+        // todo: SetOctave
     }
 }

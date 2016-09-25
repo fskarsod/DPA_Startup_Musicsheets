@@ -1,36 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DPA_Musicsheets.Core.Builder.Interface;
+using DPA_Musicsheets.Core.Model;
 
 namespace DPA_Musicsheets.Core.Builder
 {
-    public class RestBuilder<TRest> : IRestBuilder<TRest>
+    public class RestBuilder : IRestBuilder, IFluentBuilder<Rest>
     {
-        private TRest _rest;
+        private readonly Rest _rest;
 
         public RestBuilder()
         {
-            // _rest = new TRest();
+            _rest = new Rest();
         }
 
-        public IRestBuilder<TRest> SetDuration(int duration)
+        public IRestBuilder SetDuration(int duration)
         {
-            // _rest.Duration = duration;
-            // return this;
-            throw new NotImplementedException();
+            _rest.Duration = duration;
+            return this;
         }
 
-        public IRestBuilder<TRest> HasDot(bool hasDot = true)
+        public IRestBuilder HasDot(bool hasDot = true)
         {
-            // _rest.HasDot = hasDot;
-            // return this;
-            throw new NotImplementedException();
+            _rest.HasDot = hasDot;
+            return this;
         }
 
-        public TRest Build()
+        public Rest Build()
         {
             return _rest;
         }

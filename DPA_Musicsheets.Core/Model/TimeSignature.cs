@@ -7,5 +7,11 @@
 
         // number below the line (6/8 -> 8)
         public int Denominator { get; set; }
+
+        public TimeSignature(int numerator, int denominator)
+        {
+            Numerator = numerator;
+            Denominator = denominator;
+        }
     }
 }

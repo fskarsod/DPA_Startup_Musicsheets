@@ -1,44 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DPA_Musicsheets.Core.Builder.Interface;
+using DPA_Musicsheets.Core.Interface;
+using DPA_Musicsheets.Core.Model;
 
 namespace DPA_Musicsheets.Core.Builder
 {
-    public class BarBuilder<TBar>
-        : IBarBuilder<TBar>
+    public class BarBuilder : IBarBuilder, IFluentBuilder<Bar>
     {
-        private TBar _bar;
+        private readonly Bar _bar;
 
-        public IBarBuilder<TBar> AddNote<TNote>(Action<INoteBuilder<TNote>> builderAction)
+        public BarBuilder()
         {
-            return AddMusicComponentFromBuilder<INoteBuilder<TNote>, TNote>(builderAction, new NoteBuilder<TNote>());
+            _bar = new Bar();
+            _bar.MusicComponents.Add(new BarBoundary()); // todo: move to Bar-class? maybe no because is responsiblity of builder
         }
 
-        public IBarBuilder<TBar> AddRest<TRest>(Action<IRestBuilder<TRest>> builderAction)
+        public IBarBuilder SetTimeSignature(TimeSignature timeSignature)
         {
-            return AddMusicComponentFromBuilder<IRestBuilder<TRest>, TRest>(builderAction, new RestBuilder<TRest>());
+            _bar.TimeSignature = timeSignature;
+            return this;
         }
 
-        public IBarBuilder<TBar> AddBarBoundary()
+        public IBarBuilder AddNote(Action<INoteBuilder> builderAction)
         {
-            // _bar.MusicComponent.Add(new BarBoundaryBuilder().Build());
-            // return this;
-            throw new NotImplementedException();
+            return AddMusicComponentFromBuilder<NoteBuilder>(new NoteBuilder(), builderAction);
         }
 
-        private IBarBuilder<TBar> AddMusicComponentFromBuilder<TBuilder, TMusicComponent>(Action<TBuilder> builderAction, TBuilder builder)
-            where TBuilder : IFluentBuilder<TMusicComponent>
+        public IBarBuilder AddRest(Action<IRestBuilder> builderAction)
         {
-            // builderAction(builder);
-            // _bar.MusicComponent.Add(builder.Build());
-            // return this;
-            throw new NotImplementedException();
+            return AddMusicComponentFromBuilder<RestBuilder>(new RestBuilder(), builderAction);
         }
 
-        public TBar Build()
+        private IBarBuilder AddMusicComponentFromBuilder<TBuilder>(TBuilder builder, Action<TBuilder> builderAction)
+            where TBuilder : IFluentBuilder<IMusicComponent>
+        {
+            builderAction(builder);
+            _bar.MusicComponents.Add(builder.Build());
+            return this;
+        }
+
+        public Bar Build()
         {
             return _bar;
         }

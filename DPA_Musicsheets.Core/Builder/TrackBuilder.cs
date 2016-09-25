@@ -4,33 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DPA_Musicsheets.Core.Builder.Interface;
+using DPA_Musicsheets.Core.Interface;
+using DPA_Musicsheets.Core.Model;
 
 namespace DPA_Musicsheets.Core.Builder
 {
-    public class TrackBuilder<TTrack> : ITrackBuilder<TTrack>
+    public class TrackBuilder : ITrackBuilder
     {
-        private TTrack _track;
+        private readonly Track _track;
 
-        public ITrackBuilder<TTrack> AddBar<TBar>(Action<IBarBuilder<TBar>> builderAction)
+        public TrackBuilder()
         {
-            return AddMusicComponentProviderFromBuilder<IBarBuilder<TBar>, TBar>(builderAction, new BarBuilder<TBar>());
+            _track = new Track();
         }
 
-        public ITrackBuilder<TTrack> AddRepetition<TRepetition>(Action<IRepetitionBuilder<TRepetition>> builderAction)
+        public ITrackBuilder AddBar(Action<IBarBuilder> builderAction)
         {
-            return AddMusicComponentProviderFromBuilder<IRepetitionBuilder<TRepetition>, TRepetition>(builderAction, new RepetitionBuilder<TRepetition>());
+            return AddMusicComponentProviderFromBuilder<BarBuilder>(new BarBuilder(), builderAction);
         }
 
-        private ITrackBuilder<TTrack> AddMusicComponentProviderFromBuilder<TBuilder, TMusicComponentProvider>(Action<TBuilder> builderAction, TBuilder builder)
-            where TBuilder : IFluentBuilder<TMusicComponentProvider>
+        public ITrackBuilder AddRepetition(Action<IRepetitionBuilder> builderAction)
         {
-            // builderAction(builder);
-            // _track.MusicComponentProviders.Add(builder.Build());
-            // return this;
-            throw new NotImplementedException();
+            return AddMusicComponentProviderFromBuilder<RepetitionBuilder>(new RepetitionBuilder(), builderAction);
         }
 
-        public TTrack Build()
+        private ITrackBuilder AddMusicComponentProviderFromBuilder<TBuilder>(TBuilder builder, Action<TBuilder> builderAction)
+            where TBuilder : IFluentBuilder<IMusicComponentProvider>
+        {
+            builderAction(builder);
+            _track.MusicComponentProviders.Add(builder.Build());
+            return this;
+        }
+
+        public Track Build()
         {
             return _track;
         }

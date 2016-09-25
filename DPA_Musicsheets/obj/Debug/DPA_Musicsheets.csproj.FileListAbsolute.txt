@@ -36,3 +36,5 @@ D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\MainWindow
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.g.resources
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.Properties.Resources.resources
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.csproj.GenerateResource.Cache
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.Core.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.Core.pdb

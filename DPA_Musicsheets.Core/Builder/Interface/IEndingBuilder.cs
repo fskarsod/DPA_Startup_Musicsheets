@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Core.Builder.Interface
 {
-    public interface IRepetitionBuilder
+    public interface IEndingBuilder
     {
-        IRepetitionBuilder AddBar(Action<IBarBuilder> builderAction);
+        IEndingBuilder AddBar(Action<IBarBuilder> builderAction);
 
-        IRepetitionBuilder AddEnding(Action<IEndingBuilder> builderAction);
+        IEndingBuilder SetRepeats(int repeats);
     }
 }

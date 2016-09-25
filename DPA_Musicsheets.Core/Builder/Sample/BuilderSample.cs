@@ -1,40 +1,49 @@
-﻿namespace DPA_Musicsheets.Core.Builder.Sample
+﻿using DPA_Musicsheets.Core.Model;
+using DPA_Musicsheets.Core.Model.Enum;
+
+namespace DPA_Musicsheets.Core.Builder.Sample
 {
-    static class BuilderSample
+    public static class BuilderSample
     {
-        public class Track { }
-
-        public class Bar { }
-
-        public class Repetition { }
-
-        public class Note { }
-
-        public class Rest { }
-
-        static void Main()
+        public static void Main()
         {
-            Track track = new TrackBuilder<Track>()
-                .AddBar<Bar>(bar => bar
-                    .AddBarBoundary()
-                    .AddNote<Note>(note => note
-                        .SetPitch(1)
+            Track track = new TrackBuilder()
+                .AddBar(bar => bar
+                    .SetTimeSignature(new TimeSignature(4, 4))
+                    .AddNote(note => note
                         .SetDuration(2)
-                        .SetAccidental(3))
-                    .AddRest<Rest>(rest => rest
                         .HasDot()
-                        .SetDuration(2)))
-                .AddRepetition<Repetition>(repetition => repetition
-                    .AddBar<Bar>(bar => bar
-                        .AddBarBoundary()
-                        .AddNote<Note>(note => note
+                        .SetAccidental(Accidental.Default)
+                        .SetPitch(Pitch.B))
+                    .AddNote(note => note
+                        .SetDuration(2)
+                        .SetPitch(Pitch.A))
+                //.AddNote(note => note // todo: should throw error at run-time because a bar with time signature 4/4 cannot have a third note after two half notes.
+                //    .SetDuration(2)
+                //    .SetPitch(Pitch.A))
+                        )
+                .AddRepetition(repetition => repetition
+                    .AddBar(bar => bar
+                        .SetTimeSignature(new TimeSignature(4, 4))
+                        .AddRest(rest => rest
+                            .SetDuration(2))
+                        .AddNote(note => note
                             .SetDuration(2)
-                            .SetPitch(2)))
-                    .AddBar<Bar>(bar => bar
-                        .AddBarBoundary()
-                        .AddNote<Note>(note => note
-                            .SetDuration(2)
-                            .SetPitch(2))))
+                            .SetPitch(Pitch.B)))
+                    .AddEnding(ending => ending
+                        .SetRepeats(2)
+                        .AddBar(bar => bar
+                            .SetTimeSignature(new TimeSignature(4, 4))
+                            .AddNote(note => note
+                                .SetDuration(2)
+                                .HasDot()
+                                .SetAccidental(Accidental.Default)
+                                .SetPitch(Pitch.B))
+                            .AddNote(note => note
+                                .SetDuration(2)
+                                .HasDot()
+                                .SetAccidental(Accidental.Default)
+                                .SetPitch(Pitch.B)))))
                 .Build();
         }
     }
