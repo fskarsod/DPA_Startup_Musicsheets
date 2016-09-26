@@ -113,6 +113,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DPA_Musicsheets.Core\DPA_Musicsheets.Core.csproj">
+      <Project>{6d1686e6-0993-430f-a1b6-b78d10e28746}</Project>
+      <Name>DPA_Musicsheets.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

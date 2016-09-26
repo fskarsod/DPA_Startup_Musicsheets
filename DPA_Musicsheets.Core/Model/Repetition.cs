@@ -10,22 +10,43 @@ namespace DPA_Musicsheets.Core.Model
         public IList<Bar> Bars { get; set; }
 
         // Endings including alternative endings
-        public IList<Alternative> Alternatives { get; set; }
+        public IList<Ending> Endings { get; set; }
+
+        public Repetition()
+        {
+            Bars = new List<Bar>();
+            Endings = new List<Ending>();
+        }
+
+        private IEnumerable<IMusicComponent> YieldFromBars()
+        {
+            return Bars.SelectMany(bar => bar.GetMusicComponents());
+        }
 
         public IEnumerable<IMusicComponent> GetMusicComponents()
         {
-            foreach (var alternative in Alternatives) // each alternative
+            if (!Endings.Any())
             {
-                for (var i = 0; i < alternative.Repeats; i++) // alternative needs to be repeated x times
+                foreach (var musicComponent in Bars.SelectMany(bar => bar.GetMusicComponents())) // yield the main body
                 {
-                    foreach (var musicComponent in Bars.SelectMany(bar => bar.GetMusicComponents())) // yield the main body
-                    {
-                        yield return musicComponent;
-                    }
+                    yield return musicComponent;
                 }
-                foreach (var bar in alternative.Ending.SelectMany(ending => ending.GetMusicComponents())) // yield the ending
+            }
+            else
+            {
+                foreach (var ending in Endings) // each alternative
                 {
-                    yield return bar;
+                    for (var i = 0; i < ending.Repeats; i++) // alternative needs to be repeated x times
+                    {
+                        foreach (var musicComponent in Bars.SelectMany(bar => bar.GetMusicComponents())) // yield the main body
+                        {
+                            yield return musicComponent;
+                        }
+                        foreach (var bar in ending.Bars.SelectMany(bar => bar.GetMusicComponents())) // yield the ending
+                        {
+                            yield return bar;
+                        }
+                    }
                 }
             }
         }

@@ -39,11 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\EndingBuilder.cs" />
+    <Compile Include="Builder\Interface\IEndingBuilder.cs" />
     <Compile Include="Interface\IMusicComponent.cs" />
     <Compile Include="Interface\IMusicComponentProvider.cs" />
     <Compile Include="Interface\IMusicComponentVisitor.cs" />
     <Compile Include="Model\Enum\Accidental.cs" />
-    <Compile Include="Model\Alternative.cs" />
+    <Compile Include="Model\Ending.cs" />
     <Compile Include="Model\Bar.cs" />
     <Compile Include="Model\BarBoundary.cs" />
     <Compile Include="Model\BaseNote.cs" />
@@ -55,10 +57,22 @@
     <Compile Include="Model\Sheet.cs" />
     <Compile Include="Model\TimeSignature.cs" />
     <Compile Include="Model\Track.cs" />
+    <Compile Include="Builder\BarBuilder.cs" />
+    <Compile Include="Builder\Interface\IBarBuilder.cs" />
+    <Compile Include="Builder\Interface\IFluentBuilder.cs" />
+    <Compile Include="Builder\Interface\INoteBuilder.cs" />
+    <Compile Include="Builder\Interface\IRepetitionBuilder.cs" />
+    <Compile Include="Builder\Interface\IRestBuilder.cs" />
+    <Compile Include="Builder\Interface\ITrackBuilder.cs" />
+    <Compile Include="Builder\NoteBuilder.cs" />
+    <Compile Include="Builder\RepetitionBuilder.cs" />
+    <Compile Include="Builder\RestBuilder.cs" />
+    <Compile Include="Builder\Sample\BuilderSample.cs" />
+    <Compile Include="Builder\TrackBuilder.cs" />
+    <Compile Include="Interface\IPluginReader.cs" />
+    <Compile Include="Interface\IPluginWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Builder\" />
+    <Compile Include="Util\MathClass.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

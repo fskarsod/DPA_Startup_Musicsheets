@@ -8,5 +8,10 @@ namespace DPA_Musicsheets.Core.Model
         public string Name { get; set; }
 
         public IList<IMusicComponentProvider> MusicComponentProviders { get; set; }
+
+        public Track()
+        {
+            MusicComponentProviders = new List<IMusicComponentProvider>();
+        }
     }
 }

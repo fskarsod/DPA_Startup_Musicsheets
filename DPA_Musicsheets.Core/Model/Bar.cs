@@ -9,6 +9,11 @@ namespace DPA_Musicsheets.Core.Model
 
         public IList<IMusicComponent> MusicComponents { get; set; }
 
+        public Bar()
+        {
+            MusicComponents = new List<IMusicComponent>();
+        }
+
         public IEnumerable<IMusicComponent> GetMusicComponents()
         {
             return MusicComponents;
