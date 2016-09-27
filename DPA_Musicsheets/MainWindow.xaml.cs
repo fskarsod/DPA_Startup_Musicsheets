@@ -41,7 +41,7 @@ namespace DPA_Musicsheets
             DataContext = MidiTracks;
             FillPSAMViewer();
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
-            Core.Builder.Sample.BuilderSample.Main();
+            // Core.Builder.Sample.BuilderSample.Main();
         }
 
         private void FillPSAMViewer()
