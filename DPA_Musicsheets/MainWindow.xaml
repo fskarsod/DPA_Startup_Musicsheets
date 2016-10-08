@@ -6,37 +6,47 @@
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
         xmlns:local="clr-namespace:DPA_Musicsheets"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="525" Closing="Window_Closing">
-    <Grid x:Name="MainGrid">
-        <TextBox x:Name="txt_MidiFilePath" HorizontalAlignment="Left" Height="23" Margin="90,10,0,0" TextWrapping="Wrap" Text="../../../smb1-Theme.mid" VerticalAlignment="Top" Width="233"/>
-        <Button x:Name="btnPlay" Content="Play" HorizontalAlignment="Left" Margin="353,11,0,0" VerticalAlignment="Top" Width="75" Click="btnPlay_Click"/>
-        <Button x:Name="btnOpen" Content="Open" HorizontalAlignment="Left" Margin="10,11,0,0" VerticalAlignment="Top" Width="75" Click="btnOpen_Click"/>
-        <Button x:Name="btn_Stop" Content="Stop" HorizontalAlignment="Left" Margin="433,11,0,0" VerticalAlignment="Top" Width="75" Click="btn_Stop_Click"/>
-        <Button x:Name="btn_ShowContent" Content="Show content" HorizontalAlignment="Left" Margin="353,35,0,0" VerticalAlignment="Top" Width="155" Click="btn_ShowContent_Click"/>
-
-        <TabControl x:Name="tabCtrl_MidiContent" HorizontalAlignment="Left" Height="227" Margin="10,59,0,0" VerticalAlignment="Top" Width="498" ItemsSource="{Binding}">
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="{x:Type TabItem}">
-                    <Setter Property="Header">
-                        <Setter.Value>
-                            <Binding Path="TrackName"/>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.ItemContainerStyle>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <ListBox ItemsSource="{Binding Messages}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Label Content="{Binding .}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
-        <PSAMWPFControl:IncipitViewerWPF HorizontalAlignment="Left" Margin="0,300,0,0" Width="525" x:Name="staff" >
-        </PSAMWPFControl:IncipitViewerWPF>
-    </Grid>
+        Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing">
+    <UniformGrid Margin="5" Columns="2" Rows="1">
+        <StackPanel Width="510">
+            <TextBox x:Name="FilePathTextBox" Width="500" TextWrapping="Wrap" Text="../../../smb1-Theme.mid"/>
+            <Separator Opacity="0" Height="5"/>
+            <UniformGrid Rows="1" Columns="4" Width="500">
+                <Button x:Name="BtnTest" Content="Test" Command="{Binding Swappo}"/>
+                <Button x:Name="BtnPlay" Content="Play" Click="btnPlay_Click"/>
+                <Button x:Name="BtnOpen" Content="Open" Click="btnOpen_Click"/>
+                <Button x:Name="BtnStop" Content="Stop" Click="btn_Stop_Click"/>
+                <Button x:Name="BtnShowcontent" Content="Show content" Click="btn_ShowContent_Click"/>
+            </UniformGrid>
+            <Separator Opacity="0" Height="5"/>
+            <TabControl x:Name="TabCtrlMidiContent" Height="300" Width="500" ItemsSource="{Binding Tracks}">
+                <TabControl.ItemContainerStyle>
+                    <Style TargetType="{x:Type TabItem}">
+                        <Setter Property="Header">
+                            <Setter.Value>
+                                <Binding Path="TrackName"/>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.ItemContainerStyle>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <ListBox ItemsSource="{Binding Messages}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding .}" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
+            <PSAMWPFControl:IncipitViewerWPF x:Name="staff" Height="100" Width="500">
+            </PSAMWPFControl:IncipitViewerWPF>
+        </StackPanel>
+        <DockPanel LastChildFill="True">
+            <Label DockPanel.Dock="Top">Lilypond Editor</Label>
+            <TextBox x:Name="ItsMyBox" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" TextChanged="ItsMyBox_OnTextChanged"></TextBox>
+        </DockPanel>
+    </UniformGrid>
 </Window>

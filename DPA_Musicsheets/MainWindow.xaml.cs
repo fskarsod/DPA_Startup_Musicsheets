@@ -1,26 +1,48 @@
-﻿using Microsoft.Win32;
+﻿using System;
+using Microsoft.Win32;
 using PSAMControlLibrary;
 using Sanford.Multimedia.Midi;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using DPA_Musicsheets.Util;
 
 namespace DPA_Musicsheets
 {
+    public class MuhDataContext
+    {
+        public ObservableCollection<MidiTrack> Tracks { get; set; }
+        
+        public string Text { get; set; }
+
+        public ICommand Swappo { get; set; }
+
+        public MuhDataContext()
+        {
+            Text = string.Empty;
+            Swappo = new RelayCommand<string>(args =>
+            {
+                MessageBox.Show("SWAPPO");
+            },
+            args => Text.Length > 0);
+        }
+
+        // VVVVV LEGACY VVVVV
+        //private string _text;
+        //public string Text { get { return _text; } set { _text = value; RaisePropertyChanged("Text"); } }
+
+        //public event PropertyChangedEventHandler PropertyChanged;
+
+        //private void RaisePropertyChanged(string propertyName)
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -32,18 +54,20 @@ namespace DPA_Musicsheets
         // De OutputDevice is een midi device of het midikanaal van je PC.
         // Hierop gaan we audio streamen.
         // DeviceID 0 is je audio van je PC zelf.
-        private OutputDevice _outputDevice = new OutputDevice(0);
+        private readonly OutputDevice _outputDevice = new OutputDevice(0);
 
         public MainWindow()
         {
             this.MidiTracks = new ObservableCollection<MidiTrack>();
+            _delayedActionHandler = new DelayedActionHandler(GeneratorDelay);
+            DataContext = new MuhDataContext { Tracks = MidiTracks };
             InitializeComponent();
-            DataContext = MidiTracks;
             FillPSAMViewer();
-            //notenbalk.LoadFromXmlFile("Resources/example.xml");
-            Core.Builder.Sample.BuilderSample.Main();
+            // notenbalk.LoadFromXmlFile("Resources/example.xml");
+            // Core.Builder.Sample.BuilderSample.Main();
         }
 
+        #region VISUAL NOTE GENERATION
         private void FillPSAMViewer()
         {
             staff.ClearMusicalIncipit();
@@ -82,17 +106,21 @@ namespace DPA_Musicsheets
             staff.AddMusicalSymbol(
                 new Note("G", 0, 4, MusicalSymbolDuration.Half, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single }) { IsChordElement = true });
             staff.AddMusicalSymbol(new Barline());
-        }
 
+            for (var i = 0; i < 20; i++)
+                {
+                staff.AddMusicalSymbol(new Note("A", 0, 4, MusicalSymbolDuration.Sixteenth, NoteStemDirection.Down, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Start, NoteBeamType.Start }));
+            }
+        }
+        #endregion
+
+        #region CONTROLS
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
-            if (_player != null)
-            {
-                _player.Dispose();
-            }
-
+            MessageBox.Show($"{(DataContext as MuhDataContext)?.Text ?? "ASBHDJKSAD"}");
+            _player?.Dispose();
             _player = new MidiPlayer(_outputDevice);
-            _player.Play(txt_MidiFilePath.Text);
+            _player.Play(FilePathTextBox.Text);
         }
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
@@ -100,19 +128,18 @@ namespace DPA_Musicsheets
             OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi Files(.mid)|*.mid" };
             if (openFileDialog.ShowDialog() == true)
             {
-                txt_MidiFilePath.Text = openFileDialog.FileName;
+                FilePathTextBox.Text = openFileDialog.FileName;
             }
         }
 
         private void btn_Stop_Click(object sender, RoutedEventArgs e)
         {
-            if (_player != null)
-                _player.Dispose();
+            _player?.Dispose();
         }
 
         private void btn_ShowContent_Click(object sender, RoutedEventArgs e)
         {
-            ShowMidiTracks(MidiReader.ReadMidi(txt_MidiFilePath.Text));
+            ShowMidiTracks(MidiReader.ReadMidi(FilePathTextBox.Text));
         }
 
         private void ShowMidiTracks(IEnumerable<MidiTrack> midiTracks)
@@ -123,16 +150,91 @@ namespace DPA_Musicsheets
                 MidiTracks.Add(midiTrack);
             }
 
-            tabCtrl_MidiContent.SelectedIndex = 0;
+            TabCtrlMidiContent.SelectedIndex = 0;
         }
+        #endregion
+
+        #region SAVE BEFORE CLOSE
+        // todo: generator save states
+        private int _saveCode = 1; // todo: pseudo-code
+        private int _getCurrentSaveCode = 0; // todo: pseudo-code
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _outputDevice.Close();
-            if (_player != null)
+            // string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon
+            if (_saveCode != _getCurrentSaveCode)
             {
-                _player.Dispose();
+                var result = MessageBox.Show("Do you want to exit without saving", "EXITOR", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                switch (result)
+                {
+                    case MessageBoxResult.No:
+                        // todo: save sequence and quit immediately, so no cancel
+                        goto case MessageBoxResult.Yes; // :o goto (explicit fallthrough)
+                    case MessageBoxResult.Yes:
+                        CloseApplication();
+                        break;
+                    default: // implicit cancel
+                        e.Cancel = true;
+                        break;
+                }
+            }
+            else
+            {
+                CloseApplication();
             }
         }
+
+        private void CloseApplication()
+        {
+            _outputDevice?.Close();
+            _player?.Dispose();
+        }
+        #endregion
+
+        #region DELAYED LILYPOND GENERATION
+        private const double GeneratorDelay = 1.5D;
+
+        private readonly DelayedActionHandler _delayedActionHandler;
+
+        private int _generatorHashCode;
+
+        private void ItsMyBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextChanged();
+        }
+
+        private void TextChanged()
+        {
+            _delayedActionHandler.Run(() =>
+            {
+                if (_generatorHashCode != 0)
+                {
+                    MessageBox.Show("1.5 second have passed, but shit is generating.");
+                }
+                else
+                {
+                    MessageBox.Show("1.5 second have passed, app is starting generation.");
+                    LilyPondGenerator();
+                }
+            });
+        }
+
+        private void LilyPondGenerator()
+        {
+            _generatorHashCode = ItsMyBox.Text.GetHashCode();
+            new DelayedActionHandler(3d).Run(() => // Replace this line with the LilyPond-Generation code.
+            {
+                var newGenHashCode = ItsMyBox.Text.GetHashCode();
+                if (newGenHashCode != _generatorHashCode) // regenerate, because user is a fuckwit and changes shit.
+                {
+                    LilyPondGenerator();
+                }
+                else
+                {
+                    _generatorHashCode = 0;
+                }
+            });
+        }
+        #endregion
     }
 }
