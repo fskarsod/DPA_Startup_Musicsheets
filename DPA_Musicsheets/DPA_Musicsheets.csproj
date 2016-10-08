@@ -118,6 +118,10 @@
       <Project>{6d1686e6-0993-430f-a1b6-b78d10e28746}</Project>
       <Name>DPA_Musicsheets.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DPA_Musicsheets.MidiPlugin\DPA_Musicsheets.MidiPlugin.csproj">
+      <Project>{E6E776B2-584E-47B3-BF04-AB0E3B63B453}</Project>
+      <Name>DPA_Musicsheets.MidiPlugin</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
