@@ -69,9 +69,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="MidiTrack.cs" />
+    <Compile Include="Util\BeforeExitCommand.cs" />
     <Compile Include="Util\DelayedActionHandler.cs" />
     <Compile Include="Util\RelayCommand.cs" />
+    <Compile Include="ViewModel\MidiButtonSetVieWModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

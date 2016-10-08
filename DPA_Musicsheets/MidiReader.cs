@@ -29,7 +29,7 @@ namespace DPA_Musicsheets
                 foreach (var midiEvent in track.Iterator())
                 {
                     // Elke messagetype komt ook overeen met een class. Daarom moet elke keer gecast worden.
-                    switch (midiEvent.MidiMessage.MessageType)
+                    switch (midiEvent.MidiMessage.MessageType) // todo: maybe fix this switch
                     {
                         // ChannelMessages zijn de inhoudelijke messages.
                         case MessageType.Channel:
@@ -67,7 +67,7 @@ namespace DPA_Musicsheets
         private static string GetMetaString(MetaMessage metaMessage)
         {
             byte[] bytes = metaMessage.GetBytes();
-            switch (metaMessage.MetaType)
+            switch (metaMessage.MetaType) // todo: yo actually doe, maybe fix these switch-statements.
             {
                 case MetaType.Tempo:
                     // Bitshifting is nodig om het tempo in BPM te be

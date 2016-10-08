@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DPA_Musicsheets.DataContext
+namespace DPA_Musicsheets.Util
 {
-    public class MainWindowDataContext
+    class BeforeExitCommand
     {
     }
 }

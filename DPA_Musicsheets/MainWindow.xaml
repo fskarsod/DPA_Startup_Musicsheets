@@ -4,22 +4,19 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
-        xmlns:local="clr-namespace:DPA_Musicsheets"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing">
+        mc:Ignorable="d" Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing">
     <UniformGrid Margin="5" Columns="2" Rows="1">
         <StackPanel Width="510">
-            <TextBox x:Name="FilePathTextBox" Width="500" TextWrapping="Wrap" Text="../../../smb1-Theme.mid"/>
+            <TextBox Width="500" TextWrapping="Wrap" Text="{Binding MidiButtonSetVieWModel.FileLocation, UpdateSourceTrigger=PropertyChanged}"/>
             <Separator Opacity="0" Height="5"/>
             <UniformGrid Rows="1" Columns="4" Width="500">
-                <Button x:Name="BtnTest" Content="Test" Command="{Binding Swappo}"/>
-                <Button x:Name="BtnPlay" Content="Play" Click="btnPlay_Click"/>
-                <Button x:Name="BtnOpen" Content="Open" Click="btnOpen_Click"/>
-                <Button x:Name="BtnStop" Content="Stop" Click="btn_Stop_Click"/>
-                <Button x:Name="BtnShowcontent" Content="Show content" Click="btn_ShowContent_Click"/>
+                <Button Content="Open" Command="{Binding MidiButtonSetVieWModel.Open}"/>
+                <Button Content="Play" Command="{Binding MidiButtonSetVieWModel.Play}"/>
+                <Button Content="Stop" Command="{Binding MidiButtonSetVieWModel.Stop}"/>
+                <Button Content="Show content" Command="{Binding MidiButtonSetVieWModel.Show}"/>
             </UniformGrid>
             <Separator Opacity="0" Height="5"/>
-            <TabControl x:Name="TabCtrlMidiContent" Height="300" Width="500" ItemsSource="{Binding Tracks}">
+            <TabControl x:Name="TabCtrlMidiContent" Height="300" Width="500" ItemsSource="{Binding MidiButtonSetVieWModel.MidiTracks}">
                 <TabControl.ItemContainerStyle>
                     <Style TargetType="{x:Type TabItem}">
                         <Setter Property="Header">
@@ -46,7 +43,8 @@
         </StackPanel>
         <DockPanel LastChildFill="True">
             <Label DockPanel.Dock="Top">Lilypond Editor</Label>
-            <TextBox x:Name="ItsMyBox" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" TextChanged="ItsMyBox_OnTextChanged"></TextBox>
+            <TextBox x:Name="ItsMyBox" Text="{Binding Editor, UpdateSourceTrigger=PropertyChanged}"></TextBox>
         </DockPanel>
     </UniformGrid>
 </Window>
+

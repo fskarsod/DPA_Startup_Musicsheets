@@ -9,7 +9,7 @@ namespace DPA_Musicsheets.Util
 {
     public class RelayCommand : RelayCommand<object>
     {
-        public RelayCommand(Action<object> execute, Func<object, bool> canExecute)
+        public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
             : base(execute, canExecute)
         { }
     }
@@ -20,7 +20,7 @@ namespace DPA_Musicsheets.Util
         private readonly Action<T> _execute;
         private readonly Func<T, bool> _canExecute;
 
-        public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
         {
             _execute = execute;
             _canExecute = canExecute;
