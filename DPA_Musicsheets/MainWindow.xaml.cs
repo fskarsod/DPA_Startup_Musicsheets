@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DPA_Musicsheets.LilypondPlugin.Plugin;
 
 namespace DPA_Musicsheets
 {
@@ -41,7 +42,7 @@ namespace DPA_Musicsheets
             DataContext = MidiTracks;
             FillPSAMViewer();
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
-            Core.Builder.Sample.BuilderSample.Main();
+            //Core.Builder.Sample.BuilderSample.Main();
         }
 
         private void FillPSAMViewer()
@@ -97,7 +98,7 @@ namespace DPA_Musicsheets
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi Files(.mid)|*.mid" };
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi Files(.mid)|*.mid|Lilypond Files(.ly)|*.ly|Sheetmusic Files(*.mid;*.ly;)|*.mid;*.ly;" };
             if (openFileDialog.ShowDialog() == true)
             {
                 txt_MidiFilePath.Text = openFileDialog.FileName;
@@ -112,7 +113,21 @@ namespace DPA_Musicsheets
 
         private void btn_ShowContent_Click(object sender, RoutedEventArgs e)
         {
-            ShowMidiTracks(MidiReader.ReadMidi(txt_MidiFilePath.Text));
+            var fileExtension = txt_MidiFilePath.Text.Split('.').Last();
+
+            switch (fileExtension)
+            {
+                case "ly": //  TODO: finish this up
+                    var fileContents = System.IO.File.ReadAllText(txt_MidiFilePath.Text);
+                    var lyWriter = new LilypondPluginWriter();
+                    lyWriter.WriteSheet(fileContents);
+                    break;
+                case "mid":
+                    ShowMidiTracks(MidiReader.ReadMidi(txt_MidiFilePath.Text));
+                    break;
+                default:
+                    throw new NotImplementedException(); // TODO: Make a custom exception/state.
+            }
         }
 
         private void ShowMidiTracks(IEnumerable<MidiTrack> midiTracks)
