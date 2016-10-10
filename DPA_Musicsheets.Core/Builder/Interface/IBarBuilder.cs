@@ -15,5 +15,8 @@ namespace DPA_Musicsheets.Core.Builder.Interface
         IBarBuilder AddNote(Action<INoteBuilder> builderAction);
 
         IBarBuilder AddRest(Action<IRestBuilder> builderAction);
+
+        IBarBuilder AddComponent<TComponent>(TComponent component)
+            where TComponent : BaseNote;
     }
 }

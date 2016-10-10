@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Core.Builder.Interface
 {
-    public interface IRestBuilder : IMusicComponentLengthBuilder<IRestBuilder>
-    { }
+    public interface IMusicComponentLengthBuilder<out TBuilder>
+    {
+        TBuilder SetDuration(int duration);
+
+        TBuilder HasDot(bool hasDot = true);
+    }
 }

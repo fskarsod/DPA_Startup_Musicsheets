@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DPA_Musicsheets.LilypondPlugin.Plugin;
+using DPA_Musicsheets.MidiPlugin.Util;
 
 namespace DPA_Musicsheets
 {
@@ -42,7 +43,7 @@ namespace DPA_Musicsheets
             DataContext = MidiTracks;
             FillPSAMViewer();
             //notenbalk.LoadFromXmlFile("Resources/example.xml");
-            //Core.Builder.Sample.BuilderSample.Main();
+            // Core.Builder.Sample.BuilderSample.Main();
         }
 
         private void FillPSAMViewer()

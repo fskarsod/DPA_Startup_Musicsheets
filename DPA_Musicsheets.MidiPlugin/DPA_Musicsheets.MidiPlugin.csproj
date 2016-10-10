@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Sanford.Multimedia.Midi, Version=6.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Sanford.Multimedia.Midi.6.1.2\lib\net20\Sanford.Multimedia.Midi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,10 +44,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IBaseNoteProvider.cs" />
+    <Compile Include="Provider\ChannelBasedProvider.cs" />
+    <Compile Include="Provider\MetaBasedProvider.cs" />
+    <Compile Include="Plugin\MidiPluginReader.cs" />
+    <Compile Include="Plugin\MidiPluginWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\BosonContainer.cs" />
+    <Compile Include="Util\MidiNoteHelper.cs" />
+    <Compile Include="Util\MidiPluginVisitor.cs" />
+    <Compile Include="Util\TrackMeta.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Plugin\" />
+    <ProjectReference Include="..\DPA_Musicsheets.Core\DPA_Musicsheets.Core.csproj">
+      <Project>{6d1686e6-0993-430f-a1b6-b78d10e28746}</Project>
+      <Name>DPA_Musicsheets.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

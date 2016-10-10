@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DPA_Musicsheets.Core.Interface;
 using DPA_Musicsheets.Core.Model;
 
 namespace DPA_Musicsheets.Core.Builder.Interface
 {
-    public interface ITrackBuilder : IFluentBuilder<Track>
+    public interface ITrackBuilder : IAggregateBuilder<Track, BaseNote>
     {
-        // todo: SetName(string name);
+        ITrackBuilder SetName(string name);
 
         ITrackBuilder AddBar(Action<IBarBuilder> builderAction);
 
