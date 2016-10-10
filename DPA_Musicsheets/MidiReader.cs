@@ -36,8 +36,7 @@ namespace DPA_Musicsheets
                             var channelMessage = midiEvent.MidiMessage as ChannelMessage;
                             // Data1: De keycode. 0 = laagste C, 1 = laagste C#, 2 = laagste D etc.
                             // 160 is centrale C op piano.
-                            trackLog.Messages.Add(String.Format("Keycode: {0}, Command: {1}, absolute time: {2}, delta time: {3}"
-                                , channelMessage.Data1, channelMessage.Command, midiEvent.AbsoluteTicks, midiEvent.DeltaTicks));
+                            trackLog.Messages.Add($"Keycode: {channelMessage?.Data1}, Command: {channelMessage?.Command}, absolute time: {midiEvent.AbsoluteTicks}, delta time: {midiEvent.DeltaTicks}");
                             break;
                         case MessageType.SystemExclusive:
                             break;
@@ -49,13 +48,13 @@ namespace DPA_Musicsheets
                         case MessageType.Meta:
                             var metaMessage = midiEvent.MidiMessage as MetaMessage;
                             trackLog.Messages.Add(GetMetaString(metaMessage));
-                            if (metaMessage.MetaType == MetaType.TrackName)
+                            if (metaMessage?.MetaType == MetaType.TrackName)
                             {
                                 trackLog.TrackName += " " + Encoding.Default.GetString(metaMessage.GetBytes());
                             }
                             break;
                         default:
-                            trackLog.Messages.Add(String.Format("MidiEvent {0}, absolute ticks: {1}, deltaTicks: {2}", midiEvent.MidiMessage.MessageType, midiEvent.AbsoluteTicks, midiEvent.DeltaTicks));
+                            trackLog.Messages.Add($"MidiEvent {midiEvent.MidiMessage.MessageType}, absolute ticks: {midiEvent.AbsoluteTicks}, deltaTicks: {midiEvent.DeltaTicks}");
                             break;
                     }
                 }

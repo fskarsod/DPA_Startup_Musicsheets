@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Shortcuts.Interface
 {
-    public interface IShortcut
+    public interface IShortcut : IDisposable
     {
         string Key { get; }
 

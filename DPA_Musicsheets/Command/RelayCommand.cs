@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DPA_Musicsheets.Util
+namespace DPA_Musicsheets.Command
 {
     public class RelayCommand : RelayCommand<object>
     {

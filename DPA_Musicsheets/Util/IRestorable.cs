@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Util
 {
-    class BeforeExitCommand
+    public interface IRestorable<in T>
+        where T : IRestorable<T>
     {
+        bool Restore(T restorable);
     }
 }

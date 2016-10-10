@@ -58,3 +58,8 @@ D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musics
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.csproj.GenerateResource.Cache
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.exe
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.pdb
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets_MarkupCompile.lref
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\App.baml
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.Shortcuts.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.Shortcuts.pdb

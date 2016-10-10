@@ -4,7 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
-        mc:Ignorable="d" Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing">
+        mc:Ignorable="d" Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
+        KeyDown="Window_OnKeyDown"
+        KeyUp="Window_OnKeyUp">
     <UniformGrid Margin="5" Columns="2" Rows="1">
         <StackPanel Width="510">
             <TextBox Width="500" TextWrapping="Wrap" Text="{Binding MidiButtonSetVieWModel.FileLocation, UpdateSourceTrigger=PropertyChanged}"/>
@@ -43,7 +46,14 @@
         </StackPanel>
         <DockPanel LastChildFill="True">
             <Label DockPanel.Dock="Top">Lilypond Editor</Label>
-            <TextBox x:Name="ItsMyBox" Text="{Binding Editor, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <UniformGrid DockPanel.Dock="Top" Columns="4">
+                <Button Content="Save 1" Command="{Binding EditorViewModel.SlotOne.Save}"/>
+                <Button Content="Load 1" Command="{Binding EditorViewModel.SlotOne.Load}"/>
+                <Button Content="Save 2" Command="{Binding EditorViewModel.SlotTwo.Save}"/>
+                <Button Content="Load 2" Command="{Binding EditorViewModel.SlotTwo.Load}"/>
+            </UniformGrid>
+            <Separator DockPanel.Dock="Top" Opacity="0" Height="5"/>
+            <TextBox Text="{Binding EditorViewModel.Editor, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
     </UniformGrid>
 </Window>

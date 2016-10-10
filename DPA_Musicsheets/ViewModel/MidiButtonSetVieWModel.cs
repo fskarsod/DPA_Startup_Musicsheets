@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using DPA_Musicsheets.Command;
 using DPA_Musicsheets.Util;
 using Microsoft.Win32;
 using Sanford.Multimedia.Midi;
@@ -52,7 +53,7 @@ namespace DPA_Musicsheets.ViewModel
 
         public MidiButtonSetVieWModel()
         {
-            FileLocation = "../../../smb1-Theme.mid";
+            FileLocation = "../../../ten desires.mid";
             MidiTracks = new ObservableCollection<MidiTrack>();
             _outputDevice = new OutputDevice(0);
 
@@ -64,9 +65,8 @@ namespace DPA_Musicsheets.ViewModel
         
         private void OnPlay(object args)
         {
-            _player?.Dispose();
-            _player = new MidiPlayer(_outputDevice);
-            _player.StoppedPlaying += (sender, evt) => _isPlaying = false;
+            ResetPlayer(new MidiPlayer(_outputDevice));
+            _player.StoppedPlaying += (sender, evt) => _isPlaying = false; // Midi finished playing rather than stop.
             _player.Play(FileLocation);
             _isPlaying = true;
         }
@@ -74,8 +74,14 @@ namespace DPA_Musicsheets.ViewModel
         private void OnStop(object args)
         {
             _isPlaying = false;
+            ResetPlayer(null);
+        }
+
+        private void ResetPlayer(MidiPlayer newPlayer)
+        {
             _player?.Dispose();
-            _player = null;
+            _player = newPlayer;
+            _outputDevice.Reset();
         }
 
         private bool CanStop(object args)

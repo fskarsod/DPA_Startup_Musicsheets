@@ -27,7 +27,16 @@ namespace DPA_Musicsheets.Shortcuts.Shortcut
         {
             return CanExecute(key)
                 ? OnExecute(key)
-                : Successor.Execute(key);
+                : (Successor?.Execute(key) ?? false);
         }
+
+        public void Dispose()
+        {
+            OnDispose();
+            Successor?.Dispose();
+        }
+
+        protected virtual void OnDispose()
+        { }
     }
 }

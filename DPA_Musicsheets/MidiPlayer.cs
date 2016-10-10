@@ -41,12 +41,12 @@ namespace DPA_Musicsheets
                 _sequencer.Stop();
             };
         }
-        
+
         public void Play(string midiFileLocation)
         {
-            this._sequence = new Sequence();
-            this._sequence.LoadCompleted += OnSequenceLoadCompleted;
-            this._sequence.LoadAsync(midiFileLocation);
+            _sequence = new Sequence();
+            _sequence.LoadCompleted += OnSequenceLoadCompleted;
+            _sequence.LoadAsync(midiFileLocation);
         }
 
         public void Play(Sequence sequence)

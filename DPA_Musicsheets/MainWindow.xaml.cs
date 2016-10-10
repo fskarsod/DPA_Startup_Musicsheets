@@ -21,7 +21,6 @@ namespace DPA_Musicsheets
     {
         public MainWindow()
         {
-            DataContext = new MainWindowViewModel();
             InitializeComponent();
             // FillPSAMViewer();
             // notenbalk.LoadFromXmlFile("Resources/example.xml");
@@ -89,8 +88,10 @@ namespace DPA_Musicsheets
                 switch (result) // todo: fix switch-statement; use dictionary lol
                 {
                     case MessageBoxResult.No:
-                        // todo: save sequence and quit immediately, so no cancel
-                        goto case MessageBoxResult.Yes; // :o goto (explicit fallthrough)
+                        // todo: save sequence
+                        // todo: success -> Quit
+                        // todo: failure(cancel saving) -> cancel
+                        break;
                     case MessageBoxResult.Yes:
                         CloseApplication();
                         break;
@@ -112,6 +113,16 @@ namespace DPA_Musicsheets
 
         #endregion
 
-        
+        private void Window_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            (DataContext as MainWindowViewModel)?.ShortcutHandler?.AddKey(e.Key);
+            // throw new NotImplementedException();
+        }
+
+        private void Window_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            (DataContext as MainWindowViewModel)?.ShortcutHandler?.RemoveKey(e.Key);
+            // throw new NotImplementedException();
+        }
     }
 }
