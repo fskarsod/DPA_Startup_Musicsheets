@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DPA_Musicsheets.Core.Model;
 
-namespace DPA_Musicsheets.Core.Interface
+namespace DPA_Musicsheets.MidiPlugin.Interface
 {
-    public interface IPluginReader<out TSource>
+    public interface IBaseNoteProvider
     {
-        TSource ReadSheet(Sheet sheet);
+        IEnumerable<BaseNote> GetBaseNotes();
     }
 }

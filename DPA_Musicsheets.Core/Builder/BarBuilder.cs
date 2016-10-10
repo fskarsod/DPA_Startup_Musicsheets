@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using DPA_Musicsheets.Core.Builder.Interface;
 using DPA_Musicsheets.Core.Interface;
 using DPA_Musicsheets.Core.Model;
@@ -25,12 +26,19 @@ namespace DPA_Musicsheets.Core.Builder
             _bar.TimeSignature = timeSignature;
             _totalLengthValue = _bar.TimeSignature.TotalLengthValue;
             _currentLengthValue = 0;
+            // _bar.MusicComponents = new List<IMusicComponent>(); // todo: decide whether to reset the bar
             return this;
         }
 
         public IBarBuilder AddNote(Action<INoteBuilder> builderAction)
         {
             return AddBaseNoteFromBuilder<NoteBuilder>(new NoteBuilder(), builderAction);
+        }
+
+        public IBarBuilder AddComponent<TComponent>(TComponent component)
+            where TComponent : BaseNote
+        {
+            return AppendBaseNote(component);
         }
 
         public IBarBuilder AddRest(Action<IRestBuilder> builderAction)
@@ -42,7 +50,11 @@ namespace DPA_Musicsheets.Core.Builder
             where TBuilder : IFluentBuilder<BaseNote>
         {
             builderAction(builder);
-            var baseNote = builder.Build();
+            return AppendBaseNote(builder.Build());
+        }
+
+        private IBarBuilder AppendBaseNote(BaseNote baseNote)
+        {
             _currentLengthValue += baseNote.LengthValue;
             _bar.MusicComponents.Add(baseNote);
             return this;

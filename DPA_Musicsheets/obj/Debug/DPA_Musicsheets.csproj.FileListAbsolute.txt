@@ -59,3 +59,5 @@ D:\Documents\Git\school\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Mu
 D:\Documents\Git\school\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.csproj.GenerateResource.Cache
 D:\Documents\Git\school\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.exe
 D:\Documents\Git\school\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.pdb
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.pdb

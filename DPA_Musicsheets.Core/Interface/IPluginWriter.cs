@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DPA_Musicsheets.Core.Model;
 
 namespace DPA_Musicsheets.Core.Interface
 {
-    public interface IPluginWriter<out TSheet, in TSource>
+    public interface IPluginWriter<in TSource>
     {
-        TSheet WriteSheet(TSource source);
+        Sheet WriteSheet(TSource source);
     }
 }
