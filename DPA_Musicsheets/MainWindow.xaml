@@ -36,7 +36,11 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-        <PSAMWPFControl:IncipitViewerWPF HorizontalAlignment="Left" Margin="0,300,0,0" Width="525" x:Name="staff" >
-        </PSAMWPFControl:IncipitViewerWPF>
+        <ScrollViewer Margin="0,299,0.4,0.4" >
+            <StackPanel x:Name="StaffViewerPanel">
+                <PSAMWPFControl:IncipitViewerWPF Width="525" x:Name="staff">
+                </PSAMWPFControl:IncipitViewerWPF>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

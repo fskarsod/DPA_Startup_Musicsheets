@@ -53,8 +53,8 @@ namespace DPA_Musicsheets.MidiPlugin.Provider
 
         private bool HasValidChannelCommandScheme()
         {
-            return (StartMessage.Command == ChannelCommand.NoteOn && StopMessage.Command == ChannelCommand.NoteOn)
-                || (StartMessage.Command == ChannelCommand.NoteOn && StopMessage.Command == ChannelCommand.NoteOff);
+            return (StartMessage?.Command == ChannelCommand.NoteOn && StopMessage?.Command == ChannelCommand.NoteOn)
+                || (StartMessage?.Command == ChannelCommand.NoteOn && StopMessage?.Command == ChannelCommand.NoteOff);
         }
 
         private bool HasValidIntensityScheme()

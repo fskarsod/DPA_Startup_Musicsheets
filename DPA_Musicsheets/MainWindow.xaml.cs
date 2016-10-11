@@ -1,24 +1,13 @@
 ﻿using Microsoft.Win32;
 using PSAMControlLibrary;
 using Sanford.Multimedia.Midi;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using DPA_Musicsheets.MidiPlugin.Util;
+using DPA_Musicsheets.Core.Interface;
+using DPA_Musicsheets.MidiPlugin.Plugin;
+using DPA_Musicsheets.VisualNotes;
+using PSAMWPFControlLibrary;
 
 namespace DPA_Musicsheets
 {
@@ -45,12 +34,64 @@ namespace DPA_Musicsheets
             // Core.Builder.Sample.BuilderSample.Main();
         }
 
+        IIncipitViewer _currentStaff = null;
+
+        private void UpdateStaff()
+        {
+            if (LimitReached(_currentStaff))
+            {
+                NewStaff();
+            }
+        }
+
+        private void NewStaff()
+        {
+            var viewer = new IncipitViewerWPF
+            {
+                Width = 525D,
+                VerticalAlignment = VerticalAlignment.Center,
+                VerticalContentAlignment = VerticalAlignment.Center
+            };
+            _currentStaff = viewer;
+            _currentStaff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
+            _currentStaff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, 4, 4));
+            StaffViewerPanel.Children.Add(viewer);
+        }
+
+        private static bool LimitReached(IIncipitViewer viewer)
+        {
+            return viewer.CountMusicalSymbols() >= 20;
+        }
+
+        private void AddSymbolToStaff(MusicalSymbol symbol)
+        {
+            _currentStaff.AddMusicalSymbol(symbol);
+            UpdateStaff();
+        }
+
         private void FillPSAMViewer()
         {
+            //IPluginReader<IEnumerable<MusicalSymbol>> reader = null;
+            //var result = reader.ReadSheet(null);
+
+            //StaffViewerPanel.Children.Clear();
+            //NewStaff();
+
+            //foreach (var symbol in result)
+            //{
+            //    AddSymbolToStaff(symbol);
+            //}
+
             staff.ClearMusicalIncipit();
 
             // Clef = sleutel
+            staff.AddMusicalSymbol(new Clef(ClefType.GClef, 1));
             staff.AddMusicalSymbol(new Clef(ClefType.GClef, 2));
+            staff.AddMusicalSymbol(new Clef(ClefType.GClef, 3));
+            staff.AddMusicalSymbol(new Clef(ClefType.GClef, 4));
+            staff.AddMusicalSymbol(new Clef(ClefType.GClef, 5));
+            staff.AddMusicalSymbol(new Clef(ClefType.GClef, 6));
+            staff.AddMusicalSymbol(new Clef(ClefType.GClef, 7));
             staff.AddMusicalSymbol(new TimeSignature(TimeSignatureType.Numbers, 4, 4));
             /* 
                 The first argument of Note constructor is a string representing one of the following names of steps: A, B, C, D, E, F, G. 
@@ -87,6 +128,19 @@ namespace DPA_Musicsheets
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
+            NewStaff();
+            var sequence = new Sequence();
+            sequence.Load(txt_MidiFilePath.Text);
+            var writer = new MidiPluginWriter();
+            var sheet = writer.WriteSheet(sequence);
+            var reader = new VisualNoteReaderPlugin();
+            var result = reader.ReadSheet(sheet);
+            foreach (var symbol in result)
+            {
+                AddSymbolToStaff(symbol);
+            }
+            return;
+
             if (_player != null)
             {
                 _player.Dispose();
