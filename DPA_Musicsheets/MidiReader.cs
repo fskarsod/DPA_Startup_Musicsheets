@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using DPA_Musicsheets.MidiPlugin.Plugin;
-using DPA_Musicsheets.MidiPlugin.Provider;
 
 namespace DPA_Musicsheets
 {
