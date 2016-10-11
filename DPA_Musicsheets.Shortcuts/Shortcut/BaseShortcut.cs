@@ -32,8 +32,8 @@ namespace DPA_Musicsheets.Shortcuts.Shortcut
 
         public void Dispose()
         {
-            OnDispose();
             Successor?.Dispose();
+            OnDispose();
         }
 
         protected virtual void OnDispose()

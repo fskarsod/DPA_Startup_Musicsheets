@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DPA_Musicsheets.Command;
 using DPA_Musicsheets.Util;
 using DPA_Musicsheets.ViewModel;
 
@@ -75,35 +76,49 @@ namespace DPA_Musicsheets
         #endregion
         
         #region SAVE BEFORE CLOSE
-        // todo: generator save states
-        private int _saveCode = 1; // todo: pseudo-code
-        private int _getCurrentSaveCode = 0; // todo: pseudo-code
+        private bool _saved = false; // todo: link to save-sequence
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private IDictionary<MessageBoxResult, ICommand> WindowClosingDictionary => new Dictionary<MessageBoxResult, ICommand>
         {
-            // string messageBoxText, string caption, MessageBoxButton button, MessageBoxImage icon
-            if (_saveCode != _getCurrentSaveCode)
+            { MessageBoxResult.No, new RelayCommand(OnSaveBeforeExit) },
+            { MessageBoxResult.Yes, new RelayCommand(OnForceExit) }
+        };
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            if (!_saved)
             {
-                var result = MessageBox.Show("Do you want to exit without saving", "EXITOR", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                switch (result) // todo: fix switch-statement; use dictionary lol
-                {
-                    case MessageBoxResult.No:
-                        // todo: save sequence
-                        // todo: success -> Quit
-                        // todo: failure(cancel saving) -> cancel
-                        break;
-                    case MessageBoxResult.Yes:
-                        CloseApplication();
-                        break;
-                    default: // implicit cancel
-                        e.Cancel = true;
-                        break;
-                }
+                BeforeExitSequence(e);
             }
             else
             {
                 CloseApplication();
             }
+        }
+
+        private void BeforeExitSequence(CancelEventArgs e)
+        {
+            var result = MessageBox.Show("Do you want to exit without saving", "EXIT", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (WindowClosingDictionary.ContainsKey(result))
+            {
+                WindowClosingDictionary[result].Execute(e);
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void OnSaveBeforeExit(object parameters)
+        {
+            // todo: save sequence
+            _saved = true; // || false onFailure
+            CloseApplication();
+        }
+
+        private void OnForceExit(object parameters)
+        {
+            CloseApplication();
         }
 
         private void CloseApplication()
