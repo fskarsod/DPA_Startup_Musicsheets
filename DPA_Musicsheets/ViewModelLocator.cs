@@ -11,8 +11,38 @@ using DPA_Musicsheets.ViewModel;
 
 namespace DPA_Musicsheets
 {
+    public class IoCContainer
+    {
+        private readonly IDictionary<Type, object> _pairs;
+
+        public IoCContainer()
+        {
+            _pairs = new Dictionary<Type, object>();
+        }
+
+        public void Register<TAbstract, TImplement>(TImplement instance)
+            where TImplement : TAbstract
+        {
+            _pairs.Add(typeof(TAbstract), instance);
+        }
+
+        public TAbstract Get<TAbstract>()
+            where TAbstract : class
+        {
+            var type = typeof(TAbstract);
+            return _pairs.ContainsKey(type)
+                ? _pairs[type] as TAbstract
+                : null;
+        }
+    }
+
     public class ViewModelLocator
     {
+        public ViewModelLocator()
+        {
+            var container = new IoCContainer();
+        }
+
         private ShortcutHandler ShortcutHandler { get; } = new ShortcutHandler(new Dictionary<IEnumerable<Key>, string>(new EnumerableKeyEqualityComparer())
         {
             { new [] { Key.LeftCtrl, Key.S }, "SaveFile" },

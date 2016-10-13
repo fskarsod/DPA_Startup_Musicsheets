@@ -34,6 +34,22 @@ namespace DPA_Musicsheets.Util
             StartTimer();
         }
 
+        public void RunAsync(Func<Task> action)
+        {
+            ResetTimer();
+            EventHandler handler = null;
+            handler = async (sen, ev) =>
+            {
+                _timer.Tick -= handler;
+                StopTimer();
+                await action();
+            };
+
+            _timer.Tick += handler;
+            _timer.Interval = TimeSpan.FromSeconds(_delay);
+            StartTimer();
+        }
+
         private void ResetTimer()
         {
             StopTimer();

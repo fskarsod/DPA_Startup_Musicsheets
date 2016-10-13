@@ -5,6 +5,7 @@ using Sanford.Multimedia.Midi;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,6 +24,7 @@ namespace DPA_Musicsheets
         public MainWindow()
         {
             InitializeComponent();
+            CancelExit = new RelayCommand(OnCancelExit);
             // FillPSAMViewer();
             // notenbalk.LoadFromXmlFile("Resources/example.xml");
             // Core.Builder.Sample.BuilderSample.Main();
@@ -84,6 +86,8 @@ namespace DPA_Musicsheets
             { MessageBoxResult.Yes, new RelayCommand(OnForceExit) }
         };
 
+        private ICommand CancelExit { get; set; }
+
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (!_saved)
@@ -105,15 +109,25 @@ namespace DPA_Musicsheets
             }
             else
             {
-                e.Cancel = true;
+                CancelExit.Execute(e);
             }
         }
 
+        // save-sequence
         private void OnSaveBeforeExit(object parameters)
         {
-            // todo: save sequence
-            _saved = true; // || false onFailure
-            CloseApplication();
+            var saveFileDialog = new SaveFileDialog { Filter = "Midi Files(.mid)|*.mid" };
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var file = saveFileDialog.FileName;
+                File.WriteAllText(file, "andansldbaskjdnjkasdjkadkjabdkhbakd"); // todo: get EditorText
+                _saved = true;
+                CloseApplication();
+            }
+            else // cancel save dialog -> no exit
+            {
+                CancelExit.Execute(parameters);
+            }
         }
 
         private void OnForceExit(object parameters)
@@ -121,12 +135,19 @@ namespace DPA_Musicsheets
             CloseApplication();
         }
 
+        private void OnCancelExit(object parameters)
+        {
+            var cancelEventArgs = parameters as CancelEventArgs;
+            if (cancelEventArgs != null)
+                cancelEventArgs.Cancel = true;
+        }
+
+        #endregion
+
         private void CloseApplication()
         {
             (DataContext as MainWindowViewModel)?.Dispose();
         }
-
-        #endregion
 
         private void Window_OnKeyDown(object sender, KeyEventArgs e)
         {

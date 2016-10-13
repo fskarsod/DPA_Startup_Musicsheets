@@ -53,7 +53,11 @@
                 <Button Content="Load 2" Command="{Binding EditorViewModel.SlotTwo.Load}"/>
             </UniformGrid>
             <Separator DockPanel.Dock="Top" Opacity="0" Height="5"/>
-            <TextBox Text="{Binding EditorViewModel.Editor, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox HorizontalScrollBarVisibility="Auto"
+                     VerticalScrollBarVisibility="Auto"
+                     AcceptsTab="True"
+                     AcceptsReturn="True"
+                     Text="{Binding EditorViewModel.Editor, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
     </UniformGrid>
 </Window>

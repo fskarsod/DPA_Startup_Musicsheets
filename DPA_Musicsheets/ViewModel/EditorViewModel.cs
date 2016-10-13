@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DPA_Musicsheets.Command;
+using DPA_Musicsheets.Core.Interface;
 using DPA_Musicsheets.Memento;
 using DPA_Musicsheets.Util;
 
@@ -18,6 +20,7 @@ namespace DPA_Musicsheets.ViewModel
         public MementoViewModel SlotTwo { get; set; }
 
         private readonly EditorMemento _editorMemento;
+
         public string Editor
         {
             get { return _editorMemento.Content; }
@@ -26,13 +29,19 @@ namespace DPA_Musicsheets.ViewModel
             set { _editorMemento.Content = value; }
         }
 
-        #region LILYPOND GENERATION FIELDS
+        private readonly IPluginWriter<string> _lilypondPluginWriter;
+
         private const double GeneratorDelay = 1.5D;
 
-        private int _generatorHashCode;
+        private int _editorHash;
 
         private readonly DelayedActionHandler _delayedActionHandler;
-        #endregion
+
+        public EditorViewModel(IPluginWriter<string> lilypondPluginWriter)
+            : this()
+        {
+            _lilypondPluginWriter = lilypondPluginWriter;
+        }
 
         public EditorViewModel()
         {
@@ -41,53 +50,50 @@ namespace DPA_Musicsheets.ViewModel
             _editorMemento = new EditorMemento(string.Empty);
             _delayedActionHandler = new DelayedActionHandler(GeneratorDelay);
 
-            _editorMemento.PropertyChanged += (sender, args) =>
+            _editorMemento.PropertyChanged += (sender, args) => // Model = INotifyPropertyChanged
             {
                 RaisePropertyChanged(nameof(Editor));
             };
-            PropertyChanged += (sender, args) =>
+            PropertyChanged += (sender, args) => // ViewModel = INotifyPropertyChanged
             {
                 if (args.PropertyName.Equals(nameof(Editor)))
                     OnEditorChange();
             };
         }
 
-        #region LILYPOND GENERATION Methods
         private void OnEditorChange()
         {
-            _delayedActionHandler.Run(() =>
+            _delayedActionHandler.RunAsync(async () =>
             {
-                if (_generatorHashCode != 0)
+                if (_editorHash == 0)
                 {
-                    // this is View-shit
-                    MessageBox.Show("1.5 second have passed, but shit is generating.");
-                }
-                else
-                {
-                    // this is View-shit
-                    MessageBox.Show("1.5 second have passed, app is starting generation.");
-                    LilyPondGenerator();
+                    await LilyPondGeneratorAsync();
                 }
             });
         }
 
-        private void LilyPondGenerator()
+        private async Task LilyPondGeneratorAsync()
         {
-            _generatorHashCode = Editor.GetHashCode();
-            new DelayedActionHandler(3d).Run(() => // Replace this line with the LilyPond-Generation code.
+            _editorHash = Editor.GetHashCode();
+            try
             {
+                var sheet = _lilypondPluginWriter?.WriteSheet(Editor);
+                // todo: sheet to visual note bar
                 var newGenHashCode = Editor.GetHashCode();
-                if (newGenHashCode != _generatorHashCode) // regenerate, because user is a fuckwit and changes shit.
+                if (newGenHashCode != _editorHash) // regenerate, because user is a fuckwit and changes shit.
                 {
-                    LilyPondGenerator();
+                    await LilyPondGeneratorAsync();
                 }
                 else
                 {
-                    _generatorHashCode = 0;
+                    _editorHash = 0;
                 }
-            });
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }   
         }
-        #endregion
 
         public class MementoViewModel : BaseViewModel, IClonable<MementoViewModel>
         {

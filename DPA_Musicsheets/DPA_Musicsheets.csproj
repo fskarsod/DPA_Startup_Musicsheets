@@ -69,8 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Command\CancelExitCommand.cs" />
-    <Compile Include="Command\ForceExitCommand.cs" />
+    <Compile Include="Command\ICommand.cs" />
     <Compile Include="Memento\EditorMemento.cs" />
     <Compile Include="Memento\IMemento.cs" />
     <Compile Include="State\GeneratingState.cs" />
@@ -83,7 +82,6 @@
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="MidiTrack.cs" />
-    <Compile Include="Command\SaveBeforeExitCommand.cs" />
     <Compile Include="Util\DelayedActionHandler.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
