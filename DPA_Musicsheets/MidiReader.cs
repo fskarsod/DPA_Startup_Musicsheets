@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using DPA_Musicsheets.MidiPlugin.Plugin;
 
 namespace DPA_Musicsheets
 {
@@ -14,7 +15,8 @@ namespace DPA_Musicsheets
         {
             var sequence = new Sequence();
             sequence.Load(midiFileLocation);
-
+            var writer = new MidiPluginWriter();
+            var sheet = writer.WriteSheet(sequence);
             return ReadSequence(sequence);
         }
 

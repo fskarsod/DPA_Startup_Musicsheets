@@ -6,7 +6,6 @@ namespace DPA_Musicsheets.Core.Model
 {
     public abstract class BaseNote : IMusicComponent
     {
-        // Technically should only be 1, 2, 4, 8, 16, 32, 64, 128, 256 etc..
         private int _duration;
 
         public int Duration
@@ -22,15 +21,9 @@ namespace DPA_Musicsheets.Core.Model
 
         public bool HasDot { get; set; }
 
-        public double LengthValue
-        {
-            get
-            {
-                return HasDot
-                    ? 1D / Duration * 1.5D
-                    : 1D / Duration;
-            }
-        }
+        public double LengthValue => HasDot
+            ? 1D / Duration * 1.5D
+            : 1D / Duration;
 
         public virtual void Accept(IMusicComponentVisitor visitor)
         {

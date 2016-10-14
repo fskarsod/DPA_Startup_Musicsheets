@@ -7,12 +7,8 @@ using DPA_Musicsheets.Core.Model.Enum;
 
 namespace DPA_Musicsheets.Core.Builder.Interface
 {
-    public interface INoteBuilder
+    public interface INoteBuilder : IMusicComponentLengthBuilder<INoteBuilder>
     {
-        INoteBuilder SetDuration(int duration);
-
-        INoteBuilder HasDot(bool hasDot = true);
-
         INoteBuilder SetPitch(Pitch pitch);
 
         INoteBuilder SetAccidental(Accidental accidental);

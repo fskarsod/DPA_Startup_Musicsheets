@@ -18,6 +18,12 @@ namespace DPA_Musicsheets.Core.Builder
             _track = new Track();
         }
 
+        public ITrackBuilder SetName(string name)
+        {
+            _track.Name = name;
+            return this;
+        }
+
         public ITrackBuilder AddBar(Action<IBarBuilder> builderAction)
         {
             return AddMusicComponentProviderFromBuilder<BarBuilder>(new BarBuilder(), builderAction);
@@ -36,8 +42,67 @@ namespace DPA_Musicsheets.Core.Builder
             return this;
         }
 
+        private BarBuilder _aggregateProviderBuilder;
+
+        private double _currentLengthvalue;
+
+        private BarBuilder AggregateProviderBuilder
+        {
+            get
+            {
+                if (_aggregateProviderBuilder != null)
+                    return _aggregateProviderBuilder;
+                _aggregateProviderBuilder = new BarBuilder();
+                _aggregateProviderBuilder.SetTimeSignature(_timeSignature);
+                _currentLengthvalue = 0d;
+                return _aggregateProviderBuilder;
+            }
+            set { _aggregateProviderBuilder = value; }
+        }
+
+        private TimeSignature _timeSignature;
+
+        public IAggregateBuilder<Track, BaseNote> Add(TimeSignature timeSignature, BaseNote element)
+        {
+            if (_timeSignature == null || !_timeSignature.Equals(timeSignature))
+            {
+                _timeSignature = timeSignature;
+            }
+            AddToAggregation(element);
+            BuildBar();
+            return this;
+        }
+
+        private void AddToAggregation(BaseNote element)
+        {
+            AggregateProviderBuilder.AddComponent(element);
+            _currentLengthvalue += element.LengthValue;
+        }
+
+        private bool IsBarFull()
+        {
+            return _timeSignature != null && _currentLengthvalue >= _timeSignature.TotalLengthValue;
+        }
+
+        private void BuildBar(bool @throw = false)
+        {
+            if (IsBarFull())
+            {
+                _track.MusicComponentProviders.Add(AggregateProviderBuilder.Build());
+                AggregateProviderBuilder = null;
+            }
+            else if (@throw)
+            {
+                throw new InvalidOperationException("Unfinished bar is present in the track.");
+            }
+        }
+
         public Track Build()
         {
+            if (_aggregateProviderBuilder != null)
+            {
+                BuildBar(true);
+            }
             return _track;
         }
     }
