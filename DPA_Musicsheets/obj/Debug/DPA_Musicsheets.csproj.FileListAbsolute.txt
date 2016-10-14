@@ -63,3 +63,5 @@ D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musics
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\App.baml
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.Shortcuts.dll
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.Shortcuts.pdb
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.dll
+D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.pdb
