@@ -45,10 +45,9 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
         {
             var pitch = ToPitch(noteString.ToLower()[0]);
             var accidental = ToAccidental(noteString.Substring(1, 2));
-            if (noteString[1] == ',' || noteString[1] == '\'')
-            {
-                // up the octave // or count , or '  in string
-            }
+            var octaveOffset = GetOctaveOffset(noteString);
+            var duration = GetDuration(noteString, (accidental != Accidental.Natural));
+            var hasDot = noteString.Contains('.');
         }
 
         private void SetTimeSignature(string timeSignatureString)
@@ -78,6 +77,38 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
         private static Accidental ToAccidental(string s)
         {
             return AccidentalDictionary.ContainsKey(s.ToLower()) ? AccidentalDictionary[s] : Accidental.Natural;
+        }
+
+        private static int GetDuration(string s, bool hasAccidental)
+        {
+            var hasDot = s.Contains('.');
+            string durationString;
+            int duration;
+
+            // somewhat awkward to retrieve, but whatever.
+            if (hasDot && hasAccidental)
+                durationString = s.Substring(3, s.Length - 1);
+            else if (hasDot)
+                durationString = s.Substring(1, s.Length - 1);
+            else if (hasAccidental)
+                durationString = s.Substring(3, s.Length);
+            else
+                durationString = s.Substring(1, s.Length);
+
+            if (int.TryParse(durationString, out duration))
+                return duration;
+            else
+                throw new ArgumentException();
+        }
+
+        private static int GetOctaveOffset(string s)
+        {
+            if (s.Contains(','))
+                return s.Count(c => c == ',') * -1;
+            else if (s.Contains('\''))
+                return s.Count(c => c == '\'');
+            else
+                return 0;
         }
 
         private static readonly IDictionary<string, LilypondKeyword> LilypondKeywordDictionary = new Dictionary<string, LilypondKeyword>
