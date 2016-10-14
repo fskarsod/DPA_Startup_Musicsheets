@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets", "DPA_Musicsheets\DPA_Musicsheets.csproj", "{78BC0C32-8B72-44D2-BA4D-20E3A0A046D4}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets.MidiPlugin", "DPA_Musicsheets.MidiPlugin\DPA_Musicsheets.MidiPlugin.csproj", "{E6E776B2-584E-47B3-BF04-AB0E3B63B453}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets.LilypondPlugin", "DPA_Musicsheets.LilypondPlugin\DPA_Musicsheets.LilypondPlugin.csproj", "{7BDBB5EE-8002-4E71-B04D-0C5C7225BDC9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets.Core.Tests", "DPA_Musicsheets.Core.Tests\DPA_Musicsheets.Core.Tests.csproj", "{379367E9-5DD1-4111-91F9-DEE42667ADCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{7BDBB5EE-8002-4E71-B04D-0C5C7225BDC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BDBB5EE-8002-4E71-B04D-0C5C7225BDC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BDBB5EE-8002-4E71-B04D-0C5C7225BDC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{379367E9-5DD1-4111-91F9-DEE42667ADCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{379367E9-5DD1-4111-91F9-DEE42667ADCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{379367E9-5DD1-4111-91F9-DEE42667ADCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{379367E9-5DD1-4111-91F9-DEE42667ADCE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
