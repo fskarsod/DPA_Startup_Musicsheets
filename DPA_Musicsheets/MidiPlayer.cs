@@ -5,24 +5,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Windows;
 
 namespace DPA_Musicsheets
 {
     public class MidiPlayer : IDisposable
     {
-        private OutputDevice _outDevice;
-        
-        // De inhoud voor de midi file. Hier zitten onder andere tracks en metadata in.
-        private Sequence _sequence;
+        private readonly OutputDevice _outDevice;
 
         // De sequencer maakt het mogelijk om een sequence af te spelen.
         // Deze heeft een timer en geeft events op de juiste momenten.
-        private Sequencer _sequencer;
+        private readonly Sequencer _sequencer;
+
+        // De inhoud voor de midi file. Hier zitten onder andere tracks en metadata in.
+        private Sequence _sequence;
+
+        public event EventHandler StoppedPlaying;
 
         public MidiPlayer(OutputDevice outputDevice)
         {
             _outDevice = outputDevice;
             _sequencer = new Sequencer();
+            _sequencer.Stopped += (sender, arg) => StoppedPlaying?.Invoke(this, EventArgs.Empty);
+            // _sequencer.PlayingCompleted += (sender, arg) => StoppedPlaying?.Invoke(this, EventArgs.Empty);
 
             // Wanneer een channelmessage langskomt sturen we deze direct door naar onze audio.
             // Channelmessages zijn tonen met commands als NoteOn en NoteOff
@@ -36,12 +41,12 @@ namespace DPA_Musicsheets
                 _sequencer.Stop();
             };
         }
-        
+
         public void Play(string midiFileLocation)
         {
-            this._sequence = new Sequence();
-            this._sequence.LoadCompleted += OnSequenceLoadCompleted;
-            this._sequence.LoadAsync(midiFileLocation);
+            _sequence = new Sequence();
+            _sequence.LoadCompleted += OnSequenceLoadCompleted;
+            _sequence.LoadAsync(midiFileLocation);
         }
 
         public void Play(Sequence sequence)
@@ -70,6 +75,7 @@ namespace DPA_Musicsheets
         public void Dispose()
         {
             _sequencer.Stop();
+            _sequencer.Dispose();
         }
     }
 }

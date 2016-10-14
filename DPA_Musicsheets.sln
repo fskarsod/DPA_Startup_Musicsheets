@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets.MidiPlugin"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets.LilypondPlugin", "DPA_Musicsheets.LilypondPlugin\DPA_Musicsheets.LilypondPlugin.csproj", "{7BDBB5EE-8002-4E71-B04D-0C5C7225BDC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets.Core.Tests", "DPA_Musicsheets.Core.Tests\DPA_Musicsheets.Core.Tests.csproj", "{379367E9-5DD1-4111-91F9-DEE42667ADCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets.Shortcuts", "DPA_Musicsheets.Shortcuts\DPA_Musicsheets.Shortcuts.csproj", "{1A64D97A-BF39-4251-A72D-92BBF1A36592}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{7BDBB5EE-8002-4E71-B04D-0C5C7225BDC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BDBB5EE-8002-4E71-B04D-0C5C7225BDC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BDBB5EE-8002-4E71-B04D-0C5C7225BDC9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{379367E9-5DD1-4111-91F9-DEE42667ADCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{379367E9-5DD1-4111-91F9-DEE42667ADCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{379367E9-5DD1-4111-91F9-DEE42667ADCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{379367E9-5DD1-4111-91F9-DEE42667ADCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A64D97A-BF39-4251-A72D-92BBF1A36592}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A64D97A-BF39-4251-A72D-92BBF1A36592}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A64D97A-BF39-4251-A72D-92BBF1A36592}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A64D97A-BF39-4251-A72D-92BBF1A36592}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
