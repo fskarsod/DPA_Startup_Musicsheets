@@ -19,7 +19,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
 
             foreach (var e in elements)
             {
-                switch (ToKeyword(e))
+                switch (GetKeyword(e))
                 {
                     case LilypondKeyword.None:
                         AddNoteToTrack(e);
@@ -43,8 +43,8 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
 
         private void AddNoteToTrack(string noteString)
         {
-            var pitch = ToPitch(noteString.ToLower()[0]);
-            var accidental = ToAccidental(noteString.Substring(1, 2));
+            var pitch = GetPitch(noteString.ToLower()[0]);
+            var accidental = GetAccidental(noteString.Substring(1, 2));
             var octaveOffset = GetOctaveOffset(noteString);
             var duration = GetDuration(noteString, (accidental != Accidental.Natural));
             var hasDot = noteString.Contains('.');
@@ -61,12 +61,12 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
             return source.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private static LilypondKeyword ToKeyword(string s)
+        private static LilypondKeyword GetKeyword(string s)
         {
             return LilypondKeywordDictionary.ContainsKey(s.ToLower()) ? LilypondKeywordDictionary[s] : LilypondKeyword.None;
         }
 
-        private static Pitch? ToPitch(char c)
+        private static Pitch? GetPitch(char c)
         {
             if (PitchDictionary.ContainsKey(c))
                 return PitchDictionary[c];
@@ -74,7 +74,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
             return null;
         }
 
-        private static Accidental ToAccidental(string s)
+        private static Accidental GetAccidental(string s)
         {
             return AccidentalDictionary.ContainsKey(s.ToLower()) ? AccidentalDictionary[s] : Accidental.Natural;
         }
