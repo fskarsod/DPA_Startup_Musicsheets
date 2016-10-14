@@ -43,7 +43,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
 
         private void AddNoteToTrack(string noteString)
         {
-            var pitch = ToPitch("" + noteString[0]);
+            var pitch = ToPitch(noteString.ToLower()[0]);
             var accidental = ToAccidental(noteString.Substring(1, 2));
             if (noteString[1] == ',' || noteString[1] == '\'')
             {
@@ -67,10 +67,10 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
             return LilypondKeywordDictionary.ContainsKey(s.ToLower()) ? LilypondKeywordDictionary[s] : LilypondKeyword.None;
         }
 
-        private static Pitch? ToPitch(string s)
+        private static Pitch? ToPitch(char c)
         {
-            if (PitchDictionary.ContainsKey(s.ToLower()))
-                return PitchDictionary[s];
+            if (PitchDictionary.ContainsKey(c))
+                return PitchDictionary[c];
 
             return null;
         }
@@ -90,15 +90,15 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
             { @"\alternative", LilypondKeyword.Alternative }
         };
 
-        private static readonly IDictionary<string, Pitch> PitchDictionary = new Dictionary<string, Pitch>
+        private static readonly IDictionary<char, Pitch> PitchDictionary = new Dictionary<char, Pitch>
         {
-            { "a", Pitch.A },
-            { "b", Pitch.B },
-            { "c", Pitch.C },
-            { "d", Pitch.D },
-            { "e", Pitch.E },
-            { "f", Pitch.F },
-            { "g", Pitch.G }
+            { 'a', Pitch.A },
+            { 'b', Pitch.B },
+            { 'c', Pitch.C },
+            { 'd', Pitch.D },
+            { 'e', Pitch.E },
+            { 'f', Pitch.F },
+            { 'g', Pitch.G }
         };
 
         // TODO: Add default (don't know if lilypond supports it)
