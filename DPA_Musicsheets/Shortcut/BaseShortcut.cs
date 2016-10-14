@@ -4,10 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using DPA_Musicsheets.Shortcuts.Interface;
 
-namespace DPA_Musicsheets.Shortcuts.Shortcut
+namespace DPA_Musicsheets.Shortcut
 {
+    public interface IShortcut : IDisposable
+    {
+        string Key { get; }
+
+        bool Execute(string key);
+    }
+
     public abstract class BaseShortcut : IShortcut
     {
         protected IShortcut Successor { get; }

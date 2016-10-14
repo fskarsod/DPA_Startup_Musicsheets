@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DPA_Musicsheets.Shortcuts.Interface;
 
-namespace DPA_Musicsheets.Shortcuts.Shortcut
+namespace DPA_Musicsheets.Shortcut
 {
-    public class SaveAnyShortcut : BaseShortcut
+    public class SaveFileShortcut : BaseShortcut
     {
-        public SaveAnyShortcut(IShortcut successor)
+        public SaveFileShortcut(IShortcut successor)
             : base(successor)
         { }
 

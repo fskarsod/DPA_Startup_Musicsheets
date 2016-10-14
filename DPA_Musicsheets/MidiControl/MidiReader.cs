@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using DPA_Musicsheets.MidiPlugin.Plugin;
 
-namespace DPA_Musicsheets
+namespace DPA_Musicsheets.MidiControl
 {
     public static class MidiReader
     {

@@ -8,7 +8,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DPA_Musicsheets.Command;
+using DPA_Musicsheets.MidiControl;
 using DPA_Musicsheets.Util;
+using DPA_Musicsheets.VisualNotes;
 using Microsoft.Win32;
 using Sanford.Multimedia.Midi;
 
@@ -16,17 +18,16 @@ namespace DPA_Musicsheets.ViewModel
 {
     public class MidiButtonSetVieWModel : BaseViewModel
     {
-        // De OutputDevice is een midi device of het midikanaal van je PC.
-        // Hierop gaan we audio streamen.
-        // DeviceID 0 is je audio van je PC zelf.
-        private readonly OutputDevice _outputDevice;
+        private readonly IMidiPlayerControl _midiPlayerControl;
 
-        private MidiPlayer _player;
+        private readonly IDialogService _dialogService;
+
+        private IMusicalSymbolConsumer _musicalSymbolConsumer;
 
         public ObservableCollection<MidiTrack> MidiTracks { get; }
 
+        #region public string FileLocation { get; set; } // RaisePropertyChanged
         private string _fileLocation;
-
         public string FileLocation
         {
             get
@@ -35,10 +36,10 @@ namespace DPA_Musicsheets.ViewModel
             }
             set
             {
-                _fileLocation = value;
-                RaisePropertyChanged("FileLocation");
+                _fileLocation = value; RaisePropertyChanged("FileLocation");
             }
         }
+        #endregion
 
         public ICommand Play { get; set; }
 
@@ -48,57 +49,52 @@ namespace DPA_Musicsheets.ViewModel
 
         public ICommand Show { get; set; }
 
-        // State
-        private bool _isPlaying;
-
-        public MidiButtonSetVieWModel()
+        public MidiButtonSetVieWModel(IMidiPlayerControl midiPlayerControl, IDialogService dialogService)
         {
+            _midiPlayerControl = midiPlayerControl;
+            _dialogService = dialogService;
             FileLocation = "../../../ten desires.mid";
             MidiTracks = new ObservableCollection<MidiTrack>();
-            _outputDevice = new OutputDevice(0);
 
             Play = new RelayCommand(OnPlay, HasFileLocation);
             Stop = new RelayCommand(OnStop, CanStop);
             Open = new RelayCommand(OnOpen);
             Show = new RelayCommand(OnShow, HasFileLocation);
         }
-        
+
+        public void SetMusicalSymbolConsumer(IMusicalSymbolConsumer musicalSymbolConsumer)
+        {
+            _musicalSymbolConsumer = musicalSymbolConsumer;
+        }
+
+        #region MIDI MUSIC PLAYER
         private void OnPlay(object args)
         {
-            ResetPlayer(new MidiPlayer(_outputDevice));
-            _player.StoppedPlaying += (sender, evt) => _isPlaying = false; // Midi finished playing rather than stop.
-            _player.Play(FileLocation);
-            _isPlaying = true;
+            _midiPlayerControl.Play(FileLocation);
         }
 
         private void OnStop(object args)
         {
-            _isPlaying = false;
-            ResetPlayer(null);
-        }
-
-        private void ResetPlayer(MidiPlayer newPlayer)
-        {
-            _player?.Dispose();
-            _player = newPlayer;
-            _outputDevice.Reset();
+            _midiPlayerControl.Stop();
         }
 
         private bool CanStop(object args)
         {
-            return _isPlaying;
+            return _midiPlayerControl.IsPlaying;
         }
 
         private void OnOpen(object args)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi Files(.mid)|*.mid" };
-            if (openFileDialog.ShowDialog() == true)
-            {
-                FileLocation = openFileDialog.FileName;
-            }
+            FileLocation = _dialogService.DisplayOpen();
         }
 
         private void OnShow(object args)
+        {
+            PopulateTabControl();
+            PopulateIncipitViewer();
+        }
+
+        private void PopulateTabControl()
         {
             MidiTracks.Clear();
             foreach (var midiTrack in MidiReader.ReadMidi(FileLocation))
@@ -107,15 +103,21 @@ namespace DPA_Musicsheets.ViewModel
             }
         }
 
+        private void PopulateIncipitViewer()
+        {
+            // todo: VisualNotePluginThing
+            // _musicalSymbolConsumer.Consume(null);
+        }
+
         private bool HasFileLocation(object args)
         {
             return FileLocation?.Length > 0;
         }
+        #endregion
 
         public override void Dispose()
         {
-            _player?.Dispose();
-            _outputDevice?.Dispose();
+            _midiPlayerControl.Dispose();
         }
     }
 }

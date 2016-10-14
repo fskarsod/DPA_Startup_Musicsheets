@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
-        mc:Ignorable="d" Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing"
+        mc:Ignorable="d" Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing" Closed="Window_Closed"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
         KeyDown="Window_OnKeyDown"
         KeyUp="Window_OnKeyUp">
@@ -41,7 +41,7 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-            <ScrollViewer Margin="0,299,0.4,0.4" >
+            <ScrollViewer>
 				<StackPanel x:Name="StaffViewerPanel">
 					<PSAMWPFControl:IncipitViewerWPF Width="525" x:Name="staff">
 					</PSAMWPFControl:IncipitViewerWPF>

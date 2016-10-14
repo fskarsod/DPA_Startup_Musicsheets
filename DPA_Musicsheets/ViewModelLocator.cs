@@ -1,67 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Input;
-using DPA_Musicsheets.Shortcuts;
-using DPA_Musicsheets.Shortcuts.Shortcut;
-using DPA_Musicsheets.Shortcuts.Util;
+using DPA_Musicsheets.MidiControl;
+using DPA_Musicsheets.Shortcut;
+using DPA_Musicsheets.Util;
 using DPA_Musicsheets.ViewModel;
 
 namespace DPA_Musicsheets
 {
-    public class IoCContainer
-    {
-        private readonly IDictionary<Type, object> _pairs;
-
-        public IoCContainer()
-        {
-            _pairs = new Dictionary<Type, object>();
-        }
-
-        public void Register<TAbstract, TImplement>(TImplement instance)
-            where TImplement : TAbstract
-        {
-            _pairs.Add(typeof(TAbstract), instance);
-        }
-
-        public TAbstract Get<TAbstract>()
-            where TAbstract : class
-        {
-            var type = typeof(TAbstract);
-            return _pairs.ContainsKey(type)
-                ? _pairs[type] as TAbstract
-                : null;
-        }
-    }
-
     public class ViewModelLocator
     {
-        public ViewModelLocator()
-        {
-            var container = new IoCContainer();
-        }
-
         private ShortcutHandler ShortcutHandler { get; } = new ShortcutHandler(new Dictionary<IEnumerable<Key>, string>(new EnumerableKeyEqualityComparer())
         {
             { new [] { Key.LeftCtrl, Key.S }, "SaveFile" },
             { new [] { Key.LeftCtrl, Key.S, Key.P }, "SavePDF" },
             { new [] { Key.LeftCtrl, Key.O }, "OpenFile" },
             { new [] { Key.LeftCtrl, Key.M }, "PlayMidi" },
-            { new [] { Key.LeftAlt, Key.C }, "InsertTreble" }, // G-Clef
-            { new [] { Key.LeftAlt, Key.S }, "InsertTempo120" }, // ???
-            { new [] { Key.LeftCtrl, Key.T }, "InsertDefaultTimeSignature" }, // 4/4
+            { new [] { Key.LeftAlt, Key.C }, "InsertTreble" },
+            { new [] { Key.LeftAlt, Key.S }, "InsertTempo120" },
+            { new [] { Key.LeftCtrl, Key.T }, "InsertDefaultTimeSignature" },
             { new [] { Key.LeftCtrl, Key.T, Key.D4 }, "Insert4/4TimeSignature" },
             { new [] { Key.LeftCtrl, Key.T, Key.D3 }, "Insert3/4TimeSignature" },
-            { new [] { Key.LeftCtrl, Key.T, Key.D6 }, "Insert6/4TimeSignature" }
-        }, new SaveAnyShortcut(null));
+            { new [] { Key.LeftCtrl, Key.T, Key.D6 }, "Insert6/8TimeSignature" }
+        }, new SaveFileShortcut(null));
+
+        public IMidiPlayerControl MidiPlayerControl => new MidiPlayerControl();
+        public IDialogService DialogService => new DialogService();
+
+        private IMemento<EditorMemento> _editorMemento;
+        public IMemento<EditorMemento> EditorMemento => _editorMemento ?? (_editorMemento = new EditorMemento(string.Empty));
 
         private EditorViewModel _editorViewModel;
-        public EditorViewModel EditorViewModel => _editorViewModel ?? (_editorViewModel = new EditorViewModel());
+        public EditorViewModel EditorViewModel => _editorViewModel ?? (_editorViewModel = new EditorViewModel(EditorMemento, null));
 
         private MidiButtonSetVieWModel _midiButtonSetVieWModel;
-        public MidiButtonSetVieWModel MidiButtonSetVieWModel => _midiButtonSetVieWModel ?? (_midiButtonSetVieWModel = new MidiButtonSetVieWModel());
+        public MidiButtonSetVieWModel MidiButtonSetVieWModel => _midiButtonSetVieWModel ?? (_midiButtonSetVieWModel = new MidiButtonSetVieWModel(MidiPlayerControl, DialogService));
 
         private MainWindowViewModel _mainViewModel;
         public MainWindowViewModel MainWindowViewModel => _mainViewModel ?? (_mainViewModel = new MainWindowViewModel(MidiButtonSetVieWModel, EditorViewModel, ShortcutHandler));

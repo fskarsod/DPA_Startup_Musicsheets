@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using DPA_Musicsheets.Command;
-using DPA_Musicsheets.Shortcuts;
-using DPA_Musicsheets.Util;
-using Microsoft.Win32;
-using Sanford.Multimedia.Midi;
 
 namespace DPA_Musicsheets.ViewModel
 {
@@ -19,11 +11,15 @@ namespace DPA_Musicsheets.ViewModel
 
         public ShortcutHandler ShortcutHandler { get; set; }
 
+        public ICommand WindowClosing { get; set; }
+
         public MainWindowViewModel(MidiButtonSetVieWModel midiButtonSetVieWModel, EditorViewModel editorViewModel, ShortcutHandler shortcutHandler)
         {
             MidiButtonSetVieWModel = midiButtonSetVieWModel;
             EditorViewModel = editorViewModel;
             ShortcutHandler = shortcutHandler;
+
+            // WindowClosing = new WindowClosingCommand();
         }
 
         public override void Dispose()

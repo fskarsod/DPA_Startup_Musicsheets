@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DPA_Musicsheets
+namespace DPA_Musicsheets.MidiControl
 {
     public class MidiTrack
     {

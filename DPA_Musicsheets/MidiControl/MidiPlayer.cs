@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Windows;
 
-namespace DPA_Musicsheets
+namespace DPA_Musicsheets.MidiControl
 {
     public class MidiPlayer : IDisposable
     {
