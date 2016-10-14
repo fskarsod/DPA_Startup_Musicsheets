@@ -69,8 +69,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Memento\EditorMemento.cs" />
+    <Compile Include="Memento\IMemento.cs" />
+    <Compile Include="State\GeneratingState.cs" />
+    <Compile Include="State\Interface\IState.cs" />
+    <Compile Include="State\Interface\IStateable.cs" />
+    <Compile Include="State\WaitingState.cs" />
+    <Compile Include="Util\IClonable.cs" />
+    <Compile Include="Util\IRestorable.cs" />
+    <Compile Include="ViewModelLocator.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="MidiTrack.cs" />
     <Compile Include="VisualNotes\VisualNoteReaderPlugin.cs" />
+    <Compile Include="Util\DelayedActionHandler.cs" />
+    <Compile Include="Command\RelayCommand.cs" />
+    <Compile Include="ViewModel\EditorViewModel.cs" />
+    <Compile Include="ViewModel\MidiButtonSetVieWModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -120,8 +136,12 @@
       <Name>DPA_Musicsheets.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\DPA_Musicsheets.MidiPlugin\DPA_Musicsheets.MidiPlugin.csproj">
-      <Project>{E6E776B2-584E-47B3-BF04-AB0E3B63B453}</Project>
+      <Project>{e6e776b2-584e-47b3-bf04-ab0e3b63b453}</Project>
       <Name>DPA_Musicsheets.MidiPlugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DPA_Musicsheets.Shortcuts\DPA_Musicsheets.Shortcuts.csproj">
+      <Project>{1a64d97a-bf39-4251-a72d-92bbf1a36592}</Project>
+      <Name>DPA_Musicsheets.Shortcuts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

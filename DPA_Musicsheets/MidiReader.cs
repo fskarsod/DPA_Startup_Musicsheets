@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using DPA_Musicsheets.MidiPlugin.Plugin;
-using DPA_Musicsheets.MidiPlugin.Provider;
 
 namespace DPA_Musicsheets
 {
@@ -32,15 +31,14 @@ namespace DPA_Musicsheets
                 foreach (var midiEvent in track.Iterator())
                 {
                     // Elke messagetype komt ook overeen met een class. Daarom moet elke keer gecast worden.
-                    switch (midiEvent.MidiMessage.MessageType)
+                    switch (midiEvent.MidiMessage.MessageType) // todo: maybe fix this switch
                     {
                         // ChannelMessages zijn de inhoudelijke messages.
                         case MessageType.Channel:
                             var channelMessage = midiEvent.MidiMessage as ChannelMessage;
                             // Data1: De keycode. 0 = laagste C, 1 = laagste C#, 2 = laagste D etc.
                             // 160 is centrale C op piano.
-                            trackLog.Messages.Add(String.Format("Keycode: {0}, Command: {1}, absolute time: {2}, delta time: {3}"
-                                , channelMessage.Data1, channelMessage.Command, midiEvent.AbsoluteTicks, midiEvent.DeltaTicks));
+                            trackLog.Messages.Add($"Keycode: {channelMessage?.Data1}, Command: {channelMessage?.Command}, absolute time: {midiEvent.AbsoluteTicks}, delta time: {midiEvent.DeltaTicks}");
                             break;
                         case MessageType.SystemExclusive:
                             break;
@@ -52,13 +50,13 @@ namespace DPA_Musicsheets
                         case MessageType.Meta:
                             var metaMessage = midiEvent.MidiMessage as MetaMessage;
                             trackLog.Messages.Add(GetMetaString(metaMessage));
-                            if (metaMessage.MetaType == MetaType.TrackName)
+                            if (metaMessage?.MetaType == MetaType.TrackName)
                             {
                                 trackLog.TrackName += " " + Encoding.Default.GetString(metaMessage.GetBytes());
                             }
                             break;
                         default:
-                            trackLog.Messages.Add(String.Format("MidiEvent {0}, absolute ticks: {1}, deltaTicks: {2}", midiEvent.MidiMessage.MessageType, midiEvent.AbsoluteTicks, midiEvent.DeltaTicks));
+                            trackLog.Messages.Add($"MidiEvent {midiEvent.MidiMessage.MessageType}, absolute ticks: {midiEvent.AbsoluteTicks}, deltaTicks: {midiEvent.DeltaTicks}");
                             break;
                     }
                 }
@@ -70,7 +68,7 @@ namespace DPA_Musicsheets
         private static string GetMetaString(MetaMessage metaMessage)
         {
             byte[] bytes = metaMessage.GetBytes();
-            switch (metaMessage.MetaType)
+            switch (metaMessage.MetaType) // todo: yo actually doe, maybe fix these switch-statements.
             {
                 case MetaType.Tempo:
                     // Bitshifting is nodig om het tempo in BPM te be
