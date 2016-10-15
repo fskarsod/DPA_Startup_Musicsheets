@@ -7,6 +7,8 @@ namespace DPA_Musicsheets.Core.Model
     {
         public TimeSignature TimeSignature { get; set; }
 
+        public Tempo Tempo { get; set; }
+
         public IList<IMusicComponent> MusicComponents { get; set; }
 
         public Bar()

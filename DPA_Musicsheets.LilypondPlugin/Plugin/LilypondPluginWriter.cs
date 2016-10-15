@@ -18,10 +18,11 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
             var elements = SplitSource(source);
             var track = new TrackBuilder();
             TimeSignature timeSig = null;
+            Tempo tempo = null;
             var relativeOctave = 0;
             var relativeNote = '\0';
             Clef? clef;
-            var bracketState = 0; // +1 for each opening, -1 for each closing... sorry for ghetto solution
+            var bracketState = 0; // +1 for each opening, -1 for each closing... sorry for ghetto code
 
             // TODO: Clean this up
             for (var i = 0; i < elements.Length; i++)
@@ -30,7 +31,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
                 {
                     case null: // not a keyword
                         if (LilypondParser.IsNote(elements[i]))
-                            AddNoteToBar(LilypondParser.CreateNoteFromString(elements[i], ref relativeOctave, ref relativeNote), track, timeSig);
+                            AddNoteToBar(LilypondParser.CreateNoteFromString(elements[i], ref relativeOctave, ref relativeNote), track, timeSig, ref tempo);
                         break;
                     case LilypondKeyword.Time:
                         timeSig = LilypondParser.GetTimeSignature(elements[++i]);
@@ -50,6 +51,8 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
                         bracketState--;
                         break;
                     case LilypondKeyword.Tempo:
+                        tempo = LilypondParser.GetTempo(elements[++i]);
+                        break;
                     case LilypondKeyword.Repeat:
                     case LilypondKeyword.Alternative:
                         // todo : implement these...
@@ -69,9 +72,10 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
             return s;
         }
 
-        private static void AddNoteToBar(BaseNote note, TrackBuilder track, TimeSignature timeSignature)
+        private static void AddNoteToBar(BaseNote note, TrackBuilder track, TimeSignature timeSignature, ref Tempo tempo)
         {
-            track.Add(timeSignature, note);
+            track.Add(timeSignature, note, tempo);
+            tempo = null; // one time use, I apologize for my plebness.
         }
 
         private static string[] SplitSource(string source)

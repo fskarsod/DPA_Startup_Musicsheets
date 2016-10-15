@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.Remoting.Messaging;
 using DPA_Musicsheets.Core.Model;
 using DPA_Musicsheets.Core.Model.Enum;
@@ -111,6 +112,17 @@ namespace DPA_Musicsheets.LilypondPlugin.Parser
             Clef rValue;
 
             return ClefDictionary.TryGetValue(s.ToLower(), out rValue) ? (Clef?) rValue : null;
+        }
+
+        public static Tempo GetTempo(string s)
+        {
+            var splitString = s.Split('=');
+            int noteDuration, bpm;
+
+            if (int.TryParse(splitString[0], out noteDuration) && int.TryParse(splitString[1], out bpm))
+                return new Tempo(noteDuration, bpm);
+            else
+                throw new ArgumentException(); // todo: do something better with this idk
         }
 
         private static Pitch? GetPitch(char c)
