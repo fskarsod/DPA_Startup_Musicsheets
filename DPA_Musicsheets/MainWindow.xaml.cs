@@ -146,21 +146,6 @@ namespace DPA_Musicsheets
 
         private void OnCancelExit(object parameters)
         {
-//            var fileExtension = txt_MidiFilePath.Text.Split('.').Last();
-//
-//            switch (fileExtension)
-//            {
-//                case "ly": //  TODO: finish this up
-//                    var fileContents = System.IO.File.ReadAllText(txt_MidiFilePath.Text);
-//                    var lyWriter = new LilypondPluginWriter();
-//                    var s = lyWriter.WriteSheet(fileContents);
-//                    break;
-//                case "mid":
-//                    ShowMidiTracks(MidiReader.ReadMidi(txt_MidiFilePath.Text));
-//                    break;
-//                default:
-//                    throw new NotImplementedException(); // TODO: Make a custom exception/state.
-//            }
             var cancelEventArgs = parameters as CancelEventArgs;
             if (cancelEventArgs != null)
                 cancelEventArgs.Cancel = true;

@@ -16,7 +16,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Parser
             var p = LilypondParser.GetPitch(noteString.ToLower()[0]);
 
             if (p == null)
-                throw new NotImplementedException(); // TODO: Handle this -- shouldn't happen anyway
+                throw new InvalidOperationException($"Cannot parse value \"{noteString.ToLower()[0]}\" to valid note. Please verify your source file.");
 
             if (p == Pitch.Rest)
             {
@@ -122,7 +122,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Parser
             if (int.TryParse(splitString[0], out noteDuration) && int.TryParse(splitString[1], out bpm))
                 return new Tempo(noteDuration, bpm);
             else
-                throw new ArgumentException(); // todo: do something better with this idk
+                throw new InvalidOperationException($"Cannot parse value \"{s}\" to valid tempo. Please verify your source file.");
         }
 
         private static Pitch? GetPitch(char c)
@@ -147,8 +147,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Parser
             if (int.TryParse(s.Substring(subStart, subLen), out duration))
                 return duration;
             else
-                // TODO: Implement an error of some sort, I don't know.
-                throw new NotImplementedException();
+                throw new InvalidOperationException($"Cannot parse value \"{s}\" to valid note duration. Please verify your source file.");
         }
 
         private static readonly IDictionary<string, LilypondKeyword> LilypondKeywordDictionary = new Dictionary<string, LilypondKeyword>

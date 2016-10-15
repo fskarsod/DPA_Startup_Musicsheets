@@ -57,8 +57,6 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
                     case LilypondKeyword.Alternative:
                         // todo : implement these...
                         break;
-                    default:
-                        throw new ArgumentOutOfRangeException(); // TODO: use other exception
                 }
             }
 
