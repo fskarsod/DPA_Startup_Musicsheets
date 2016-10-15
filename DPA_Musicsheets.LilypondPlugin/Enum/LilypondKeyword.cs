@@ -2,12 +2,13 @@
 {
     public enum LilypondKeyword
     {
-        None,
         Relative,
         Clef,
         Tempo,
         Time,
         Repeat,
-        Alternative
+        Alternative,
+        BracketOpen,
+        BracketClose
     }
 }

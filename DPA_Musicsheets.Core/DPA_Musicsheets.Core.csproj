@@ -53,6 +53,7 @@
     <Compile Include="Model\BarBoundary.cs" />
     <Compile Include="Model\BaseNote.cs" />
     <Compile Include="Model\Chord.cs" />
+    <Compile Include="Model\Enum\Clef.cs" />
     <Compile Include="Model\Extension\CountExtensions.cs" />
     <Compile Include="Model\Note.cs" />
     <Compile Include="Model\Enum\Pitch.cs" />
