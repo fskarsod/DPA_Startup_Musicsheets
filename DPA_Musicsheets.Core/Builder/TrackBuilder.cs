@@ -84,12 +84,16 @@ namespace DPA_Musicsheets.Core.Builder
             return _timeSignature != null && _currentLengthvalue >= _timeSignature.TotalLengthValue;
         }
 
-        private void BuildBar()
+        private void BuildBar(bool @throw = false)
         {
             if (IsBarFull())
             {
                 _track.MusicComponentProviders.Add(AggregateProviderBuilder.Build());
                 AggregateProviderBuilder = null;
+            }
+            else if (@throw)
+            {
+                throw new InvalidOperationException("Unfinished bar is present in the track.");
             }
         }
 
@@ -97,7 +101,7 @@ namespace DPA_Musicsheets.Core.Builder
         {
             if (_aggregateProviderBuilder != null)
             {
-                BuildBar();
+                BuildBar(true);
             }
             return _track;
         }
