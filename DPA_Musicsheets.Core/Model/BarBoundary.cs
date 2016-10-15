@@ -9,5 +9,10 @@ namespace DPA_Musicsheets.Core.Model
         {
             visitor.Visit(this);
         }
+
+        public string AsString()
+        {
+            return "|";
+        }
     }
 }

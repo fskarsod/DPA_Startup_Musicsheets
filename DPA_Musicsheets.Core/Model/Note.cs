@@ -16,5 +16,27 @@ namespace DPA_Musicsheets.Core.Model
         {
             visitor.Visit(this);
         }
+
+        public override string AsString()
+        {
+            string octaveString = "", accidentalString;
+
+            // convert Pitch
+            var pitchString = System.Enum.GetName(typeof(Pitch), Pitch).ToLower();
+
+            // convert Accidental
+            if (Accidental == Accidental.Flat)
+                accidentalString = "es";
+            else if (Accidental == Accidental.Sharp)
+                accidentalString = "is";
+            else
+                accidentalString = "";
+
+            // Convert octave
+            for (var i = 0; i < Math.Abs(Octave); i++)
+                octaveString += Octave > 0 ? "\'" : ",";
+
+            return pitchString + accidentalString + octaveString + Duration + (HasDot ? "." : "");
+        }
     }
 }
