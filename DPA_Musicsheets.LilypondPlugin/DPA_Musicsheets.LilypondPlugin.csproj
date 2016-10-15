@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enum\LilypondKeyword.cs" />
+    <Compile Include="Parser\LilypondParser.cs" />
     <Compile Include="Plugin\LilypondPluginReader.cs" />
     <Compile Include="Plugin\LilypondPluginWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

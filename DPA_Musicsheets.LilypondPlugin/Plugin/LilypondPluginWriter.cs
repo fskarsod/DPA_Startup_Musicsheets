@@ -7,6 +7,7 @@ using DPA_Musicsheets.Core.Interface;
 using DPA_Musicsheets.Core.Model;
 using DPA_Musicsheets.Core.Model.Enum;
 using DPA_Musicsheets.LilypondPlugin.Enum;
+using DPA_Musicsheets.LilypondPlugin.Parser;
 
 namespace DPA_Musicsheets.LilypondPlugin.Plugin
 {
@@ -16,127 +17,67 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
         {
             var elements = SplitSource(source);
             var track = new TrackBuilder();
+            TimeSignature timeSig = null;
+            var relativeOctave = 0;
+            var relativeNote = '\0';
+            Clef? clef;
+            var bracketState = 0; // +1 for each opening, -1 for each closing... sorry for ghetto solution
 
-            foreach (var e in elements)
+            // TODO: Clean this up
+            for (var i = 0; i < elements.Length; i++)
             {
-                switch (GetKeyword(e))
+                switch (LilypondParser.GetKeyword(elements[i]))
                 {
-                    case LilypondKeyword.None:
-                        AddNoteToTrack(e);
+                    case null: // not a keyword
+                        if (LilypondParser.IsNote(elements[i]))
+                            AddNoteToBar(LilypondParser.CreateNoteFromString(elements[i], ref relativeOctave, ref relativeNote), track, timeSig);
                         break;
                     case LilypondKeyword.Time:
-                        SetTimeSignature(e);
+                        timeSig = LilypondParser.GetTimeSignature(elements[++i]);
                         break;
                     case LilypondKeyword.Relative:
+                        relativeNote = elements[++i][0];
+                        relativeOctave = LilypondParser.GetOctaveOffset(elements[i], relativeNote);
+                        break;
                     case LilypondKeyword.Clef:
+                        clef = LilypondParser.GetClef(elements[++i]);
+                        // todo: set clef on the track
+                        break;
+                    case LilypondKeyword.BracketOpen:
+                        bracketState++;
+                        break;
+                    case LilypondKeyword.BracketClose:
+                        bracketState--;
+                        break;
                     case LilypondKeyword.Tempo:
                     case LilypondKeyword.Repeat:
                     case LilypondKeyword.Alternative:
-                        throw new NotImplementedException();
+                        // todo : implement these...
+                        break;
                     default:
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException(); // TODO: use other exception
                 }
             }
 
-            return new Sheet();
+            var t = track.Build();
+            var s = new Sheet
+            {
+                Tracks = new[] {t}
+            };
+
+
+            return s;
         }
 
-        private void AddNoteToTrack(string noteString)
+        private static void AddNoteToBar(BaseNote note, TrackBuilder track, TimeSignature timeSignature)
         {
-            var pitch = GetPitch(noteString.ToLower()[0]);
-            var accidental = GetAccidental(noteString.Substring(1, 2));
-            var octaveOffset = GetOctaveOffset(noteString);
-            var duration = GetDuration(noteString, (accidental != Accidental.Natural));
-            var hasDot = noteString.Contains('.');
-        }
-
-        private void SetTimeSignature(string timeSignatureString)
-        {
-            
+            track.Add(timeSignature, note);
         }
 
         private static string[] SplitSource(string source)
         {
             // some empty lines remain, but we'll just ignore them when parsing for now.
-            return source.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return source.Replace("\r\n", " ").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         }
-
-        private static LilypondKeyword GetKeyword(string s)
-        {
-            return LilypondKeywordDictionary.ContainsKey(s.ToLower()) ? LilypondKeywordDictionary[s] : LilypondKeyword.None;
-        }
-
-        private static Pitch? GetPitch(char c)
-        {
-            if (PitchDictionary.ContainsKey(c))
-                return PitchDictionary[c];
-
-            return null;
-        }
-
-        private static Accidental GetAccidental(string s)
-        {
-            return AccidentalDictionary.ContainsKey(s.ToLower()) ? AccidentalDictionary[s] : Accidental.Natural;
-        }
-
-        private static int GetDuration(string s, bool hasAccidental)
-        {
-            var hasDot = s.Contains('.');
-            string durationString;
-            int duration;
-
-            // somewhat awkward to retrieve, but whatever.
-            if (hasDot && hasAccidental)
-                durationString = s.Substring(3, s.Length - 1);
-            else if (hasDot)
-                durationString = s.Substring(1, s.Length - 1);
-            else if (hasAccidental)
-                durationString = s.Substring(3, s.Length);
-            else
-                durationString = s.Substring(1, s.Length);
-
-            if (int.TryParse(durationString, out duration))
-                return duration;
-            else
-                throw new ArgumentException();
-        }
-
-        private static int GetOctaveOffset(string s)
-        {
-            if (s.Contains(','))
-                return s.Count(c => c == ',') * -1;
-            else if (s.Contains('\''))
-                return s.Count(c => c == '\'');
-            else
-                return 0;
-        }
-
-        private static readonly IDictionary<string, LilypondKeyword> LilypondKeywordDictionary = new Dictionary<string, LilypondKeyword>
-        {
-            { @"\relative",    LilypondKeyword.Relative },
-            { @"\clef",        LilypondKeyword.Clef },
-            { @"\tempo",       LilypondKeyword.Tempo },
-            { @"\time",        LilypondKeyword.Time },
-            { @"\repeat",      LilypondKeyword.Repeat },
-            { @"\alternative", LilypondKeyword.Alternative }
-        };
-
-        private static readonly IDictionary<char, Pitch> PitchDictionary = new Dictionary<char, Pitch>
-        {
-            { 'a', Pitch.A },
-            { 'b', Pitch.B },
-            { 'c', Pitch.C },
-            { 'd', Pitch.D },
-            { 'e', Pitch.E },
-            { 'f', Pitch.F },
-            { 'g', Pitch.G }
-        };
-
-        // TODO: Add default (don't know if lilypond supports it)
-        private static readonly IDictionary<string, Accidental> AccidentalDictionary = new Dictionary<string, Accidental>
-        {
-            { "is", Accidental.Sharp},
-            { "es", Accidental.Flat }
-        };
     }
 }

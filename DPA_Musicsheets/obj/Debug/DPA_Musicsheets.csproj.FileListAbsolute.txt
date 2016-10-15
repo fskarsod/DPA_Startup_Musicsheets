@@ -84,3 +84,5 @@ E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\D
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.pdb
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.dll
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.pdb
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.dll
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.pdb

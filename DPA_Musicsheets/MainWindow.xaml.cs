@@ -18,8 +18,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DPA_Musicsheets.Core.Model;
 using DPA_Musicsheets.LilypondPlugin.Plugin;
 using DPA_Musicsheets.MidiPlugin.Util;
+using Note = PSAMControlLibrary.Note;
+using TimeSignature = PSAMControlLibrary.TimeSignature;
 
 namespace DPA_Musicsheets
 {
@@ -99,7 +102,7 @@ namespace DPA_Musicsheets
 
         private void btnOpen_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi Files(.mid)|*.mid|Lilypond Files(.ly)|*.ly|Sheetmusic Files(*.mid;*.ly;)|*.mid;*.ly;" };
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Sheetmusic Files(*.mid;*.ly;)|*.mid;*.ly;|Midi Files(.mid)|*.mid|Lilypond Files(.ly)|*.ly" };
             if (openFileDialog.ShowDialog() == true)
             {
                 txt_MidiFilePath.Text = openFileDialog.FileName;
@@ -121,7 +124,7 @@ namespace DPA_Musicsheets
                 case "ly": //  TODO: finish this up
                     var fileContents = System.IO.File.ReadAllText(txt_MidiFilePath.Text);
                     var lyWriter = new LilypondPluginWriter();
-                    lyWriter.WriteSheet(fileContents);
+                    var s = lyWriter.WriteSheet(fileContents);
                     break;
                 case "mid":
                     ShowMidiTracks(MidiReader.ReadMidi(txt_MidiFilePath.Text));
