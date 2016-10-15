@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DPA_Musicsheets.Command;
+using DPA_Musicsheets.LilypondPlugin.Plugin;
 using DPA_Musicsheets.Util;
 using Microsoft.Win32;
 using Sanford.Multimedia.Midi;
@@ -101,9 +103,22 @@ namespace DPA_Musicsheets.ViewModel
         private void OnShow(object args)
         {
             MidiTracks.Clear();
-            foreach (var midiTrack in MidiReader.ReadMidi(FileLocation))
+
+            switch (FileLocation.Split('.').Last())
             {
-                MidiTracks.Add(midiTrack);
+                case "ly":
+                    var fileContents = File.ReadAllText(FileLocation);
+                    var lilyWriter = new LilypondPluginWriter();
+                    lilyWriter.WriteSheet(fileContents);
+                    break;
+                case "mid":
+                    foreach (var midiTrack in MidiReader.ReadMidi(FileLocation))
+                        MidiTracks.Add(midiTrack);
+                    break;
+                default:
+                    // unsupported filetype
+                    // throw new NotImplementedException(); // TODO: Make a custom exception/state.
+                    return;
             }
         }
 

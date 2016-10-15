@@ -66,13 +66,6 @@ D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musics
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.dll
 D:\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.MidiPlugin.pdb
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.exe.config
-E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.csprojResolveAssemblyReference.cache
-E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\MainWindow.baml
-E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\MainWindow.g.cs
-E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\App.g.cs
-E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\GeneratedInternalTypeHelper.g.cs
-E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets_MarkupCompile.cache
-E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets_MarkupCompile.lref
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.exe
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.pdb
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.Core.dll
@@ -88,6 +81,13 @@ E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\D
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\DPA_Musicsheets.Shortcuts.pdb
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\Sanford.Multimedia.Midi.pdb
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\bin\Debug\Sanford.Multimedia.Midi.xml
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.csprojResolveAssemblyReference.cache
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\MainWindow.baml
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\MainWindow.g.cs
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\App.g.cs
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\GeneratedInternalTypeHelper.g.cs
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets_MarkupCompile.cache
+E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets_MarkupCompile.lref
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\App.baml
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.g.resources
 E:\backup-g\Documents\GitHub\DPA_Startup_Musicsheets\DPA_Musicsheets\obj\Debug\DPA_Musicsheets.Properties.Resources.resources
