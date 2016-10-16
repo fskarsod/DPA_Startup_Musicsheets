@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using DPA_Musicsheets.Util;
 
@@ -11,11 +12,10 @@ namespace DPA_Musicsheets
         bool Save();
 
         void Load();
-        
+
         void LoadFromLocation(string location);
     }
-    
-    // todo: state
+
     public class ContentStorage : IContentStorage
     {
         private readonly IApplicationContext _applicationContext;
@@ -29,7 +29,8 @@ namespace DPA_Musicsheets
             set { _applicationContext.Saved = value; }
         }
 
-        public ContentStorage(IApplicationContext applicationContext, IContentLoader contentLoader, IPdfify pdfify, IDialogService dialogService)
+        public ContentStorage(IApplicationContext applicationContext, IContentLoader contentLoader, IPdfify pdfify,
+            IDialogService dialogService)
         {
             _applicationContext = applicationContext;
             _contentLoader = contentLoader;
@@ -52,7 +53,10 @@ namespace DPA_Musicsheets
         public bool Save()
         {
             _applicationContext.FileLocation = _dialogService.DisplaySave();
-            if (_applicationContext.FileLocation.Length <= 0) { return false; }
+            if (_applicationContext.FileLocation.Length <= 0)
+            {
+                return false;
+            }
             try
             {
                 var lyName = _applicationContext.FileLocation.EndsWith(".ly")
@@ -84,7 +88,9 @@ namespace DPA_Musicsheets
                     return;
                 }
                 catch (IOException)
-                { /* Explicit swallow */ }
+                {
+                    /* Explicit swallow */
+                }
             }
             _dialogService.DisplayError("Something has gone wrong when loading the file.");
             // Leave the content as is.
@@ -92,13 +98,20 @@ namespace DPA_Musicsheets
 
         public void LoadFromLocation(string location)
         {
-            if (location.EndsWith(".mid"))
+            try
             {
-                _contentLoader.FromMidi();
+                if (location.EndsWith(".mid"))
+                {
+                    _contentLoader.FromMidi();
+                }
+                else // if (location.EndsWith(".ly"))
+                {
+                    _contentLoader.FromLilypond();
+                }
             }
-            else // if (location.EndsWith(".ly"))
+            catch (InvalidOperationException e)
             {
-                _contentLoader.FromLilypond();
+                _dialogService.DisplayError(e.Message);
             }
         }
     }

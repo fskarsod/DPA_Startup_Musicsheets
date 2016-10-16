@@ -58,18 +58,6 @@ namespace DPA_Musicsheets
         private void Window_OnKeyDown(object sender, KeyEventArgs e)
         {
             ViewModel?.ShortcutHandler?.AddKey(e.Key);
-            // var saveFileDialog = new SaveFileDialog { Filter = "Sheetmusic Files(*.mid;*.ly)|*.mid;*.ly|Midi Files(.mid)|*.mid|Lilypond Files(.ly)|*.ly" };
-            // if (saveFileDialog.ShowDialog() == true)
-            // {
-                // var file = saveFileDialog.FileName;
-                // File.WriteAllText(file, "andansldbaskjdnjkasdjkadkjabdkhbakd"); // todo: get EditorText
-                // _saved = true;
-                // CloseApplication();
-            // }
-            // else // cancel save dialog -> no exit
-            // {
-                // CancelExit.Execute(parameters);
-            // }
         }
 
         private void Window_OnKeyUp(object sender, KeyEventArgs e)

@@ -9,6 +9,7 @@ using DPA_Musicsheets;
 using DPA_Musicsheets.Command;
 using DPA_Musicsheets.Core.Interface;
 using DPA_Musicsheets.IoC;
+using DPA_Musicsheets.LilypondPlugin.Plugin;
 using DPA_Musicsheets.MidiControl;
 using DPA_Musicsheets.MidiPlugin.Plugin;
 using DPA_Musicsheets.Shortcut;
@@ -46,6 +47,9 @@ namespace DPA_Musicsheets
 
             container.RegisterTransient<IPluginWriter<Sequence>>(c => new MidiPluginWriter());
 
+            container.RegisterTransient<IPluginWriter<string>>(c => new LilypondPluginWriter());
+            container.RegisterTransient<IPluginReader<string>>(c => new LilypondPluginReader());
+
             // Initial stuff
             container.RegisterSingleton(new OutputDevice(0));
             container.RegisterTransient<IPdfify>(c => new Pdfify());
@@ -81,7 +85,7 @@ namespace DPA_Musicsheets
             container.RegisterTransient(c => new InsertSixEightTimeSigShortcut(c.Resolve<IInsertCommand>()));
 
             // Viewmodels
-            container.RegisterTransient(c => new EditorViewModel(c.Resolve<IApplicationContext>(), null, c.Resolve<IPluginReader<IEnumerable<MusicalSymbol>>>()));
+            container.RegisterTransient(c => new EditorViewModel(c.Resolve<IApplicationContext>(), c.Resolve<IPluginWriter<string>>(), c.Resolve<IPluginReader<IEnumerable<MusicalSymbol>>>()));
             container.RegisterTransient(c => new MidiButtonSetVieWModel(c.Resolve<IApplicationContext>(), c.Resolve<IPluginWriter<string>>(), c.Resolve<IPluginReader<IEnumerable<MusicalSymbol>>>(), c.Resolve<IPlayCommand>(), c.Resolve<IStopCommand>(), c.Resolve<IOpenFileCommand>(), c.Resolve<ISaveFileCommand>()));
             container.RegisterTransient(c => new MainWindowViewModel(c.Resolve<MidiButtonSetVieWModel>(), c.Resolve<EditorViewModel>(), c.Resolve<ShortcutHandler>(), c.Resolve<IContentLoader>(), c.Resolve<IWindowClosingCommand>()));
         }

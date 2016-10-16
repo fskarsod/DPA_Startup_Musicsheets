@@ -42,10 +42,18 @@
                 </TabControl.ContentTemplate>
             </TabControl>
             <ScrollViewer>
-				<StackPanel x:Name="StaffViewerPanel">
-					<PSAMWPFControl:IncipitViewerWPF Width="525" x:Name="staff">
+                <StackPanel x:Name="StaffViewerPanel">
+					<PSAMWPFControl:IncipitViewerWPF Width="525">
 					</PSAMWPFControl:IncipitViewerWPF>
-				</StackPanel>
+                    <PSAMWPFControl:IncipitViewerWPF Width="525">
+                    </PSAMWPFControl:IncipitViewerWPF>
+                    <PSAMWPFControl:IncipitViewerWPF Width="525">
+                    </PSAMWPFControl:IncipitViewerWPF>
+                    <PSAMWPFControl:IncipitViewerWPF Width="525">
+                    </PSAMWPFControl:IncipitViewerWPF>
+                    <PSAMWPFControl:IncipitViewerWPF Width="525">
+                    </PSAMWPFControl:IncipitViewerWPF>
+                </StackPanel>
 			</ScrollViewer>
         </StackPanel>
         <DockPanel LastChildFill="True">

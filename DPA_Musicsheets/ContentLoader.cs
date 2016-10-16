@@ -45,8 +45,8 @@ namespace DPA_Musicsheets
         public void FromLilypond()
         {
             var text = File.ReadAllText(_applicationContext.FileLocation);
-            //var sheet = _lilypondPluginWriter.WriteSheet(text); // todo: lilypond enable
-            //LoadToVisualNotes(sheet);
+            var sheet = _lilypondPluginWriter.WriteSheet(text); // todo: lilypond enable
+            LoadToVisualNotes(sheet);
             _applicationContext.EditorMemento.Content = text;
         }
 

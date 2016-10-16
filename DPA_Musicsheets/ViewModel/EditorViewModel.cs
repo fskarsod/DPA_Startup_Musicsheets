@@ -85,10 +85,9 @@ namespace DPA_Musicsheets.ViewModel
             _editorHash = Content.GetHashCode();
             try
             {
-                // todo: enable after lilypond merge
-                //var sheet = _lilypondPluginWriter.WriteSheet(Content);
-                //var symbols = _visualNotePluginReader.ReadSheet(sheet);
-                //_musicalSymbolConsumer.Consume(symbols);
+                var sheet = _lilypondPluginWriter.WriteSheet(Content);
+                var symbols = _visualNotePluginReader.ReadSheet(sheet);
+                _musicalSymbolConsumer.Consume(symbols);
 
                 var newGenHashCode = Content.GetHashCode();
                 if (newGenHashCode != _editorHash)
