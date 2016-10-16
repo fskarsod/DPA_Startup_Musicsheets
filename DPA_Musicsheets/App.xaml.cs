@@ -40,20 +40,19 @@ namespace DPA_Musicsheets
 
         private static void RegisterAll(IContainer container)
         {
-            // Singletons
-            container.RegisterSingleton(new OutputDevice(0));
-            container.RegisterSingleton<IApplicationContext>(new ApplicationContext());
-            container.RegisterSingleton<IMidiPlayerControl>(c => new MidiPlayerControl(c.Resolve<OutputDevice>(), c.Resolve<IApplicationContext>(), c.Resolve<IDialogService>()), true);
-
-            // Models
-            container.RegisterTransient<IDialogService>(c => new DialogService());
-            container.RegisterTransient<IContentStorage>(c => new ContentStorage(c.Resolve<IApplicationContext>(), c.Resolve<IDialogService>()));
-
             // Plugins
             container.RegisterTransient<IVisualNoteVisitor>(c => new VisualNoteVisitor());
             container.RegisterTransient<IPluginReader<IEnumerable<MusicalSymbol>>>(c => new VisualNoteReaderPlugin(c.Resolve<IVisualNoteVisitor>()));
 
             container.RegisterTransient<IPluginWriter<Sequence>>(c => new MidiPluginWriter());
+
+            // Initial stuff
+            container.RegisterSingleton(new OutputDevice(0));
+            container.RegisterTransient<IDialogService>(c => new DialogService());
+            container.RegisterSingleton<IApplicationContext>(new ApplicationContext());
+            container.RegisterSingleton<IContentLoader>(c => new ContentLoader(c.Resolve<IApplicationContext>(), c.Resolve<IPluginReader<IEnumerable<MusicalSymbol>>>(), c.Resolve<IPluginReader<string>>(), c.Resolve<IPluginWriter<string>>(), c.Resolve<IPluginWriter<Sequence>>()));
+            container.RegisterTransient<IContentStorage>(c => new ContentStorage(c.Resolve<IApplicationContext>(), c.Resolve<IContentLoader>(), c.Resolve<IDialogService>()));
+            container.RegisterSingleton<IMidiPlayerControl>(c => new MidiPlayerControl(c.Resolve<OutputDevice>(), c.Resolve<IApplicationContext>(), c.Resolve<IDialogService>()), true);
 
             // Commands
             container.RegisterTransient<IStopCommand>(c => new StopCommand(c.Resolve<IMidiPlayerControl>()));
@@ -83,7 +82,7 @@ namespace DPA_Musicsheets
             // Viewmodels
             container.RegisterTransient(c => new EditorViewModel(c.Resolve<IApplicationContext>(), null, c.Resolve<IPluginReader<IEnumerable<MusicalSymbol>>>()));
             container.RegisterTransient(c => new MidiButtonSetVieWModel(c.Resolve<IApplicationContext>(), c.Resolve<IPluginWriter<string>>(), c.Resolve<IPluginReader<IEnumerable<MusicalSymbol>>>(), c.Resolve<IPlayCommand>(), c.Resolve<IStopCommand>(), c.Resolve<IOpenFileCommand>(), c.Resolve<ISaveFileCommand>()));
-            container.RegisterTransient(c => new MainWindowViewModel(c.Resolve<MidiButtonSetVieWModel>(), c.Resolve<EditorViewModel>(), c.Resolve<ShortcutHandler>(), c.Resolve<IWindowClosingCommand>()));
+            container.RegisterTransient(c => new MainWindowViewModel(c.Resolve<MidiButtonSetVieWModel>(), c.Resolve<EditorViewModel>(), c.Resolve<ShortcutHandler>(), c.Resolve<IContentLoader>(), c.Resolve<IWindowClosingCommand>()));
         }
 
         private static readonly IDictionary<IEnumerable<Key>, string> KeyShortcutDictionary = new Dictionary<IEnumerable<Key>, string>(new EnumerableKeyEqualityComparer())

@@ -6,9 +6,7 @@ namespace DPA_Musicsheets
 {
     public interface IMemento<T> : INotifyPropertyChanged, IClonable<T>, IRestorable<T>
         where T : IMemento<T>
-    {
-        T Context { get; }
-    }
+    { }
 
     public class EditorMemento : IMemento<EditorMemento>
     {
@@ -30,8 +28,6 @@ namespace DPA_Musicsheets
         }
         #endregion
 
-        public EditorMemento Context => this;
-        
         public EditorMemento(string content = "")
         {
             Content = content;

@@ -42,15 +42,15 @@ namespace DPA_Musicsheets.MidiControl
         {
             if (string.IsNullOrEmpty(_applicationContext.FileLocation))
                 return;
-            Reset();
-            try
+            if (File.Exists(_applicationContext.FileLocation))
             {
+                Reset();
                 _player.Play(_applicationContext.FileLocation);
                 IsPlaying = true;
             }
-            catch (FileNotFoundException)
+            else
             {
-                _dialogService.DisplayError("The file could not be played.");
+                _dialogService.DisplayError("File could not be found.");
             }
         }
 

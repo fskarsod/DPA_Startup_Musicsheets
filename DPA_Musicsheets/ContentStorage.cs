@@ -18,6 +18,7 @@ namespace DPA_Musicsheets
     public class ContentStorage : IContentStorage
     {
         private readonly IApplicationContext _applicationContext;
+        private readonly IContentLoader _contentLoader;
 
         private readonly IDialogService _dialogService;
 
@@ -27,9 +28,10 @@ namespace DPA_Musicsheets
             set { _applicationContext.Saved = value; }
         }
 
-        public ContentStorage(IApplicationContext applicationContext, IDialogService dialogService)
+        public ContentStorage(IApplicationContext applicationContext, IContentLoader contentLoader, IDialogService dialogService)
         {
             _applicationContext = applicationContext;
+            _contentLoader = contentLoader;
             _dialogService = dialogService;
             _applicationContext.EditorMemento.PropertyChanged += OnPropertyChanged;
         }
@@ -47,11 +49,11 @@ namespace DPA_Musicsheets
 
         public bool Save()
         {
-            var fileName = _dialogService.DisplaySave();
-            if (fileName.Length <= 0) { return false; }
+            _applicationContext.FileLocation = _dialogService.DisplaySave();
+            if (_applicationContext.FileLocation.Length <= 0) { return false; }
             try
             {
-                File.WriteAllText(fileName, _applicationContext.EditorMemento.Content);
+                File.WriteAllText(_applicationContext.FileLocation, _applicationContext.EditorMemento.Content);
             }
             catch (IOException)
             {
@@ -63,12 +65,12 @@ namespace DPA_Musicsheets
 
         public void Load()
         {
-            var fileName = _dialogService.DisplayOpen();
-            if (fileName.Length > 0)
+            _applicationContext.FileLocation = _dialogService.DisplayOpen();
+            if (_applicationContext.FileLocation.Length > 0)
             {
                 try
                 {
-                    LoadFromLocation(fileName);
+                    LoadFromLocation(_applicationContext.FileLocation);
                     return;
                 }
                 catch (IOException)
@@ -80,12 +82,14 @@ namespace DPA_Musicsheets
 
         public void LoadFromLocation(string location)
         {
-            // todo: .ly, .mid
-            // if .ly -> File.ReadAllText
-            // if .mid -> to Sequence -> to Domain -> to Lilypond
-
-            // to editor only <--
-            _applicationContext.EditorMemento.Content = File.ReadAllText(location);
+            if (location.EndsWith(".mid"))
+            {
+                _contentLoader.FromMidi();
+            }
+            else // if (location.EndsWith(".ly"))
+            {
+                _contentLoader.FromLilypond();
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace DPA_Musicsheets
 
         private void InitializeViewModel()
         {
+            ViewModel?.SetMusicalSymbolConsumer(this);
             ViewModel?.MidiButtonSetVieWModel?.SetMusicalSymbolConsumer(this);
             ViewModel?.EditorViewModel?.SetMusicalSymbolConsumer(this);
         }
@@ -56,7 +57,6 @@ namespace DPA_Musicsheets
         #endregion
 
         #region PSAM INCIPITVIEWER VIEW STUFF
-
         private IIncipitViewer _currentStaff = null;
 
         public void Consume(IEnumerable<MusicalSymbol> symbols)

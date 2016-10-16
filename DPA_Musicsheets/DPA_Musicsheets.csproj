@@ -79,6 +79,7 @@
     <Compile Include="Command\StopCommand.cs" />
     <Compile Include="Command\WindowClosingCommand.cs" />
     <Compile Include="ApplicationContext.cs" />
+    <Compile Include="ContentLoader.cs" />
     <Compile Include="ContentStorage.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="EditorMemento.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="MidiControl\MidiTrack.cs" />
     <Compile Include="VisualNotes\IMusicalSymbolConsumer.cs" />
+    <Compile Include="VisualNotes\IVisualNoteLoader.cs" />
     <Compile Include="VisualNotes\VisualNoteReaderPlugin.cs" />
     <Compile Include="Util\DelayedActionHandler.cs" />
     <Compile Include="Command\RelayCommand.cs" />

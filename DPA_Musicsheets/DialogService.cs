@@ -23,9 +23,9 @@ namespace DPA_Musicsheets
 
     public class DialogService : IDialogService
     {
-        public string SaveFilter { get; set; } = "Midi Files(.mid)|*.mid";
+        public string SaveFilter { get; set; } = "Lilypond Files(.ly)|*.ly";
 
-        public string OpenFilter { get; set; } = "Midi Files(.mid)|*.mid";
+        public string OpenFilter { get; set; } = "Lilypond Files(.ly)|*.ly|Midi Files(.mid)|*.mid";
 
         public string DisplaySave()
         {
