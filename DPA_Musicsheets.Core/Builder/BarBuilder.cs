@@ -30,6 +30,15 @@ namespace DPA_Musicsheets.Core.Builder
             return this;
         }
 
+        public IBarBuilder SetTempo(Tempo tempo)
+        {
+            if (_bar.Tempo != null)
+                throw new InvalidOperationException("Tempo cannot be changed within a single bar.");
+
+            _bar.Tempo = tempo;
+            return this;
+        }
+
         public IBarBuilder AddNote(Action<INoteBuilder> builderAction)
         {
             return AddBaseNoteFromBuilder<NoteBuilder>(new NoteBuilder(), builderAction);

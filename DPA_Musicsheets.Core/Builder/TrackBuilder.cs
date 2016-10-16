@@ -54,6 +54,7 @@ namespace DPA_Musicsheets.Core.Builder
                     return _aggregateProviderBuilder;
                 _aggregateProviderBuilder = new BarBuilder();
                 _aggregateProviderBuilder.SetTimeSignature(_timeSignature);
+                _aggregateProviderBuilder.SetTempo(_tempo);
                 _currentLengthvalue = 0d;
                 return _aggregateProviderBuilder;
             }
@@ -71,6 +72,15 @@ namespace DPA_Musicsheets.Core.Builder
             AddToAggregation(element);
             BuildBar();
             return this;
+        }
+
+        private Tempo _tempo;
+
+        public IAggregateBuilder<Track, BaseNote> Add(TimeSignature timeSignature, BaseNote element, Tempo tempo)
+        {
+            _tempo = tempo;
+
+            return Add(timeSignature, element);
         }
 
         private void AddToAggregation(BaseNote element)

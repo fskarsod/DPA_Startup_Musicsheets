@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using DPA_Musicsheets.Command;
 using DPA_Musicsheets.Core.Interface;
 using DPA_Musicsheets.MidiControl;
+using DPA_Musicsheets.LilypondPlugin.Plugin;
 using DPA_Musicsheets.Util;
 using DPA_Musicsheets.VisualNotes;
 using Microsoft.Win32;
@@ -92,6 +94,8 @@ namespace DPA_Musicsheets.ViewModel
         private void OnShow(object args)
         {
             if (HasFileLocation(args))
+            // OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Sheetmusic Files(*.mid;*.ly)|*.mid;*.ly|Midi Files(.mid)|*.mid|Lilypond Files(.ly)|*.ly" };
+            // if (openFileDialog.ShowDialog() == true)
             {
                 PopulateTabControl();       // to content
                 PopulateIncipitViewer();    // to visual notes
@@ -100,11 +104,28 @@ namespace DPA_Musicsheets.ViewModel
 
         private void PopulateTabControl()
         {
-            MidiTracks.Clear();
+			MidiTracks.Clear();
             foreach (var midiTrack in MidiReader.ReadMidi(FileLocation))
             {
                 MidiTracks.Add(midiTrack);
-            }
+			}
+			
+            // switch (FileLocation.Split('.').Last())
+            // {
+                // case "ly":
+                    // var fileContents = File.ReadAllText(FileLocation);
+                    // var lilyWriter = new LilypondPluginWriter();
+                    // lilyWriter.WriteSheet(fileContents);
+                    // break;
+                // case "mid":
+                    // foreach (var midiTrack in MidiReader.ReadMidi(FileLocation))
+                        // MidiTracks.Add(midiTrack);
+                    // break;
+                // default:
+                    // // unsupported filetype
+                    // // throw new NotImplementedException(); // TODO: Make a custom exception/state.
+                    // return;
+            // }
         }
 
         private void PopulateIncipitViewer()

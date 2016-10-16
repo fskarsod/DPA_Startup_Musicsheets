@@ -53,12 +53,14 @@
     <Compile Include="Model\BarBoundary.cs" />
     <Compile Include="Model\BaseNote.cs" />
     <Compile Include="Model\Chord.cs" />
+    <Compile Include="Model\Enum\Clef.cs" />
     <Compile Include="Model\Extension\CountExtensions.cs" />
     <Compile Include="Model\Note.cs" />
     <Compile Include="Model\Enum\Pitch.cs" />
     <Compile Include="Model\Repetition.cs" />
     <Compile Include="Model\Rest.cs" />
     <Compile Include="Model\Sheet.cs" />
+    <Compile Include="Model\Tempo.cs" />
     <Compile Include="Model\TimeSignature.cs" />
     <Compile Include="Model\Track.cs" />
     <Compile Include="Builder\BarBuilder.cs" />

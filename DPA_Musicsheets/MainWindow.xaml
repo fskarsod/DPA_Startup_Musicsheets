@@ -11,9 +11,10 @@
         <StackPanel Width="510">
             <TextBox Width="500" TextWrapping="Wrap" Text="{Binding MidiButtonSetVieWModel.FileLocation, UpdateSourceTrigger=PropertyChanged}"/>
             <Separator Opacity="0" Height="5"/>
-            <UniformGrid Rows="1" Columns="4" Width="500">
+            <UniformGrid Rows="1" Columns="5" Width="500">
                 <Button Content="Open" Command="{Binding MidiButtonSetVieWModel.Open}"/>
                 <Button Content="Save" Command="{Binding MidiButtonSetVieWModel.Save}"/>
+                <Button Content="Show" Command="{Binding MidiButtonSetVieWModel.Show}"/>
                 <Button Content="Play" Command="{Binding MidiButtonSetVieWModel.Play}"/>
                 <Button Content="Stop" Command="{Binding MidiButtonSetVieWModel.Stop}"/>
             </UniformGrid>

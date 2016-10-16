@@ -27,5 +27,10 @@ namespace DPA_Musicsheets.Core.Model
                 && Numerator == other.Numerator
                 && Denominator == other.Denominator;
         }
+
+        public string ToLilypond()
+        {
+            return $"\\relative {Numerator}/{Denominator}";
+        }
     }
 }
