@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using DPA_Musicsheets.Core.Interface;
 
 namespace DPA_Musicsheets.Core.Model
@@ -13,6 +15,11 @@ namespace DPA_Musicsheets.Core.Model
         public Ending()
         {
             Bars = new List<Bar>();
+        }
+
+        public string ToLilypond()
+        {
+            return Bars.Aggregate("{", (current, bar) => current + bar.ToLilypond()) + $"}}{Environment.NewLine}";
         }
     }
 }

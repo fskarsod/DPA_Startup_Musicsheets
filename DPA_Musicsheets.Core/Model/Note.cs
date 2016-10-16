@@ -17,7 +17,7 @@ namespace DPA_Musicsheets.Core.Model
             visitor.Visit(this);
         }
 
-        public override string AsString()
+        public override string ToLilypond()
         {
             string octaveString = "", accidentalString;
 

@@ -29,7 +29,10 @@ namespace DPA_Musicsheets.Core.Model
         {
             visitor.Visit(this);
         }
-
-        public abstract string AsString();
+        
+        public virtual string ToLilypond()
+        {
+            return "r" + Duration + (HasDot ? "." : "");
+        }
     }
 }

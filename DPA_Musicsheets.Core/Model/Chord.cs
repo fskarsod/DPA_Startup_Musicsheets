@@ -1,12 +1,14 @@
-﻿namespace DPA_Musicsheets.Core.Model
+﻿using System;
+
+namespace DPA_Musicsheets.Core.Model
 {
     public class Chord : BaseNote
     {
         // todo: for the future
 
-        public override string AsString()
+        public override string ToLilypond()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

@@ -13,5 +13,10 @@
             NoteDuration = noteDuration;
             Bpm = bpm;
         }
+
+        public string ToLilypond()
+        {
+            return $"\\tempo {TempoString}";
+        }
     }
 }
