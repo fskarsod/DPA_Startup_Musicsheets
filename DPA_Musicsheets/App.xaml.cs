@@ -48,10 +48,11 @@ namespace DPA_Musicsheets
 
             // Initial stuff
             container.RegisterSingleton(new OutputDevice(0));
+            container.RegisterTransient<IPdfify>(c => new Pdfify());
             container.RegisterTransient<IDialogService>(c => new DialogService());
             container.RegisterSingleton<IApplicationContext>(new ApplicationContext());
             container.RegisterSingleton<IContentLoader>(c => new ContentLoader(c.Resolve<IApplicationContext>(), c.Resolve<IPluginReader<IEnumerable<MusicalSymbol>>>(), c.Resolve<IPluginReader<string>>(), c.Resolve<IPluginWriter<string>>(), c.Resolve<IPluginWriter<Sequence>>()));
-            container.RegisterTransient<IContentStorage>(c => new ContentStorage(c.Resolve<IApplicationContext>(), c.Resolve<IContentLoader>(), c.Resolve<IDialogService>()));
+            container.RegisterTransient<IContentStorage>(c => new ContentStorage(c.Resolve<IApplicationContext>(), c.Resolve<IContentLoader>(), c.Resolve<IPdfify>(), c.Resolve<IDialogService>()));
             container.RegisterSingleton<IMidiPlayerControl>(c => new MidiPlayerControl(c.Resolve<OutputDevice>(), c.Resolve<IApplicationContext>(), c.Resolve<IDialogService>()), true);
 
             // Commands

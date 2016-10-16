@@ -23,7 +23,7 @@ namespace DPA_Musicsheets
 
     public class DialogService : IDialogService
     {
-        public string SaveFilter { get; set; } = "Lilypond Files(.ly)|*.ly";
+        public string SaveFilter { get; set; } = "Lilypond Files(.ly)|*.ly|PDF Files(.pdf)|*.pdf";
 
         public string OpenFilter { get; set; } = "Lilypond Files(.ly)|*.ly|Midi Files(.mid)|*.mid";
 

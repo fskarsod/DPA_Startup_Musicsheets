@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using DPA_Musicsheets.Util;
 
 namespace DPA_Musicsheets
 {
@@ -19,7 +20,7 @@ namespace DPA_Musicsheets
     {
         private readonly IApplicationContext _applicationContext;
         private readonly IContentLoader _contentLoader;
-
+        private readonly IPdfify _pdfify;
         private readonly IDialogService _dialogService;
 
         public bool Saved
@@ -28,10 +29,11 @@ namespace DPA_Musicsheets
             set { _applicationContext.Saved = value; }
         }
 
-        public ContentStorage(IApplicationContext applicationContext, IContentLoader contentLoader, IDialogService dialogService)
+        public ContentStorage(IApplicationContext applicationContext, IContentLoader contentLoader, IPdfify pdfify, IDialogService dialogService)
         {
             _applicationContext = applicationContext;
             _contentLoader = contentLoader;
+            _pdfify = pdfify;
             _dialogService = dialogService;
             _applicationContext.EditorMemento.PropertyChanged += OnPropertyChanged;
         }
@@ -53,7 +55,15 @@ namespace DPA_Musicsheets
             if (_applicationContext.FileLocation.Length <= 0) { return false; }
             try
             {
-                File.WriteAllText(_applicationContext.FileLocation, _applicationContext.EditorMemento.Content);
+                var lyName = _applicationContext.FileLocation.EndsWith(".ly")
+                    ? _applicationContext.FileLocation
+                    : $"{_applicationContext.FileLocation}.ly";
+                File.WriteAllText(lyName, _applicationContext.EditorMemento.Content);
+                if (_applicationContext.FileLocation.EndsWith(".pdf"))
+                {
+                    _pdfify.Save(lyName, _applicationContext.FileLocation);
+                    File.Delete(lyName);
+                }
             }
             catch (IOException)
             {

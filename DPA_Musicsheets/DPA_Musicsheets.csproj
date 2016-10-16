@@ -109,6 +109,7 @@
     <Compile Include="Util\EnumerableKeyEqualityComparer.cs" />
     <Compile Include="Util\IClonable.cs" />
     <Compile Include="Util\IRestorable.cs" />
+    <Compile Include="Util\Pdfify.cs" />
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
