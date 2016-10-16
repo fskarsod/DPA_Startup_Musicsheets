@@ -42,11 +42,9 @@ namespace DPA_Musicsheets.MidiControl
             };
         }
 
-        public void Play(string midiFileLocation)
+        private void ChannelMessagePlayed(object sender, ChannelMessageEventArgs e)
         {
-            _sequence = new Sequence();
-            _sequence.LoadCompleted += OnSequenceLoadCompleted;
-            _sequence.LoadAsync(midiFileLocation);
+            _outDevice?.Send(e.Message);
         }
 
         public void Play(Sequence sequence)
@@ -55,7 +53,14 @@ namespace DPA_Musicsheets.MidiControl
             this._sequencer.Sequence = this._sequence;
             StartPlaying();
         }
-        
+
+        public void Play(string midiFileLocation)
+        {
+            _sequence = new Sequence();
+            _sequence.LoadCompleted += OnSequenceLoadCompleted;
+            _sequence.LoadAsync(midiFileLocation);
+        }
+
         private void OnSequenceLoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             _sequencer.Sequence = _sequence;
@@ -67,9 +72,9 @@ namespace DPA_Musicsheets.MidiControl
             _sequencer.Start();
         }
 
-        private void ChannelMessagePlayed(object sender, ChannelMessageEventArgs e)
+        public void Reset()
         {
-            _outDevice.Send(e.Message);
+            _sequencer.Stop();
         }
 
         public void Dispose()

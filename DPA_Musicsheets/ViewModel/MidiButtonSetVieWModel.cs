@@ -8,35 +8,38 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DPA_Musicsheets.Command;
+using DPA_Musicsheets.Core.Interface;
 using DPA_Musicsheets.MidiControl;
 using DPA_Musicsheets.Util;
 using DPA_Musicsheets.VisualNotes;
 using Microsoft.Win32;
+using PSAMControlLibrary;
 using Sanford.Multimedia.Midi;
 
 namespace DPA_Musicsheets.ViewModel
 {
     public class MidiButtonSetVieWModel : BaseViewModel
     {
-        private readonly IMidiPlayerControl _midiPlayerControl;
-
-        private readonly IDialogService _dialogService;
+        private readonly IApplicationContext _applicationContext;
+        
+        private readonly IPluginWriter<string> _lilypondPluginReader;
+        private readonly IPluginReader<IEnumerable<MusicalSymbol>> _visualnotePluginReader;
 
         private IMusicalSymbolConsumer _musicalSymbolConsumer;
 
         public ObservableCollection<MidiTrack> MidiTracks { get; }
 
-        #region public string FileLocation { get; set; } // RaisePropertyChanged
-        private string _fileLocation;
+        #region public string FileLocation { get; set; } // _midiPlayerControl.Location
         public string FileLocation
         {
             get
             {
-                return _fileLocation;
+                return _applicationContext.FileLocation;
             }
             set
             {
-                _fileLocation = value; RaisePropertyChanged("FileLocation");
+                _applicationContext.FileLocation = value;
+                OnPropertyChanged();
             }
         }
         #endregion
@@ -45,21 +48,38 @@ namespace DPA_Musicsheets.ViewModel
 
         public ICommand Stop { get; set; }
 
+        public ICommand Save { get; set; }
+
         public ICommand Open { get; set; }
 
         public ICommand Show { get; set; }
 
-        public MidiButtonSetVieWModel(IMidiPlayerControl midiPlayerControl, IDialogService dialogService)
+        public MidiButtonSetVieWModel(
+            IApplicationContext applicationContext,
+            IPluginWriter<string> lilypondPluginReader,
+            IPluginReader<IEnumerable<MusicalSymbol>> visualnotePluginReader,
+            IPlayCommand playCommand,
+            IStopCommand stopCommand,
+            IOpenFileCommand openFileCommand,
+            ISaveFileCommand saveFileCommand)
         {
-            _midiPlayerControl = midiPlayerControl;
-            _dialogService = dialogService;
+            _applicationContext = applicationContext;
+            _lilypondPluginReader = lilypondPluginReader;
+            _visualnotePluginReader = visualnotePluginReader;
             FileLocation = "../../../ten desires.mid";
             MidiTracks = new ObservableCollection<MidiTrack>();
 
-            Play = new RelayCommand(OnPlay, HasFileLocation);
-            Stop = new RelayCommand(OnStop, CanStop);
-            Open = new RelayCommand(OnOpen);
+            Play = playCommand;
+            Stop = stopCommand;
+            Open = openFileCommand;
+            Save = saveFileCommand;
             Show = new RelayCommand(OnShow, HasFileLocation);
+
+            _applicationContext.PropertyChanged += (sender, evt) =>
+            {
+                if (evt.PropertyName.Equals(nameof(IApplicationContext.FileLocation)))
+                    OnPropertyChanged(nameof(IApplicationContext.FileLocation));
+            };
         }
 
         public void SetMusicalSymbolConsumer(IMusicalSymbolConsumer musicalSymbolConsumer)
@@ -68,30 +88,14 @@ namespace DPA_Musicsheets.ViewModel
         }
 
         #region MIDI MUSIC PLAYER
-        private void OnPlay(object args)
-        {
-            _midiPlayerControl.Play(FileLocation);
-        }
-
-        private void OnStop(object args)
-        {
-            _midiPlayerControl.Stop();
-        }
-
-        private bool CanStop(object args)
-        {
-            return _midiPlayerControl.IsPlaying;
-        }
-
-        private void OnOpen(object args)
-        {
-            FileLocation = _dialogService.DisplayOpen();
-        }
 
         private void OnShow(object args)
         {
-            PopulateTabControl();
-            PopulateIncipitViewer();
+            if (HasFileLocation(args))
+            {
+                PopulateTabControl();       // to content
+                PopulateIncipitViewer();    // to visual notes
+            }
         }
 
         private void PopulateTabControl()
@@ -105,8 +109,9 @@ namespace DPA_Musicsheets.ViewModel
 
         private void PopulateIncipitViewer()
         {
-            // todo: VisualNotePluginThing
-            // _musicalSymbolConsumer.Consume(null);
+            var sheet = _lilypondPluginReader.WriteSheet(_applicationContext.EditorMemento.Content);
+            var result = _visualnotePluginReader.ReadSheet(sheet);
+            _musicalSymbolConsumer.Consume(result);
         }
 
         private bool HasFileLocation(object args)
@@ -114,10 +119,5 @@ namespace DPA_Musicsheets.ViewModel
             return FileLocation?.Length > 0;
         }
         #endregion
-
-        public override void Dispose()
-        {
-            _midiPlayerControl.Dispose();
-        }
     }
 }

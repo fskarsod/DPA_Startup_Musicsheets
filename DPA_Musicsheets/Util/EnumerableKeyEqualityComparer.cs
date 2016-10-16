@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
@@ -22,13 +23,13 @@ namespace DPA_Musicsheets.Util
                         return false;
                 }
                 return !xEnumerator.MoveNext()
-                    && !yEnumerator.MoveNext();
+                       && !yEnumerator.MoveNext();
             }
         }
 
         public int GetHashCode(IEnumerable<Key> obj)
         {
-            return obj?.Select(key => key.GetHashCode()).Aggregate((a, b) => a ^ b) ?? 0;
+            return obj.Select(key => key.GetHashCode()).Aggregate(0, (current, hash) => current ^ hash);
         }
     }
 }

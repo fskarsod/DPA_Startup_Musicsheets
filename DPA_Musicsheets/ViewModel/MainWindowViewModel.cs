@@ -13,13 +13,15 @@ namespace DPA_Musicsheets.ViewModel
 
         public ICommand WindowClosing { get; set; }
 
-        public MainWindowViewModel(MidiButtonSetVieWModel midiButtonSetVieWModel, EditorViewModel editorViewModel, ShortcutHandler shortcutHandler)
+        public MainWindowViewModel(MidiButtonSetVieWModel midiButtonSetVieWModel,
+            EditorViewModel editorViewModel, ShortcutHandler shortcutHandler,
+            IWindowClosingCommand windowClosingCommand)
         {
             MidiButtonSetVieWModel = midiButtonSetVieWModel;
             EditorViewModel = editorViewModel;
             ShortcutHandler = shortcutHandler;
 
-            // WindowClosing = new WindowClosingCommand();
+            WindowClosing = windowClosingCommand;
         }
 
         public override void Dispose()

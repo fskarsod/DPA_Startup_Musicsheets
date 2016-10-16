@@ -45,7 +45,7 @@ namespace DPA_Musicsheets
 
         public int DisplayYesNoCancel(string message, string caption)
         {
-            return (int) MessageBox.Show(message, caption, MessageBoxButton.OK, MessageBoxImage.Question, MessageBoxResult.Cancel);
+            return (int) MessageBox.Show(message, caption, MessageBoxButton.YesNoCancel, MessageBoxImage.Question, MessageBoxResult.Cancel);
         }
 
         public void DisplayInformation(string message)

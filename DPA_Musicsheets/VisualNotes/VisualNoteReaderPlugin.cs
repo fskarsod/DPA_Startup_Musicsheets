@@ -1,6 +1,7 @@
 ﻿using DPA_Musicsheets.Core.Interface;
 using DPA_Musicsheets.Core.Model;
 using System.Collections.Generic;
+using DPA_Musicsheets.Core.Util;
 using PSAMControlLibrary;
 
 
@@ -17,14 +18,11 @@ namespace DPA_Musicsheets.VisualNotes
 
         public IEnumerable<MusicalSymbol> ReadSheet(Sheet sheet)
         {
-            // todo: fixme
-            foreach (var provider in sheet.Tracks[1].MusicComponentProviders)
+            // todo: fixme Tracks[1]
+            foreach (var component in sheet.Tracks[1].GetMusicComponents())
             {
-                foreach (var component in provider.GetMusicComponents())
-                {
-                    component.Accept(_visitor);
-                    yield return _visitor.Result;
-                }
+                component.Accept(_visitor);
+                yield return _visitor.Result;
             }
         }
     }

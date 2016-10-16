@@ -32,7 +32,7 @@ namespace DPA_Musicsheets
 
         public EditorMemento Context => this;
         
-        public EditorMemento(string content)
+        public EditorMemento(string content = "")
         {
             Content = content;
             Timestamp = DateTime.UtcNow.Ticks;

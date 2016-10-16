@@ -9,23 +9,27 @@ using System.Windows.Input;
 
 namespace DPA_Musicsheets.Command
 {
-    public class WindowClosingCommand : BaseCommandWpf
+    public interface IWindowClosingCommand : ICommand
+    { }
+
+    public class WindowClosingCommand : BaseCommandWpf, IWindowClosingCommand
     {
-        private IDictionary<int, ICommand> WindowClosingDictionary => new Dictionary<int, ICommand>
-        {
-            { 7, new RelayCommand(OnSave) },    // no
-            { 6, new RelayCommand(OnExit) },    // yes
-            { 2, new RelayCommand(OnCancel) }   // cancel
-        };
+        private readonly IDictionary<int, ICommand> _windowClosingDictionary;
 
         private readonly IContentStorage _contentStorage;
 
         private readonly IDialogService _dialogService;
 
-        public WindowClosingCommand(IContentStorage contentStorage, IDialogService dialogService)
+        public WindowClosingCommand(IContentStorage contentStorage, IDialogService dialogService, ISaveFileCommand saveCommand)
         {
             _contentStorage = contentStorage;
             _dialogService = dialogService;
+            _windowClosingDictionary = new Dictionary<int, ICommand>
+            {
+                { 7, saveCommand },             // no
+                { 6, new EmptyCommand() },      // yes
+                { 2, new CancelCommand() }      // cancel
+            };
         }
 
         public override void Execute(object parameter)
@@ -39,35 +43,15 @@ namespace DPA_Musicsheets.Command
         private void BeforeExitSequence(CancelEventArgs e)
         {
             var result = _dialogService.DisplayYesNoCancel("Wil je afsluiten zonder op te slaan?", "Afsluiten");
-            if (WindowClosingDictionary.ContainsKey(result))
+            if (_windowClosingDictionary.ContainsKey(result))
             {
-                WindowClosingDictionary[result].Execute(e);
+                _windowClosingDictionary[result].Execute(e);
             }
             else
             {
                 // Something went wrong, cancel closing the application.
-                OnCancel(e);
+                _windowClosingDictionary[2].Execute(e);
             }
         }
-
-        #region commands
-        public void OnExit(object parameter)
-        { }
-
-        public void OnSave(object parameter)
-        {
-            if (!_contentStorage.Save()) // save unsuccessful OR cancel
-            {
-                OnCancel(parameter);
-            }
-        }
-
-        public void OnCancel(object parameter)
-        {
-            var cancelEventArgs = parameter as CancelEventArgs;
-            if (cancelEventArgs != null)
-                cancelEventArgs.Cancel = true;
-        }
-        #endregion
     }
 }

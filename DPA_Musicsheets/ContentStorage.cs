@@ -1,11 +1,10 @@
-﻿using System.IO;
+﻿using System.ComponentModel;
+using System.IO;
 
 namespace DPA_Musicsheets
 {
     public interface IContentStorage
     {
-        int SaveHashCode { get; }
-
         bool Saved { get; }
 
         bool Save();
@@ -15,20 +14,35 @@ namespace DPA_Musicsheets
         void LoadFromLocation(string location);
     }
     
+    // todo: state
     public class ContentStorage : IContentStorage
     {
-        private readonly IMemento<EditorMemento> _editorMemento;
+        private readonly IApplicationContext _applicationContext;
 
         private readonly IDialogService _dialogService;
 
-        public int SaveHashCode { get; private set; }
-
-        public bool Saved { get; private set; }
-
-        public ContentStorage(EditorMemento editorMemento, IDialogService dialogService)
+        public bool Saved
         {
-            _editorMemento = editorMemento;
+            get { return _applicationContext.Saved; }
+            set { _applicationContext.Saved = value; }
+        }
+
+        public ContentStorage(IApplicationContext applicationContext, IDialogService dialogService)
+        {
+            _applicationContext = applicationContext;
             _dialogService = dialogService;
+            _applicationContext.EditorMemento.PropertyChanged += OnPropertyChanged;
+        }
+
+        public void OnPropertyChanged(object sender, PropertyChangedEventArgs evt)
+        {
+            if (evt.PropertyName.Equals(nameof(_applicationContext.EditorMemento.Content)))
+                OnEditorChanged();
+        }
+
+        private void OnEditorChanged()
+        {
+            Saved = false;
         }
 
         public bool Save()
@@ -37,14 +51,13 @@ namespace DPA_Musicsheets
             if (fileName.Length <= 0) { return false; }
             try
             {
-                File.WriteAllText(fileName, _editorMemento.Context.Content);
+                File.WriteAllText(fileName, _applicationContext.EditorMemento.Content);
             }
             catch (IOException)
             {
                 _dialogService.DisplayError("Something has gone wrong when saving the file.");
                 return false;
             }
-            SaveHashCode = _editorMemento.Context.Content.GetHashCode();
             return Saved = true;
         }
 
@@ -56,6 +69,7 @@ namespace DPA_Musicsheets
                 try
                 {
                     LoadFromLocation(fileName);
+                    return;
                 }
                 catch (IOException)
                 { /* Explicit swallow */ }
@@ -66,7 +80,12 @@ namespace DPA_Musicsheets
 
         public void LoadFromLocation(string location)
         {
-            _editorMemento.Context.Content = File.ReadAllText(location);
+            // todo: .ly, .mid
+            // if .ly -> File.ReadAllText
+            // if .mid -> to Sequence -> to Domain -> to Lilypond
+
+            // to editor only <--
+            _applicationContext.EditorMemento.Content = File.ReadAllText(location);
         }
     }
 }

@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DPA_Musicsheets.Command;
 
 namespace DPA_Musicsheets.Shortcut
 {
     public class InsertFourFourTimeSigShortcut : BaseInsertShortcut
     {
-        public InsertFourFourTimeSigShortcut(IShortcut successor, IMemento<EditorMemento> editorMemento)
-            : base(successor, editorMemento)
+        public InsertFourFourTimeSigShortcut(IInsertCommand insertCommand)
+            : base(insertCommand)
         { }
 
         public override string Key => "Insert4/4TimeSignature";

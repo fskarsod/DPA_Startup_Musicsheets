@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 namespace DPA_Musicsheets.Util
 {
-    public class DelayedActionHandler
+    public class DelayedActionHandler : IDisposable
     {
         private readonly double _delay;
 
@@ -73,5 +73,11 @@ namespace DPA_Musicsheets.Util
 
         protected virtual void BeforeStart()
         { }
+
+        public void Dispose()
+        {
+            StopTimer();
+            _timer = null;
+        }
     }
 }

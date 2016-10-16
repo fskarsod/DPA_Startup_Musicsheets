@@ -69,14 +69,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AbstractFactory.cs" />
     <Compile Include="Command\BaseCommandWpf.cs" />
+    <Compile Include="Command\CancelCommand.cs" />
+    <Compile Include="Command\EmptyCommand.cs" />
+    <Compile Include="Command\InsertCommand.cs" />
+    <Compile Include="Command\OpenFileCommand.cs" />
+    <Compile Include="Command\PlayCommand.cs" />
+    <Compile Include="Command\SaveFileCommand.cs" />
+    <Compile Include="Command\StopCommand.cs" />
     <Compile Include="Command\WindowClosingCommand.cs" />
+    <Compile Include="ApplicationContext.cs" />
     <Compile Include="ContentStorage.cs" />
     <Compile Include="DialogService.cs" />
     <Compile Include="EditorMemento.cs" />
+    <Compile Include="IoC\IContainer.cs" />
+    <Compile Include="IoC\IoCContainer.cs" />
     <Compile Include="MidiControl\MidiPlayerControl.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ShortcutChain.cs" />
     <Compile Include="ShortcutHandler.cs" />
+    <Compile Include="Shortcut\BaseCommandShortcut.cs" />
     <Compile Include="Shortcut\BaseInsertShortcut.cs" />
     <Compile Include="Shortcut\BaseShortcut.cs" />
     <Compile Include="Shortcut\InsertDefaultTimeSigShortcut.cs" />
@@ -160,6 +172,7 @@
       <Name>DPA_Musicsheets.MidiPlugin</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

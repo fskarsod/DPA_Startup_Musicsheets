@@ -6,17 +6,16 @@
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
         mc:Ignorable="d" Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing" Closed="Window_Closed"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
-        KeyDown="Window_OnKeyDown"
-        KeyUp="Window_OnKeyUp">
+        KeyDown="Window_OnKeyDown" KeyUp="Window_OnKeyUp">
     <UniformGrid Margin="5" Columns="2" Rows="1">
         <StackPanel Width="510">
             <TextBox Width="500" TextWrapping="Wrap" Text="{Binding MidiButtonSetVieWModel.FileLocation, UpdateSourceTrigger=PropertyChanged}"/>
             <Separator Opacity="0" Height="5"/>
             <UniformGrid Rows="1" Columns="4" Width="500">
                 <Button Content="Open" Command="{Binding MidiButtonSetVieWModel.Open}"/>
+                <Button Content="Save" Command="{Binding MidiButtonSetVieWModel.Save}"/>
                 <Button Content="Play" Command="{Binding MidiButtonSetVieWModel.Play}"/>
                 <Button Content="Stop" Command="{Binding MidiButtonSetVieWModel.Stop}"/>
-                <Button Content="Show content" Command="{Binding MidiButtonSetVieWModel.Show}"/>
             </UniformGrid>
             <Separator Opacity="0" Height="5"/>
             <TabControl x:Name="TabCtrlMidiContent" Height="300" Width="500" ItemsSource="{Binding MidiButtonSetVieWModel.MidiTracks}">
@@ -50,10 +49,11 @@
         </StackPanel>
         <DockPanel LastChildFill="True">
             <Label DockPanel.Dock="Top">Lilypond Editor</Label>
-            <UniformGrid DockPanel.Dock="Top" Columns="4">
-                <Button Content="Save 1" Command="{Binding EditorViewModel.SlotOne.Save}"/>
+            <UniformGrid DockPanel.Dock="Top" Columns="5">
+                <Label>Bookmarks ➸</Label>
+                <Button Content="Store 1" Command="{Binding EditorViewModel.SlotOne.Save}"/>
                 <Button Content="Load 1" Command="{Binding EditorViewModel.SlotOne.Load}"/>
-                <Button Content="Save 2" Command="{Binding EditorViewModel.SlotTwo.Save}"/>
+                <Button Content="Store 2" Command="{Binding EditorViewModel.SlotTwo.Save}"/>
                 <Button Content="Load 2" Command="{Binding EditorViewModel.SlotTwo.Load}"/>
             </UniformGrid>
             <Separator DockPanel.Dock="Top" Opacity="0" Height="5"/>
@@ -61,7 +61,7 @@
                      VerticalScrollBarVisibility="Auto"
                      AcceptsTab="True"
                      AcceptsReturn="True"
-                     Text="{Binding EditorViewModel.Editor, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding EditorViewModel.Content, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
     </UniformGrid>
 </Window>

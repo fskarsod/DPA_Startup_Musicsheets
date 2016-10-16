@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DPA_Musicsheets.Command;
 
 namespace DPA_Musicsheets.Shortcut
 {
-    public abstract class BaseInsertShortcut : BaseShortcut
+    public abstract class BaseInsertShortcut : BaseCommandShortcut<IInsertCommand>
     {
-        private readonly IMemento<EditorMemento> _editorMemento;
-
-        protected BaseInsertShortcut(IShortcut successor, IMemento<EditorMemento> editorMemento) : base(successor)
-        {
-            _editorMemento = editorMemento;
-        }
-
         public abstract string Insertion { get; }
+
+        protected BaseInsertShortcut(IInsertCommand command)
+            : base(command)
+        { }
 
         public override bool OnExecute(string key)
         {
-            _editorMemento.Context.Content += Insertion;
+            Command.Execute(Insertion);
             return true;
         }
     }

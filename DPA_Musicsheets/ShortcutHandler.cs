@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using DPA_Musicsheets.Shortcut;
 
@@ -23,13 +24,19 @@ namespace DPA_Musicsheets
         public bool AddKey(Key key)
         {
             return key != Key.System    // Ignore System because what even is this key?
-                && _keys.Add(key)       // Require unique key
-                && Handle();            // Handler returns success
+                && _keys.Add(key);      // Require unique key
         }
 
         public void RemoveKey(Key key)
         {
-            _keys.Remove(key);
+            if (Handle())
+            {
+                _keys.Clear();
+            }
+            else if(_keys.Any())
+            {
+                _keys.Remove(key);
+            }
         }
 
         private bool Handle()

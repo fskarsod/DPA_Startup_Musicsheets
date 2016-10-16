@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DPA_Musicsheets.Command;
 
 namespace DPA_Musicsheets.Shortcut
 {
-    class PlayMidiShortcut
+    public class PlayMidiShortcut : BaseCommandShortcut<IPlayCommand>
     {
+        public override string Key => "PlayMidi";
+
+        public PlayMidiShortcut(IPlayCommand command)
+            : base(command)
+        { }
     }
 }
