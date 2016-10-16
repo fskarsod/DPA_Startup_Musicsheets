@@ -4,20 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using DPA_Musicsheets.Shortcuts.Interface;
 
-namespace DPA_Musicsheets.Shortcuts.Shortcut
+namespace DPA_Musicsheets.Shortcut
 {
+    public interface IShortcut : IDisposable
+    {
+        IShortcut Successor { get; set; }
+
+        string Key { get; }
+
+        bool Execute(string key);
+    }
+
     public abstract class BaseShortcut : IShortcut
     {
-        protected IShortcut Successor { get; }
+        public IShortcut Successor { get; set; }
 
-        public abstract string Key { get; } 
-
-        protected BaseShortcut(IShortcut successor)
-        {
-            Successor = successor;
-        }
+        public abstract string Key { get; }
 
         public virtual bool CanExecute(string key) { return key != null && Key.Equals(key); }
 

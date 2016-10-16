@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using DPA_Musicsheets.Shortcuts.Interface;
+using DPA_Musicsheets.Shortcut;
 
-namespace DPA_Musicsheets.Shortcuts
+namespace DPA_Musicsheets
 {
     public class ShortcutHandler : IDisposable
     {
@@ -25,19 +23,26 @@ namespace DPA_Musicsheets.Shortcuts
 
         public bool AddKey(Key key)
         {
-            return key != Key.System && _keys.Add(key) && Handle();
+            return key != Key.System    // Ignore System because what even is this key?
+                && _keys.Add(key);      // Require unique key
         }
 
         public void RemoveKey(Key key)
         {
-            _keys.Remove(key);
+            if (Handle())
+            {
+                _keys.Clear();
+            }
+            else if(_keys.Any())
+            {
+                _keys.Remove(key);
+            }
         }
 
         private bool Handle()
         {
-            var contains = _keyLinkerDictionary.ContainsKey(_keys);
-            return contains
-                   && _shortcut.Execute(_keyLinkerDictionary[_keys]);
+            return _keyLinkerDictionary.ContainsKey(_keys)
+                && _shortcut.Execute(_keyLinkerDictionary[_keys]);
         }
 
         public void Dispose()

@@ -1,4 +1,4 @@
-﻿<Application x:Class="MidiPlayerTest.App"
+﻿<Application x:Class="DPA_Musicsheets.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:dpa="clr-namespace:DPA_Musicsheets"

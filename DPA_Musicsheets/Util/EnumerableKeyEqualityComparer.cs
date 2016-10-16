@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace DPA_Musicsheets.Shortcuts.Util
+namespace DPA_Musicsheets.Util
 {
     public class EnumerableKeyEqualityComparer : IEqualityComparer<IEnumerable<Key>>
     {
@@ -25,13 +23,13 @@ namespace DPA_Musicsheets.Shortcuts.Util
                         return false;
                 }
                 return !xEnumerator.MoveNext()
-                    && !yEnumerator.MoveNext();
+                       && !yEnumerator.MoveNext();
             }
         }
 
         public int GetHashCode(IEnumerable<Key> obj)
         {
-            return obj?.Select(key => key.GetHashCode()).Aggregate((a, b) => a ^ b) ?? 0;
+            return obj.Select(key => key.GetHashCode()).Aggregate(0, (current, hash) => current ^ hash);
         }
     }
 }

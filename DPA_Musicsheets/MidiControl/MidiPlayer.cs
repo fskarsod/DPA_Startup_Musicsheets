@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 
-namespace DPA_Musicsheets
+namespace DPA_Musicsheets.MidiControl
 {
     public class MidiPlayer : IDisposable
     {
@@ -42,11 +43,9 @@ namespace DPA_Musicsheets
             };
         }
 
-        public void Play(string midiFileLocation)
+        private void ChannelMessagePlayed(object sender, ChannelMessageEventArgs e)
         {
-            _sequence = new Sequence();
-            _sequence.LoadCompleted += OnSequenceLoadCompleted;
-            _sequence.LoadAsync(midiFileLocation);
+            _outDevice?.Send(e.Message);
         }
 
         public void Play(Sequence sequence)
@@ -55,7 +54,14 @@ namespace DPA_Musicsheets
             this._sequencer.Sequence = this._sequence;
             StartPlaying();
         }
-        
+
+        public void Play(string midiFileLocation)
+        {
+            _sequence = new Sequence();
+            _sequence.LoadCompleted += OnSequenceLoadCompleted;
+            _sequence.LoadAsync(midiFileLocation);
+        }
+
         private void OnSequenceLoadCompleted(object sender, AsyncCompletedEventArgs e)
         {
             _sequencer.Sequence = _sequence;
@@ -67,9 +73,9 @@ namespace DPA_Musicsheets
             _sequencer.Start();
         }
 
-        private void ChannelMessagePlayed(object sender, ChannelMessageEventArgs e)
+        public void Reset()
         {
-            _outDevice.Send(e.Message);
+            _sequencer.Stop();
         }
 
         public void Dispose()

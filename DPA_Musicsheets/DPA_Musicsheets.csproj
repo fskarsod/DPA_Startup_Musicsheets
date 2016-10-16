@@ -69,23 +69,59 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Command\ICommand.cs" />
-    <Compile Include="Memento\EditorMemento.cs" />
-    <Compile Include="Memento\IMemento.cs" />
+    <Compile Include="Command\BaseCommandWpf.cs" />
+    <Compile Include="Command\CancelCommand.cs" />
+    <Compile Include="Command\EmptyCommand.cs" />
+    <Compile Include="Command\InsertCommand.cs" />
+    <Compile Include="Command\OpenFileCommand.cs" />
+    <Compile Include="Command\PlayCommand.cs" />
+    <Compile Include="Command\SaveFileCommand.cs" />
+    <Compile Include="Command\StopCommand.cs" />
+    <Compile Include="Command\WindowClosingCommand.cs" />
+    <Compile Include="ApplicationContext.cs" />
+    <Compile Include="ContentLoader.cs" />
+    <Compile Include="ContentStorage.cs" />
+    <Compile Include="DialogService.cs" />
+    <Compile Include="EditorMemento.cs" />
+    <Compile Include="IoC\IContainer.cs" />
+    <Compile Include="IoC\IoCContainer.cs" />
+    <Compile Include="MidiControl\MidiPlayerControl.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="ShortcutChain.cs" />
+    <Compile Include="ShortcutHandler.cs" />
+    <Compile Include="Shortcut\BaseCommandShortcut.cs" />
+    <Compile Include="Shortcut\BaseInsertShortcut.cs" />
+    <Compile Include="Shortcut\BaseShortcut.cs" />
+    <Compile Include="Shortcut\InsertDefaultTimeSigShortcut.cs" />
+    <Compile Include="Shortcut\InsertFourFourTimeSigShortcut.cs" />
+    <Compile Include="Shortcut\InsertSixEightTimeSigShortcut.cs" />
+    <Compile Include="Shortcut\InsertTempoShortcut.cs" />
+    <Compile Include="Shortcut\InsertThreeFourTimeSigShortcut.cs" />
+    <Compile Include="Shortcut\InsertTrebleShortcut.cs" />
+    <Compile Include="Shortcut\OpenFileShortcut.cs" />
+    <Compile Include="Shortcut\PlayMidiShortcut.cs" />
+    <Compile Include="Shortcut\SaveFileShortcut.cs" />
+    <Compile Include="Shortcut\SavePdfShortcut.cs" />
     <Compile Include="State\GeneratingState.cs" />
     <Compile Include="State\Interface\IState.cs" />
     <Compile Include="State\Interface\IStateable.cs" />
     <Compile Include="State\WaitingState.cs" />
+    <Compile Include="Util\EnumerableKeyEqualityComparer.cs" />
     <Compile Include="Util\IClonable.cs" />
     <Compile Include="Util\IRestorable.cs" />
+    <Compile Include="Util\Pdfify.cs" />
     <Compile Include="ViewModelLocator.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
-    <Compile Include="MidiTrack.cs" />
+    <Compile Include="MidiControl\MidiTrack.cs" />
+    <Compile Include="VisualNotes\IMusicalSymbolConsumer.cs" />
+    <Compile Include="VisualNotes\IVisualNoteLoader.cs" />
+    <Compile Include="VisualNotes\VisualNoteReaderPlugin.cs" />
     <Compile Include="Util\DelayedActionHandler.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="ViewModel\EditorViewModel.cs" />
     <Compile Include="ViewModel\MidiButtonSetVieWModel.cs" />
+    <Compile Include="VisualNotes\VisualNoteVisitor.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -100,8 +136,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MidiPlayer.cs" />
-    <Compile Include="MidiReader.cs" />
+    <Compile Include="MidiControl\MidiPlayer.cs" />
+    <Compile Include="MidiControl\MidiReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -118,6 +154,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -142,11 +179,8 @@
       <Project>{e6e776b2-584e-47b3-bf04-ab0e3b63b453}</Project>
       <Name>DPA_Musicsheets.MidiPlugin</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DPA_Musicsheets.Shortcuts\DPA_Musicsheets.Shortcuts.csproj">
-      <Project>{1a64d97a-bf39-4251-a72d-92bbf1a36592}</Project>
-      <Name>DPA_Musicsheets.Shortcuts</Name>
-    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

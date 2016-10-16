@@ -14,7 +14,7 @@ namespace DPA_Musicsheets.Command
         { }
     }
 
-    public class RelayCommand<T> : ICommand
+    public class RelayCommand<T> : BaseCommandWpf
         where T : class
     {
         private readonly Action<T> _execute;
@@ -26,20 +26,14 @@ namespace DPA_Musicsheets.Command
             _canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter)
+        public override bool CanExecute(object parameter)
         {
             return _canExecute?.Invoke(parameter as T) ?? true;
         }
 
-        public void Execute(object parameter)
+        public override void Execute(object parameter)
         {
             _execute?.Invoke(parameter as T);
-        }
-
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
         }
     }
 }

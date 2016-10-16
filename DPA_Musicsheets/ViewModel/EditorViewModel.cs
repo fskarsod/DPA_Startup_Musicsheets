@@ -1,64 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using DPA_Musicsheets.Command;
 using DPA_Musicsheets.Core.Interface;
-using DPA_Musicsheets.Memento;
 using DPA_Musicsheets.Util;
+using DPA_Musicsheets.VisualNotes;
+using PSAMControlLibrary;
 
 namespace DPA_Musicsheets.ViewModel
 {
     public class EditorViewModel : BaseViewModel
     {
-        public MementoViewModel SlotOne { get; set; }
-
-        public MementoViewModel SlotTwo { get; set; }
-
-        private readonly EditorMemento _editorMemento;
-
-        public string Editor
-        {
-            get { return _editorMemento.Content; }
-            // No need to raise propertychanged-event
-            // Already done in the EditorMemento-class
-            set { _editorMemento.Content = value; }
-        }
-
-        private readonly IPluginWriter<string> _lilypondPluginWriter;
-
         private const double GeneratorDelay = 1.5D;
 
-        private int _editorHash;
+        private readonly IApplicationContext _applicationContext;
+
+        private readonly IPluginWriter<string> _lilypondPluginWriter;
+        private readonly IPluginReader<IEnumerable<MusicalSymbol>> _visualNotePluginReader;
 
         private readonly DelayedActionHandler _delayedActionHandler;
 
-        public EditorViewModel(IPluginWriter<string> lilypondPluginWriter)
+        private IMusicalSymbolConsumer _musicalSymbolConsumer;
+
+        #region public string Content { get; set; } // _applicationContext.EditorMemento.Content;
+        public string Content
+        {
+            get { return _applicationContext.EditorMemento.Content; }
+            set { _applicationContext.EditorMemento.Content = value; }
+        }
+        #endregion
+
+        private int _editorHash;
+        
+        public MementoViewModel SlotOne { get; set; }
+
+        public MementoViewModel SlotTwo { get; set; }
+        
+        public EditorViewModel(IApplicationContext applicationContext,
+            IPluginWriter<string> lilypondPluginWriter,
+            IPluginReader<IEnumerable<MusicalSymbol>> visualNotePluginReader)
             : this()
         {
+            _applicationContext = applicationContext;
             _lilypondPluginWriter = lilypondPluginWriter;
+            _visualNotePluginReader = visualNotePluginReader;
+
+            _applicationContext.EditorMemento.PropertyChanged += (sender, evt) => // Model = INotifyPropertyChanged
+            {
+                if (evt.PropertyName.Equals(nameof(EditorMemento.Content)))
+                {
+                    OnPropertyChanged(nameof(EditorMemento.Content));
+                    OnEditorChange();
+                }
+            };
         }
 
-        public EditorViewModel()
+        private EditorViewModel()
         {
             SlotOne = new MementoViewModel(this);
             SlotTwo = new MementoViewModel(this);
-            _editorMemento = new EditorMemento(string.Empty);
             _delayedActionHandler = new DelayedActionHandler(GeneratorDelay);
+        }
 
-            _editorMemento.PropertyChanged += (sender, args) => // Model = INotifyPropertyChanged
-            {
-                RaisePropertyChanged(nameof(Editor));
-            };
-            PropertyChanged += (sender, args) => // ViewModel = INotifyPropertyChanged
-            {
-                if (args.PropertyName.Equals(nameof(Editor)))
-                    OnEditorChange();
-            };
+        public void SetMusicalSymbolConsumer(IMusicalSymbolConsumer musicalSymbolConsumer)
+        {
+            _musicalSymbolConsumer = musicalSymbolConsumer;
         }
 
         private void OnEditorChange()
@@ -74,13 +82,16 @@ namespace DPA_Musicsheets.ViewModel
 
         private async Task LilyPondGeneratorAsync()
         {
-            _editorHash = Editor.GetHashCode();
+            _editorHash = Content.GetHashCode();
             try
             {
-                var sheet = _lilypondPluginWriter?.WriteSheet(Editor);
-                // todo: sheet to visual note bar
-                var newGenHashCode = Editor.GetHashCode();
-                if (newGenHashCode != _editorHash) // regenerate, because user is a fuckwit and changes shit.
+                // todo: enable after lilypond merge
+                //var sheet = _lilypondPluginWriter.WriteSheet(Content);
+                //var symbols = _visualNotePluginReader.ReadSheet(sheet);
+                //_musicalSymbolConsumer.Consume(symbols);
+
+                var newGenHashCode = Content.GetHashCode();
+                if (newGenHashCode != _editorHash)
                 {
                     await LilyPondGeneratorAsync();
                 }
@@ -95,7 +106,13 @@ namespace DPA_Musicsheets.ViewModel
             }   
         }
 
-        public class MementoViewModel : BaseViewModel, IClonable<MementoViewModel>
+        public override void Dispose()
+        {
+            base.Dispose();
+            _delayedActionHandler.Dispose();
+        }
+
+        public class MementoViewModel : BaseViewModel
         {
             private readonly EditorViewModel _parent;
 
@@ -112,16 +129,11 @@ namespace DPA_Musicsheets.ViewModel
                 Load = new RelayCommand(OnLoad, CanLoad);
             }
 
-            private void OnSave(object args) => _memento = _parent._editorMemento.Clone();
+            private void OnSave(object args) => _memento = _parent._applicationContext.EditorMemento.Clone();
 
-            private void OnLoad(object args) => _parent._editorMemento.Restore(_memento);
+            private void OnLoad(object args) => _parent._applicationContext.EditorMemento.Restore(_memento);
 
             private bool CanLoad(object args) => _memento != null;
-
-            public MementoViewModel Clone()
-            {
-                return new MementoViewModel(_parent);
-            }
         }
     }
 }
