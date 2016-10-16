@@ -34,9 +34,8 @@ namespace DPA_Musicsheets.Core.Model
             else if (Tempo != null)
                 barString += Tempo.ToLilypond() + " {" + Environment.NewLine;
 
-            if ((TimeSignature == null) && (Tempo == null))
-                barString =
-                    MusicComponents.Aggregate(barString, (current, c) => current + c.ToLilypond() + " ").TrimEnd() + Environment.NewLine;
+            // if ((TimeSignature == null) && (Tempo == null))
+            barString = MusicComponents.Aggregate(barString, (current, c) => current + c.ToLilypond() + " ").TrimEnd() + Environment.NewLine;
 
             if ((TimeSignature != null) || (Tempo != null))
                 barString += "}" + Environment.NewLine;

@@ -40,7 +40,11 @@ namespace DPA_Musicsheets.MidiPlugin.Plugin
                 {
                     builder.Add(_trackMeta.TimeSignature, baseNote);
                 }
-                tracks.Add(builder.Build());
+                var track = builder.Build();
+                if (track.MusicComponentProviders.Any())
+                {
+                    tracks.Add(track);
+                }
             }
             return new Sheet { Tracks = tracks };
         }

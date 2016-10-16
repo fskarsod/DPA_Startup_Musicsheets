@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:PSAMWPFControl="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
-        mc:Ignorable="d" Title="MainWindow" Height="500" Width="1040" Closing="Window_Closing" Closed="Window_Closed"
+        mc:Ignorable="d" Title="MainWindow" Height="648.974" Width="1040" Closing="Window_Closing" Closed="Window_Closed"
         DataContext="{Binding MainWindowViewModel, Source={StaticResource ViewModelLocator}}"
         KeyDown="Window_OnKeyDown" KeyUp="Window_OnKeyUp">
     <UniformGrid Margin="5" Columns="2" Rows="1">
@@ -41,20 +41,10 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-            <ScrollViewer>
+            <ScrollViewer Height="250" VerticalScrollBarVisibility="Auto" CanContentScroll="True">
                 <StackPanel x:Name="StaffViewerPanel">
-					<PSAMWPFControl:IncipitViewerWPF Width="525">
-					</PSAMWPFControl:IncipitViewerWPF>
-                    <PSAMWPFControl:IncipitViewerWPF Width="525">
-                    </PSAMWPFControl:IncipitViewerWPF>
-                    <PSAMWPFControl:IncipitViewerWPF Width="525">
-                    </PSAMWPFControl:IncipitViewerWPF>
-                    <PSAMWPFControl:IncipitViewerWPF Width="525">
-                    </PSAMWPFControl:IncipitViewerWPF>
-                    <PSAMWPFControl:IncipitViewerWPF Width="525">
-                    </PSAMWPFControl:IncipitViewerWPF>
                 </StackPanel>
-			</ScrollViewer>
+            </ScrollViewer>
         </StackPanel>
         <DockPanel LastChildFill="True">
             <Label DockPanel.Dock="Top">Lilypond Editor</Label>

@@ -42,7 +42,7 @@ namespace DPA_Musicsheets.Util
             {
                 _timer.Tick -= handler;
                 StopTimer();
-                await action();
+                await action().ConfigureAwait(false);
             };
 
             _timer.Tick += handler;

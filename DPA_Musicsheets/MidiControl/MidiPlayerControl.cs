@@ -42,7 +42,7 @@ namespace DPA_Musicsheets.MidiControl
         {
             if (string.IsNullOrEmpty(_applicationContext.FileLocation))
                 return;
-            if (File.Exists(_applicationContext.FileLocation))
+            if (File.Exists(_applicationContext.FileLocation) && _applicationContext.FileLocation.EndsWith(".mid"))
             {
                 Reset();
                 _player.Play(_applicationContext.FileLocation);

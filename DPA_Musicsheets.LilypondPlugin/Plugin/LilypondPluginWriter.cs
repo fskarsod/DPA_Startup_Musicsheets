@@ -19,7 +19,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
             var track = new TrackBuilder();
             TimeSignature timeSig = null;
             Tempo tempo = null;
-            var relativeOctave = 0;
+            var relativeOctave = 4;
             var relativeNote = '\0';
             Clef? clef;
             var bracketState = 0; // +1 for each opening, -1 for each closing... sorry for ghetto code
@@ -38,7 +38,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
                         break;
                     case LilypondKeyword.Relative:
                         relativeNote = elements[++i][0];
-                        relativeOctave = LilypondParser.GetOctaveOffset(elements[i], relativeNote);
+                        relativeOctave += LilypondParser.GetOctaveOffset(elements[i], relativeNote);
                         break;
                     case LilypondKeyword.Clef:
                         clef = LilypondParser.GetClef(elements[++i]);

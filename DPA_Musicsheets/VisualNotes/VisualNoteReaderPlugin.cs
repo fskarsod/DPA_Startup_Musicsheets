@@ -20,11 +20,14 @@ namespace DPA_Musicsheets.VisualNotes
         public IEnumerable<MusicalSymbol> ReadSheet(Sheet sheet)
         {
             // todo: fixme Tracks[1]
-            var track = sheet.Tracks.First(t => t.MusicComponentProviders.Any());
-            foreach (var component in track.GetMusicComponents())
+            var track = sheet.Tracks.FirstOrDefault(t => t.MusicComponentProviders.Any());
+            if (track != null)
             {
-                component.Accept(_visitor);
-                yield return _visitor.Result;
+                foreach (var component in track.GetMusicComponents())
+                {
+                    component.Accept(_visitor);
+                    yield return _visitor.Result;
+                }
             }
         }
     }

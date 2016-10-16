@@ -30,7 +30,7 @@ namespace DPA_Musicsheets.Core.Model
 
         public string ToLilypond()
         {
-            return $"\\relative {Numerator}/{Denominator}";
+            return $"\\time {Numerator}/{Denominator}";
         }
     }
 }

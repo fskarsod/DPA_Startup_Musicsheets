@@ -23,7 +23,7 @@ namespace DPA_Musicsheets.Core.Model
 
             // convert Pitch
             var pitchString = System.Enum.GetName(typeof(Pitch), Pitch).ToLower();
-
+            
             // convert Accidental
             if (Accidental == Accidental.Flat)
                 accidentalString = "es";

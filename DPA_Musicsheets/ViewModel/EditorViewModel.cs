@@ -92,7 +92,7 @@ namespace DPA_Musicsheets.ViewModel
                 var newGenHashCode = Content.GetHashCode();
                 if (newGenHashCode != _editorHash)
                 {
-                    await LilyPondGeneratorAsync();
+                    await LilyPondGeneratorAsync().ConfigureAwait(false);
                 }
                 else
                 {

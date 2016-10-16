@@ -72,6 +72,7 @@ namespace DPA_Musicsheets
 
         public void Consume(IEnumerable<MusicalSymbol> symbols)
         {
+            StaffViewerPanel.Children.Clear();
             NewStaff();
             foreach (var symbol in symbols)
             {

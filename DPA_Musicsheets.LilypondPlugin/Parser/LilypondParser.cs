@@ -40,7 +40,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Parser
                 var hasDot = noteString[noteString.Length - 1] == '.';
 
                 relativeNote = noteString.ToLower()[0];
-                relativeOctave = octaveOffset;
+                relativeOctave += octaveOffset;
 
                 return new Note
                 {
