@@ -36,7 +36,7 @@ namespace DPA_Musicsheets
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            // ViewModel?.WindowClosing?.Execute(e);
+            ViewModel?.WindowClosing?.Execute(e);
         }
 
         private void Window_Closed(object sender, EventArgs e)
