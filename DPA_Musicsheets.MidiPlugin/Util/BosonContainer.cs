@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.MidiPlugin.Util
 {
+    // This is an indexed queue or something
+    // queue element in order, but all alements are accesible by index (implicit: index < capacity)
     public class BosonContainer<T>
     {
         private readonly T[] _data;

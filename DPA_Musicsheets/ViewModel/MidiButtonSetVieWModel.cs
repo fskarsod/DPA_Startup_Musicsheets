@@ -75,7 +75,7 @@ namespace DPA_Musicsheets.ViewModel
             Stop = stopCommand;
             Open = openFileCommand;
             Save = saveFileCommand;
-            Show = new RelayCommand(OnShow, HasFileLocation);
+            Show = new RelayCommand(OnShow, IsMidiFileLocation); // MIDI ONLY
 
             _applicationContext.PropertyChanged += (sender, evt) =>
             {
@@ -93,7 +93,7 @@ namespace DPA_Musicsheets.ViewModel
 
         private void OnShow(object args)
         {
-            if (HasFileLocation(args))
+            if (IsMidiFileLocation(args))
             // OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Sheetmusic Files(*.mid;*.ly)|*.mid;*.ly|Midi Files(.mid)|*.mid|Lilypond Files(.ly)|*.ly" };
             // if (openFileDialog.ShowDialog() == true)
             {
@@ -135,9 +135,9 @@ namespace DPA_Musicsheets.ViewModel
             _musicalSymbolConsumer.Consume(result);
         }
 
-        private bool HasFileLocation(object args)
+        private bool IsMidiFileLocation(object args)
         {
-            return FileLocation?.Length > 0;
+            return FileLocation?.Length > 0 && (FileLocation?.EndsWith(".mid") ?? false);
         }
         #endregion
     }
