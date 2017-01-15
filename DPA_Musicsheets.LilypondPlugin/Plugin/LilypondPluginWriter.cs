@@ -15,33 +15,33 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
     {
         public Sheet WriteSheet(string source)
         {
-            var elements = SplitSource(source);
+            var tokens = Tokenize(source);
             var track = new TrackBuilder();
             TimeSignature timeSig = null;
             Tempo tempo = null;
-            var relativeOctave = 4;
+            var relativeOctave = 3;
             var relativeNote = '\0';
             Clef? clef;
             var bracketState = 0; // +1 for each opening, -1 for each closing... sorry for ghetto code
 
             // TODO: Clean this up
-            for (var i = 0; i < elements.Length; i++)
+            for (var i = 0; i < tokens.Length; i++)
             {
-                switch (LilypondParser.GetKeyword(elements[i]))
+                switch (LilypondParser.GetKeyword(tokens[i]))
                 {
                     case null: // not a keyword
-                        if (LilypondParser.IsNote(elements[i]))
-                            AddNoteToBar(LilypondParser.CreateNoteFromString(elements[i], ref relativeOctave, ref relativeNote), track, timeSig, ref tempo);
+                        if (LilypondParser.IsNote(tokens[i]))
+                            AddNoteToBar(LilypondParser.CreateNoteFromString(tokens[i], ref relativeOctave, ref relativeNote), track, timeSig, ref tempo);
                         break;
                     case LilypondKeyword.Time:
-                        timeSig = LilypondParser.GetTimeSignature(elements[++i]);
+                        timeSig = LilypondParser.GetTimeSignature(tokens[++i]);
                         break;
                     case LilypondKeyword.Relative:
-                        relativeNote = elements[++i][0];
-                        relativeOctave += LilypondParser.GetOctaveOffset(elements[i], relativeNote);
+                        relativeNote = tokens[++i][0];
+                        relativeOctave += LilypondParser.GetOctaveOffset(tokens[i], relativeNote);
                         break;
                     case LilypondKeyword.Clef:
-                        clef = LilypondParser.GetClef(elements[++i]);
+                        clef = LilypondParser.GetClef(tokens[++i]);
                         // todo: set clef on the track
                         break;
                     case LilypondKeyword.BracketOpen:
@@ -51,7 +51,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
                         bracketState--;
                         break;
                     case LilypondKeyword.Tempo:
-                        tempo = LilypondParser.GetTempo(elements[++i]);
+                        tempo = LilypondParser.GetTempo(tokens[++i]);
                         break;
                     case LilypondKeyword.Repeat:
                     case LilypondKeyword.Alternative:
@@ -76,7 +76,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Plugin
             tempo = null; // one time use, I apologize for my plebness.
         }
 
-        private static string[] SplitSource(string source)
+        private static string[] Tokenize(string source)
         {
             // some empty lines remain, but we'll just ignore them when parsing for now.
             return source.Replace("\r\n", " ").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);

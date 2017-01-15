@@ -47,7 +47,7 @@ namespace DPA_Musicsheets.LilypondPlugin.Parser
                     Accidental = accidental,
                     Duration = duration,
                     HasDot = hasDot,
-                    Octave = octaveOffset + relativeOctave,
+                    Octave = relativeOctave,
                     Pitch = pitch
                 };
             }
@@ -84,27 +84,30 @@ namespace DPA_Musicsheets.LilypondPlugin.Parser
             return octaveOffset + noteOffset;
         }
 
+        private static IDictionary<char, int> Closest = new Dictionary<char, int>
+        {
+            { 'c', 0 },
+            { 'd', 1 },
+            { 'e', 2 },
+            { 'f', 3 },
+            { 'g', 4 },
+            { 'a', 5 },
+            { 'b', 6 }
+        };
+
         private static int GetClosestNote(char note, char relativeNote)
         {
-            // get the difference
-            var diff = note - relativeNote;
-
-            if (diff == 0)
+            // C D E F G A B
+            var target = Closest[note];
+            var @base = Closest[relativeNote];
+            var delta = Math.Abs(target - @base);
+            if (delta <= 3)
                 return 0;
-
-            // flip the note if it's too far off
-            if (diff > 3)
-                diff -= 7;
-            else if (diff < -3)
-                diff += 7;
-
-            // check what octave it belongs too (same, higher, lower)
-            if (diff > 0)
-                return 'g' - relativeNote >= diff ? 0 : 1;
-            else if (diff < 0)
-                return 'a' - relativeNote < diff ? 0 : -1;
-            else
-                return 0;
+            if (target > @base)
+                return -1;
+            if (target < @base)
+                return 1;
+            return 0;
         }
 
         public static Clef? GetClef(string s)
